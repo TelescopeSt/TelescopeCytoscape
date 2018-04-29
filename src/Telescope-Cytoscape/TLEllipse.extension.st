@@ -1,11 +1,11 @@
 Extension { #name : #TLEllipse }
 
 { #category : #'*Telescope-Cytoscape' }
-TLEllipse classSide >> forCytoscapeConnection [
+TLEllipse class >> forCytoscapeConnection [
 	^ 'circle'
 ]
 
 { #category : #'*Telescope-Cytoscape' }
-TLEllipse classSide >> forCytoscapeNode [
+TLEllipse class >> forCytoscapeNode [
 	^ 'ellipse'
 ]

@@ -1,11 +1,11 @@
 Extension { #name : #TLRectangle }
 
 { #category : #'*Telescope-Cytoscape' }
-TLRectangle classSide >> forCytoscape [
+TLRectangle class >> forCytoscape [
 	^ 'rectangle'
 ]
 
 { #category : #'*Telescope-Cytoscape' }
-TLRectangle classSide >> forCytoscapeConnection [
+TLRectangle class >> forCytoscapeConnection [
 	^ 'tee'
 ]

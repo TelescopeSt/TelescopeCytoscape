@@ -1,7 +1,7 @@
 Extension { #name : #WAAdmin }
 
 { #category : #'*Telescope-Cytoscape' }
-WAAdmin classSide >> isAnAppRegisteredAt: anObject [
+WAAdmin class >> isAnAppRegisteredAt: anObject [
 
 	^self defaultDispatcher handlers includesKey: anObject .
 ]

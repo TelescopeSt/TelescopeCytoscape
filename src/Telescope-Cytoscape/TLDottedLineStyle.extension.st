@@ -1,6 +1,6 @@
 Extension { #name : #TLDottedLineStyle }
 
 { #category : #'*Telescope-Cytoscape' }
-TLDottedLineStyle classSide >> forCytoscape [
+TLDottedLineStyle class >> forCytoscape [
 	^ #dotted
 ]

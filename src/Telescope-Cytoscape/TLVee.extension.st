@@ -1,6 +1,6 @@
 Extension { #name : #TLVee }
 
 { #category : #'*Telescope-Cytoscape' }
-TLVee classSide >> forCytoscape [
+TLVee class >> forCytoscape [
 	^ 'vee'
 ]

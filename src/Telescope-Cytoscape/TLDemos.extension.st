@@ -1,7 +1,7 @@
 Extension { #name : #TLDemos }
 
 { #category : #'*Telescope-Cytoscape' }
-TLDemos classSide >> exampleBackgroundImages [
+TLDemos class >> exampleBackgroundImages [
 	<script: 'self exampleBackgroundImages open'>
 	<tlFilter: #style>
 	| visualization |

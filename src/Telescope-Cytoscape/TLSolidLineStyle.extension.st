@@ -1,6 +1,6 @@
 Extension { #name : #TLSolidLineStyle }
 
 { #category : #'*Telescope-Cytoscape' }
-TLSolidLineStyle classSide >> forCytoscape [
+TLSolidLineStyle class >> forCytoscape [
 	^ #solid
 ]

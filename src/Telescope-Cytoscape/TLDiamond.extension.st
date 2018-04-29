@@ -1,6 +1,6 @@
 Extension { #name : #TLDiamond }
 
 { #category : #'*Telescope-Cytoscape' }
-TLDiamond classSide >> forCytoscape [
+TLDiamond class >> forCytoscape [
 	^ 'diamond'
 ]

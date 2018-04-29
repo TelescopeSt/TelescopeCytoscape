@@ -1,6 +1,6 @@
 Extension { #name : #TLDoubleLineStyle }
 
 { #category : #'*Telescope-Cytoscape' }
-TLDoubleLineStyle classSide >> forCytoscape [
+TLDoubleLineStyle class >> forCytoscape [
 	^ #double
 ]

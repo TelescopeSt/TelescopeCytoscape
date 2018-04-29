@@ -247,7 +247,7 @@ TLVirtualNode >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		<< $(;
-		<< self realNode entity asString;
+		<< (self realNode ifNotNil: [ :node | node entity asString ] ifNil: [ 'No real node associated yet' ]);
 		<< $)
 ]
 

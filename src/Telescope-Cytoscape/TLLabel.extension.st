@@ -1,17 +1,17 @@
 Extension { #name : #TLLabel }
 
 { #category : #'*Telescope-Cytoscape' }
-TLLabel classSide >> cytoscapeAttribute [
+TLLabel class >> cytoscapeAttribute [
 	^ #'shape-polygon-points'
 ]
 
 { #category : #'*Telescope-Cytoscape' }
-TLLabel classSide >> forCytoscapeConnection [
+TLLabel class >> forCytoscapeConnection [
 	^ TLCytoscapeNotSupportedFunctionalityException signal: 'Impossible to put a label on a connection'
 ]
 
 { #category : #'*Telescope-Cytoscape' }
-TLLabel classSide >> polygonPoints [
+TLLabel class >> polygonPoints [
 	^ {(-1 @ 0.7).
 	(0.5 @ 0.7).
 	(1 @ 0).

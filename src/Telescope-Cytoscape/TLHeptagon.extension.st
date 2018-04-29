@@ -1,11 +1,11 @@
 Extension { #name : #TLHeptagon }
 
 { #category : #'*Telescope-Cytoscape' }
-TLHeptagon classSide >> forCytoscape [
+TLHeptagon class >> forCytoscape [
 	^ 'heptagon'
 ]
 
 { #category : #'*Telescope-Cytoscape' }
-TLHeptagon classSide >> forCytoscapeConnection [
+TLHeptagon class >> forCytoscapeConnection [
 	^ TLCytoscapeNotSupportedFunctionalityException signal: 'Impossible to put an heptagon on a connection'
 ]

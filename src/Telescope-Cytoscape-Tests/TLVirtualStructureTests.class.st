@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #tests }
-TLVirtualStructureTests >> setUp [
-	self crLog: testSelector.
-]
-
-{ #category : #tests }
 TLVirtualStructureTests >> testLayoutApplication [
 	| nodes |
 	nodes := (1 to: 10) collect: [ :i | TLVirtualNode new dimension: 5@8 ].

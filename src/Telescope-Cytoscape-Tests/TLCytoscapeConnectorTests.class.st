@@ -7,10 +7,9 @@ Class {
 	#category : 'Telescope-Cytoscape-Tests-Connector'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLCytoscapeConnectorTests >> setUp [
-	connector := TLCytoscapeConnector new.
-	self crLog: testSelector.
+	connector := TLCytoscapeConnector new
 ]
 
 { #category : #'as yet unclassified' }

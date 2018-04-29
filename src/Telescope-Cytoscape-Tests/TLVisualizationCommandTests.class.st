@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #tests }
-TLVisualizationCommandTests >> setUp [
-	self crLog: testSelector.
-]
-
-{ #category : #tests }
 TLVisualizationCommandTests >> testTLVisualizationAddEdgeCommand [
-	| command |
-	command := TLVisualizationAddEdgeCommand new edgeId: '5'; visuId: '42'; fromNodeId: 'sourceNode'; toNodeId: 'targetNode'; yourself.
-	self assert: (NeoJSONWriter toString: command) equals: '{"command":"add","visuId":"42","parameters":{"data":{"target":"targetNode","id":"5","source":"sourceNode"},"group":"edges"}}'
-	
+	| command json |
+	command := TLVisualizationAddEdgeCommand new
+		edgeId: '5';
+		fromNodeId: 'sourceNode';
+		toNodeId: 'targetNode';
+		mouseOverInteraction: true;
+		yourself.
+	json := NeoJSONWriter toString: command.
+	#('"mouseOverInteraction":true' '"data":{' '"target":"targetNode"' '"id":"5"' '"source":"sourceNode"' '"group":"edges"') do: [ :jsonPart | self assert: (json includesSubstring: jsonPart) ]
 ]

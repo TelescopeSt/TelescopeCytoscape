@@ -121,7 +121,7 @@ TLCytoscapeComponent >> renderContentOn: html [
 		id: visuId;
 		style: self style;
 		attributeAt: #isTelescopeVisu put: 'true';
-		attributeAt: #'data-port' put: TLCytoscapeWebSocketDelegate port;
+		attributeAt: #'data-port' put: self webSocketPort;
 		class: 'telescopeVisu';
 		with: [ html div
 				class: 'visualization';
@@ -195,4 +195,9 @@ TLCytoscapeComponent >> waitingMessage [
 { #category : #accessing }
 TLCytoscapeComponent >> waitingMessage: anObject [
 	waitingMessage := anObject
+]
+
+{ #category : #accessing }
+TLCytoscapeComponent >> webSocketPort [
+	^ TLCytoscapeWebSocketDelegate port
 ]

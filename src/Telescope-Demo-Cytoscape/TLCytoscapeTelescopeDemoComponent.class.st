@@ -155,7 +155,7 @@ TLCytoscapeTelescopeDemoComponent >> renderDebugPanelOn: html [
 { #category : #rendering }
 TLCytoscapeTelescopeDemoComponent >> renderDemoPanelOn: html [
 	| visu visuId |
-	visuId := TLCytoscapeComponent generateId.
+	visuId := TLCytoscapeComponent nextId.
 	visu := self method ifNil: [ self defaultDemo ] ifNotNil: [ TLDemos executeDemo: self method ].
 	debugVisu := TLDebuggingVisualizationTreeViewer visu: visu.
 	visu addInteraction: (self externalTriggerExemple: html onVisu: visuId).

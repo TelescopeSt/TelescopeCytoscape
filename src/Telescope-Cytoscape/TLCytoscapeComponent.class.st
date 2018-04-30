@@ -12,23 +12,35 @@ Class {
 		'style',
 		'exportStrategy'
 	],
-	#category : 'Telescope-Cytoscape'
+	#classInstVars : [
+		'lastId'
+	],
+	#category : #'Telescope-Cytoscape'
 }
 
-{ #category : #'as yet unclassified' }
-TLCytoscapeComponent class >> generateId [
-	id ifNil: [ id := 0 ].
-	^ (id := id + 1) asString
+{ #category : #initialization }
+TLCytoscapeComponent class >> initialize [
+	lastId := 0
 ]
 
-{ #category : #creation }
+{ #category : #accessing }
+TLCytoscapeComponent class >> lastId [
+	^ lastId
+]
+
+{ #category : #accessing }
+TLCytoscapeComponent class >> nextId [
+	^ (lastId := self lastId + 1) asString
+]
+
+{ #category : #'instance creation' }
 TLCytoscapeComponent class >> visualization: aTLVisualization [
 	^ self new
 		visualization: aTLVisualization;
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 TLCytoscapeComponent class >> visualization: aTLVisualization id: anDivId [
 	^ self new
 		visualization: aTLVisualization;
@@ -154,7 +166,7 @@ TLCytoscapeComponent >> style: anObject [
 
 { #category : #accessing }
 TLCytoscapeComponent >> visuDivId [
-	visuDivId ifNil: [ visuDivId:= self class generateId ].
+	visuDivId ifNil: [ visuDivId:= self class nextId ].
 	^ visuDivId
 ]
 

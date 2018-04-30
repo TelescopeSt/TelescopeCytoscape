@@ -1,6 +1,6 @@
 Extension { #name : #TLDemos }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : #'*Telescope-Demo-Cytoscape' }
 TLDemos class >> exampleBackgroundImages [
 	<script: 'self exampleBackgroundImages open'>
 	<tlFilter: #style>

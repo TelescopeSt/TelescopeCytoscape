@@ -18,14 +18,13 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				neoJSON: spec;
 				seaside3: spec;
 				webSocket: spec;
-				telescope: spec;
-				materialDesignLite: spec.
+				telescope: spec.
 
 			"Packages"
 			spec
 				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
 				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'WebSocket' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
-				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape' 'MaterialDesignLite') ];
+				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape') ];
 				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].
 
 			"Groups"
@@ -35,11 +34,6 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				group: 'default' with: #('core' 'tests' 'demo');
 				group: 'demo' with: #('Telescope-Demo-Cytoscape');
 				group: 'tests' with: #('Telescope-Cytoscape-Tests') ]
-]
-
-{ #category : #dependencies }
-BaselineOfTelescopeCytoscape >> materialDesignLite: spec [
-	spec baseline: 'MaterialDesignLite' with: [ spec repository: 'github://DuneSt/MaterialDesignLite:v1.x.x/src' ]
 ]
 
 { #category : #dependencies }

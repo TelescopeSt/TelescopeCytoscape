@@ -17,7 +17,6 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 			self
 				neoJSON: spec;
 				seaside3: spec;
-				mocha: spec;
 				webSocket: spec;
 				telescope: spec;
 				materialDesignLite: spec.
@@ -27,7 +26,7 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
 				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'WebSocket' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
 				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape' 'MaterialDesignLite') ];
-				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape' 'MochaJSTest') ].
+				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].
 
 			"Groups"
 			spec
@@ -41,16 +40,6 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 { #category : #dependencies }
 BaselineOfTelescopeCytoscape >> materialDesignLite: spec [
 	spec baseline: 'MaterialDesignLite' with: [ spec repository: 'github://DuneSt/MaterialDesignLite:v1.x.x/src' ]
-]
-
-{ #category : #dependencies }
-BaselineOfTelescopeCytoscape >> mocha: spec [
-	spec
-		project: 'MochaJSTest'
-		with: [ spec
-				className: #ConfigurationOfMochaJSTest;
-				versionString: #development;
-				repository: 'http://smalltalkhub.com/mc/PharoExtras/MochaJSTest/main' ]
 ]
 
 { #category : #dependencies }

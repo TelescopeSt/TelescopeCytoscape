@@ -160,7 +160,11 @@ TLVirtualNode >> id [
 
 { #category : #adjacent }
 TLVirtualNode >> incomingAdjacentNodes [
-	^ self realNode incomingAdjacentNodes collect: [ :node | node generator elementFromTLDrawable: node ]
+	^ self realNode incomingAdjacentNodes
+		collect: [ :node | 
+			[ node generator elementFromTLDrawable: node ]
+				on: NotFound
+				do: [ node generate ] ]
 ]
 
 { #category : #edges }
@@ -215,7 +219,11 @@ TLVirtualNode >> originalWidth [
 
 { #category : #adjacent }
 TLVirtualNode >> outgoingAdjacentNodes [
-	^ self realNode outgoingAdjacentNodes collect: [ :node | node generator elementFromTLDrawable: node ]
+	^ self realNode outgoingAdjacentNodes
+		collect: [ :node | 
+			[ node generator elementFromTLDrawable: node ]
+				on: NotFound
+				do: [ node generate ] ]
 ]
 
 { #category : #accessing }

@@ -9,7 +9,7 @@ TLDemos class >> exampleBackgroundImages [
 	visualization styleSheet
 		shape: TLStar;
 		backgroundColor: Color pink.
-	#('fillon' 'lepen' 'macron' 'jlm')
+	#('python' 'java' 'js' 'pharo')
 		do: [ :aName | 
 			(visualization addNodeFromEntity: aName) styleSheet
 				backgroundImageUrl: (CYSDemoFileLibrary urlOf: aName , 'Png') asUrl;

@@ -1,6 +1,13 @@
 Extension { #name : #TLDoubleLineStyle }
 
 { #category : #'*Telescope-Cytoscape' }
-TLDoubleLineStyle class >> forCytoscape [
+TLDoubleLineStyle class >> forCytoscapeConnection [
+	"Not supported for connections"
+	
+	^ ''
+]
+
+{ #category : #'*Telescope-Cytoscape' }
+TLDoubleLineStyle class >> forCytoscapeNode [
 	^ #double
 ]

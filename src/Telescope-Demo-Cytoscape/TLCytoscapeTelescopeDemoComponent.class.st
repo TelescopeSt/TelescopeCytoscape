@@ -15,7 +15,7 @@ Class {
 { #category : #initialization }
 TLCytoscapeTelescopeDemoComponent class >> initialize [
 	| app |
-	app := WAAdmin register: self asApplicationAt: 'TelescopeWebDemo'.
+	app := WAAdmin register: self asApplicationAt: 'TelescopeDemo'.
 	app
 		addLibrary: JQDeploymentLibrary;
 		addLibrary: CYSFileLibrary;

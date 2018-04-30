@@ -539,6 +539,7 @@ SOFTWARE.
 CYSFileLibrary >> cytoscapeTelescopeJs [
 	^ 'var telescope = (function () {
   var wsPort = "1701";// default
+  var wsProtocol;
   var websocket;
   var timeoutId; //use to delais interaction
   var toNotifyMessage={};
@@ -586,6 +587,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 	 if(document.getElementsByClassName("telescopeVisu")[0]){
       wsPort = document.getElementsByClassName("telescopeVisu")[0].dataset.port
 	 }
+	  if (location.protocol === "https:") {
+      wsProtocol = "wss://";
+    } else { 
+      wsProtocol =  "ws://";
+    }
     loadVisuIn(document);
   }
 
@@ -606,7 +612,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   }
 
   function parametrizeWebsocket(visus) {
-    websocket = new WebSocket( "ws://" + location.hostname + ":"+wsPort);
+    websocket = new WebSocket( wsProtocol + location.hostname + ":"+wsPort);
 
     websocket.onclose = function (evt) {
       onClose(evt);

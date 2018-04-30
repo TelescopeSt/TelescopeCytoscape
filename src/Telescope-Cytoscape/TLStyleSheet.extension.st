@@ -89,6 +89,14 @@ TLStyleSheet >> cytoscapeNodeStyleFor: aNode [
 		at: 'text-valign' put: nodeLabelPosition vertical.
 	shape := self obtainValue: #shape forEntity: aNode entity inNode: aNode.
 	styleDictionary at: shape cytoscapeAttribute put: shape forCytoscapeNode.
+	styleDictionary
+		at: #shape
+		ifPresent: [ :s | 
+			s = ''
+				ifTrue: [ "This is a 'TLNoShape'"
+					styleDictionary
+						at: #shape put: TLRectangle forCytoscapeNode;
+						at: #'border-opacity' put: 0 forCytoscapeNode ] ].
 	shape cytoscapeAttribute = #shape
 		ifFalse: [ styleDictionary at: #shape put: #polygon ].
 	(aNode isComposite and: [ aNode hasChildrenToDisplay ])

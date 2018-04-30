@@ -112,14 +112,14 @@ TLCytoscapeWebSocketDelegate class >> visualizationWithId: aDivId [
 	^ self singleton delegate visualizationWithId: aDivId
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 TLCytoscapeWebSocketDelegate >> associateSocket: aWebSocket toVisuId: aVisuId [
 	[ self websocketByVisu at: (self visualizationWithId: aVisuId) put: aWebSocket ]
 		on: KeyNotFound
 		do: [ TLGenerationErrorCommand new: aVisuId withMessage: self messageOnError on: aWebSocket ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 TLCytoscapeWebSocketDelegate >> freeResourcesFor: webSocket [
 	self websocketByVisu
 		keysAndValuesRemove: [ :aVisu :aWebSocket | 
@@ -130,7 +130,7 @@ TLCytoscapeWebSocketDelegate >> freeResourcesFor: webSocket [
 				ifFalse: [ false ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLCytoscapeWebSocketDelegate >> initialize [
 	super initialize.
 	self visualizationByIdDictionary: Dictionary new.
@@ -150,7 +150,7 @@ TLCytoscapeWebSocketDelegate >> messageOnError [
 	^ 'An error has occured. Please Reload the page. If the problem persists, contact support.'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 TLCytoscapeWebSocketDelegate >> onMessageReceived: message webSocket: aWebSocket [
 	"On message received, we transform the Json string to dictionary; then create clients commands and execute those"
 
@@ -173,7 +173,7 @@ TLCytoscapeWebSocketDelegate >> onMessageReceived: message webSocket: aWebSocket
 						ifTrue: [ e pass ] ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 TLCytoscapeWebSocketDelegate >> registerVisualization: aTLVisualization underId: aDivId withCallBack: aCallBack callbackUrl: callbackUrl [
 	aTLVisualization generator visuId: aDivId.
 	aTLVisualization generator visuCallBack: aCallBack.
@@ -181,7 +181,7 @@ TLCytoscapeWebSocketDelegate >> registerVisualization: aTLVisualization underId:
 	self visualizationByIdDictionary at: aDivId put: aTLVisualization
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 TLCytoscapeWebSocketDelegate >> sendCommands: aCollectionOfCommands forVisu: aTLVisualization [
 	[ 
 	aCollectionOfCommands
@@ -193,7 +193,7 @@ TLCytoscapeWebSocketDelegate >> sendCommands: aCollectionOfCommands forVisu: aTL
 			 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 TLCytoscapeWebSocketDelegate >> sendNothingToDoForVisu: aTLVisualization [
 	(self webSocketForVisu: aTLVisualization)
 		sendMessage:

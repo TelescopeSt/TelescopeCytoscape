@@ -22,6 +22,11 @@ TLCytoscapeTelescopeDemoComponent class >> initialize [
 		addLibrary: CYSDemoFileLibrary
 ]
 
+{ #category : #versions }
+TLCytoscapeTelescopeDemoComponent class >> version [
+	^ 'v1.0.0'
+]
+
 { #category : #accessing }
 TLCytoscapeTelescopeDemoComponent >> allFilters [
 	^ TLAbstractDemoFilter allSubclasses
@@ -255,7 +260,7 @@ TLCytoscapeTelescopeDemoComponent >> toggleFilter: aFilter [
 TLCytoscapeTelescopeDemoComponent >> updateRoot: anHtmlRoot [
 	super updateRoot: anHtmlRoot.
 	anHtmlRoot beHtml5.
-	anHtmlRoot title: 'Telescope web demo'.
+	anHtmlRoot title: 'Telescope web demo - ' , self class version.
 	anHtmlRoot stylesheet url: 'https://fonts.googleapis.com/css?family=Roboto'.
 	anHtmlRoot script url: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js'.
 	anHtmlRoot script url: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/smalltalk.min.js'.

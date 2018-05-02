@@ -36,6 +36,7 @@ To install TelescopeCytoscape on your Pharo image you can just execute the follo
     	githubUser: 'TelescopeSt' project: 'TelescopeCytoscape' commitish: 'v1.x.x' path: 'src';
     	baseline: 'TelescopeCytoscape';
     	onWarningLog;
+		onUpgrade: [ :e | e useIncoming ];
     	load
 ```
 

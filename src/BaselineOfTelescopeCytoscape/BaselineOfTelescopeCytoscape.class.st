@@ -62,8 +62,7 @@ BaselineOfTelescopeCytoscape >> seaside3: spec [
 
 { #category : #dependencies }
 BaselineOfTelescopeCytoscape >> telescope: spec [
-	self flag: #todo.	"Whe Telescope will be released, use semantic versionning."
-	spec baseline: 'Telescope' with: [ spec repository: 'github://TelescopeSt/Telescope:development/src' ]
+	spec baseline: 'Telescope' with: [ spec repository: 'github://TelescopeSt/Telescope:v1.x.x/src' ]
 ]
 
 { #category : #dependencies }

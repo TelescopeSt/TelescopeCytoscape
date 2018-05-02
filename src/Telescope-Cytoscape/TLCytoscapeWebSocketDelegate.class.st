@@ -11,9 +11,10 @@ Class {
 	#classInstVars : [
 		'singleton',
 		'development',
-		'defaultPort'
+		'serverPort',
+		'clientPort'
 	],
-	#category : 'Telescope-Cytoscape'
+	#category : #'Telescope-Cytoscape'
 }
 
 { #category : #'accessing-convenience' }
@@ -29,13 +30,27 @@ TLCytoscapeWebSocketDelegate class >> beDevelopment [
 ]
 
 { #category : #accessing }
-TLCytoscapeWebSocketDelegate class >> defaultPort [
-	^ defaultPort ifNil: [ defaultPort := 1701 ]
+TLCytoscapeWebSocketDelegate class >> clientPort [
+	^ clientPort
+		ifNil: [ self ensureServerIsRunning.
+			self singleton port ]
 ]
 
 { #category : #accessing }
-TLCytoscapeWebSocketDelegate class >> defaultPort: aNumber [
-	defaultPort := aNumber
+TLCytoscapeWebSocketDelegate class >> clientPort: anObject [
+	clientPort := anObject
+]
+
+{ #category : #accessing }
+TLCytoscapeWebSocketDelegate class >> defaultPort [
+	self deprecated: 'Use #serverPort'.
+	^ self serverPort
+]
+
+{ #category : #accessing }
+TLCytoscapeWebSocketDelegate class >> defaultPort: anObject [
+	self deprecated: 'Use #serverPort:'.
+	^ self serverPort: anObject
 ]
 
 { #category : #accessing }
@@ -60,8 +75,8 @@ TLCytoscapeWebSocketDelegate class >> ensureServerIsRunning [
 
 { #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> port [
-	self ensureServerIsRunning.
-	^ self singleton port
+	self deprecated: 'Use #clientPort or #serverPort instead'.
+	^ self clientPort
 ]
 
 { #category : #registration }
@@ -86,8 +101,18 @@ TLCytoscapeWebSocketDelegate class >> run [
 	<script>
 	singleton
 		ifNil: [ 
-			singleton := ZnServer startDefaultOn: self defaultPort.
+			singleton := ZnServer startDefaultOn: self serverPort.
 			singleton delegate: TLCytoscapeWebSocketDelegate new ]
+]
+
+{ #category : #accessing }
+TLCytoscapeWebSocketDelegate class >> serverPort [
+	^ serverPort ifNil: [ serverPort := 1701 ]
+]
+
+{ #category : #accessing }
+TLCytoscapeWebSocketDelegate class >> serverPort: anObject [
+	serverPort := anObject
 ]
 
 { #category : #accessing }

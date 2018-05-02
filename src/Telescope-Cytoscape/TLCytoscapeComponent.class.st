@@ -199,5 +199,5 @@ TLCytoscapeComponent >> waitingMessage: anObject [
 
 { #category : #accessing }
 TLCytoscapeComponent >> webSocketPort [
-	^ TLCytoscapeWebSocketDelegate port
+	^ TLCytoscapeWebSocketDelegate clientPort
 ]

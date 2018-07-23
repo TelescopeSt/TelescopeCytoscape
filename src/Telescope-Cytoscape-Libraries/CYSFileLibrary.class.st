@@ -612,7 +612,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   }
 
   function parametrizeWebsocket(visus) {
-    websocket = new WebSocket( wsProtocol + location.hostname + ":"+wsPort);
+    websocket = new WebSocket( wsProtocol + location.hostname + ":" + wsPort + "/ws-TLCytoscape");
 
     websocket.onclose = function (evt) {
       onClose(evt);

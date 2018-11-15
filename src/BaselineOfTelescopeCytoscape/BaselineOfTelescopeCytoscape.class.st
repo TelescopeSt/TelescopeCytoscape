@@ -62,7 +62,7 @@ BaselineOfTelescopeCytoscape >> seaside3: spec [
 
 { #category : #dependencies }
 BaselineOfTelescopeCytoscape >> telescope: spec [
-	spec baseline: 'Telescope' with: [ spec repository: 'github://TelescopeSt/Telescope:v1.x.x/src' ]
+	spec baseline: 'Telescope' with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ]
 ]
 
 { #category : #dependencies }

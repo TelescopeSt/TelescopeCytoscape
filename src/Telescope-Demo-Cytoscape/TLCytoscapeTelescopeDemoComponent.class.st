@@ -13,9 +13,14 @@ Class {
 }
 
 { #category : #initialization }
+TLCytoscapeTelescopeDemoComponent class >> demoName [
+	^ 'TelescopeDemo'
+]
+
+{ #category : #initialization }
 TLCytoscapeTelescopeDemoComponent class >> initialize [
 	| app |
-	app := WAAdmin register: self asApplicationAt: 'TelescopeDemo'.
+	app := WAAdmin register: self asApplicationAt: self demoName.
 	app
 		addLibrary: JQDeploymentLibrary;
 		addLibrary: CYSFileLibrary;
@@ -24,7 +29,7 @@ TLCytoscapeTelescopeDemoComponent class >> initialize [
 
 { #category : #versions }
 TLCytoscapeTelescopeDemoComponent class >> version [
-	^ 'v1.0.0'
+	^ 'v2.0.0'
 ]
 
 { #category : #accessing }

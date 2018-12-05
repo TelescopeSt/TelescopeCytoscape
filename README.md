@@ -52,9 +52,27 @@ Note that you can replace the v1.x.x tag by a branch as #master or #development 
 
 ## Getting started
 
-### Add the TelescopeCytoscape FileLibrary to you application 
+### Open a simple visualization
 
-The first thing to do in order to use TelescopeCytoscape is to add its `FileLibrary` to your Seaside application.
+If you wish to use TelescopeCytoscape only to create a see a visualization, you can create you visualization and send `open` or `openOnWeb` to it. 
+
+```Smalltalk
+	| visualization |
+	visualization := TLVisualization fromEntities: (0 to: 359).
+	visualization layout: ((TLLinearLayout maximumDimension: 300) angle: 360 atRandom).
+	visualization styleSheet backgroundColor: ((MDLColor red property: #yourself gradientAt: 0) to: MDLColor yellow at: 360).
+	visualization addInteraction: (TLCustomAction block: [ :node | visualization layout angle: node entity. visualization requireLayoutApplication ]) onClick.
+	visualization addInteraction: (TLPopUpAction text: [ :e | 'Turn to an angle of ', e asString , '°' ]) onMouseOver.
+	visualization open
+```
+
+This will use the first `ZincServerAdaptor` it found (if none it will open one on the port 8085) and open the visualization in an already defined Seaside application.
+
+> Note: If your visualization does not work, verify that the port 8085 and 1701 are free. You can find bellow documentation to know how to change the port 1701 for the websocket. For the seaside adapter, open `World menu > Tools > Seaside Control Panel` and add and start an appropropriate `ZnZincServerAdaptor`
+
+### Use TelescopeCytoscape in your Seaside application
+
+The first thing to do in order to use TelescopeCytoscape with your Seaside application is to add its `FileLibrary` to it.
 
 ```Smalltalk
 	(WAAdmin register: self asApplicationAt: 'myApplication')

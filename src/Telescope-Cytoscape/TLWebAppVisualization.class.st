@@ -23,7 +23,7 @@ self flag:'revoir comment on implem un singleton... Je n aime pas creer des vari
 
 { #category : #initialization }
 TLWebAppVisualization >> defaultVisualization [
-	^TLVisualization new.
+	^ TLVisualization new
 ]
 
 { #category : #initialization }

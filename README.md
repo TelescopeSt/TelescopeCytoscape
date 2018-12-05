@@ -33,10 +33,10 @@ To install TelescopeCytoscape on your Pharo image you can just execute the follo
 
 ```Smalltalk
     Metacello new
-    	githubUser: 'TelescopeSt' project: 'TelescopeCytoscape' commitish: 'v1.x.x' path: 'src';
+    	githubUser: 'TelescopeSt' project: 'TelescopeCytoscape' commitish: 'v2.x.x' path: 'src';
     	baseline: 'TelescopeCytoscape';
     	onWarningLog;
-		onUpgrade: [ :e | e useIncoming ];
+	onUpgrade: [ :e | e useIncoming ];
     	load
 ```
 
@@ -45,7 +45,7 @@ To add TelescopeCytoscape to your baseline just add this:
 ```Smalltalk
     spec
     	baseline: 'TelescopeCytoscape'
-    	with: [ spec repository: 'github://TelescopeSt/TelescopeCytoscape:v1.x.x/src' ]
+    	with: [ spec repository: 'github://TelescopeSt/TelescopeCytoscape:v2.x.x/src' ]
 ```
 
 Note that you can replace the v1.x.x tag by a branch as #master or #development or a tag as #v1.0.0, #v1.? or #v1.0.x or a commit SHA.

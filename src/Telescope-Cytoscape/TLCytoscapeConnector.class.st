@@ -177,13 +177,6 @@ TLCytoscapeConnector >> createLegendFrom: legendEnties [
 	"Nothing to do here"
 ]
 
-{ #category : #'generation - interaction' }
-TLCytoscapeConnector >> createMenuFor: aTLDrawable [
-	"Menu are managed in a different way in Cytoscape"
-
-	self shouldNotImplement
-]
-
 { #category : #'generation - node' }
 TLCytoscapeConnector >> define: parentCompositeElement asParentFor: aCollectionOfChildrenElements [
 	aCollectionOfChildrenElements parent: parentCompositeElement

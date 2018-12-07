@@ -167,22 +167,6 @@ TLVirtualNode >> incomingAdjacentNodes [
 				do: [ node generate ] ]
 ]
 
-{ #category : #edges }
-TLVirtualNode >> incomingEdges [
-	incomingEdges
-		ifNil: [ 
-			| generator |
-			generator := self realNode generator.
-			incomingEdges := self realNode incomingConnections
-				collect: [ :aConnection | 
-					TLVirtualConnection new
-						from: (generator elementFromTLDrawable: aConnection fromNode);
-						to: self;
-						yourself ]
-				as: OrderedCollection ].
-	^ incomingEdges
-]
-
 { #category : #accessing }
 TLVirtualNode >> initialize [
 	super initialize.
@@ -208,7 +192,7 @@ TLVirtualNode >> nodeId: anObject [
 
 { #category : #dimension }
 TLVirtualNode >> occupyMaxSpace [
-	^ self realNode ifNil: [ false ] ifNotNil: [ self realNode effectiveStyleSheet takeAllSpace ]
+	^ self realNode effectiveStyleSheet takeAllSpace
 ]
 
 { #category : #dimension }

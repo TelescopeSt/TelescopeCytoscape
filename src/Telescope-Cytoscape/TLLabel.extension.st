@@ -9,12 +9,3 @@ TLLabel class >> cytoscapeAttribute [
 TLLabel class >> forCytoscapeConnection [
 	^ TLCytoscapeNotSupportedFunctionalityException signal: 'Impossible to put a label on a connection'
 ]
-
-{ #category : #'*Telescope-Cytoscape' }
-TLLabel class >> polygonPoints [
-	^ {(-1 @ 0.7).
-	(0.5 @ 0.7).
-	(1 @ 0).
-	(0.5 @ -0.7).
-	(-1 @ -0.7)}
-]

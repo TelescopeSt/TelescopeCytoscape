@@ -17,6 +17,13 @@ TLCytoscapeVirtualNode >> cytoscapePosition [
 ]
 
 { #category : #accessing }
+TLCytoscapeVirtualNode >> dimensionChangedHook [
+	"In cytoscape we need to update the dimensions via the connector, so we signal it and the connector will catch it."
+	
+	TLNodeDimensionChanged signalForNode: self tlNode
+]
+
+{ #category : #accessing }
 TLCytoscapeVirtualNode >> id [
 	^ self nodeId
 ]

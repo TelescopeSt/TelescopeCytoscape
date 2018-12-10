@@ -1,5 +1,5 @@
 "
-I am the command to remove a node on the client
+I am the command to remove an element on the client. Because the id allows to find the right element, it can remove a node or a connection.
 "
 Class {
 	#name : #TLVisualizationRemoveElementCommand,
@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'nodeId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #command }

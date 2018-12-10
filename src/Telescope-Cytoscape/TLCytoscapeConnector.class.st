@@ -506,6 +506,18 @@ TLCytoscapeConnector >> movedNodesRelativePositionByElement: anObject [
 	movedNodesRelativePositionByElement := anObject
 ]
 
+{ #category : #accessing }
+TLCytoscapeConnector >> nodesShapesAvailableForConnector [
+	"I should return all TL shape that can apply on a node for this connector."
+
+	^ TLSimpleShape allSubclasses
+		select: [ :each | 
+			[ each forCytoscapeNode.
+			true ]
+				on: TLNotSupportedFunctionalityException
+				do: [ false ] ]
+]
+
 { #category : #opening }
 TLCytoscapeConnector >> open: aTLVisualization inWindowSized: aPoint titled: aString [ 
 	aTLVisualization openOnWeb

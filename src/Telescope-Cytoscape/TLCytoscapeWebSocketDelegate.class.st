@@ -73,6 +73,25 @@ TLCytoscapeWebSocketDelegate class >> ensureServerIsRunning [
 	self singleton ifNil: [ self run ]
 ]
 
+{ #category : #'accessing-convenience' }
+TLCytoscapeWebSocketDelegate class >> menuCommandOn: aBuilder [
+	"Add a custom menu item to the world menu"
+
+	<worldMenu>
+	(aBuilder item: #'Be for development')
+		order: 2;
+		iconName: #smallDebug;
+		parent: #Telescope;
+		help: 'This action will enable the development mode of Telescope';
+		action: [ self beDevelopment ].
+	(aBuilder item: #'Be for deployment')
+		order: 3;
+		iconName: #smallOk;
+		parent: #Telescope;
+		help: 'This action will enable the deployment mode of Telescope';
+		action: [ self beDeployment ]
+]
+
 { #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> port [
 	self deprecated: 'Use #clientPort or #serverPort instead'.

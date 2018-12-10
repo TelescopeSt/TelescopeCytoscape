@@ -15,7 +15,7 @@ Class {
 	#classInstVars : [
 		'lastId'
 	],
-	#category : #'Telescope-Cytoscape'
+	#category : #'Telescope-Cytoscape-Seaside'
 }
 
 { #category : #initialization }

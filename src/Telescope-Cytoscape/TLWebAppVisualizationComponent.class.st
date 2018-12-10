@@ -13,7 +13,7 @@ Class {
 	#instVars : [
 		'webAppVisualization'
 	],
-	#category : 'Telescope-Cytoscape'
+	#category : #'Telescope-Cytoscape-Seaside'
 }
 
 { #category : #'as yet unclassified' }

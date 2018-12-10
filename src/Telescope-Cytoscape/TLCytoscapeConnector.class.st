@@ -116,7 +116,7 @@ TLCytoscapeConnector >> createElementFromTrigger: aTrigger [
 	self flag: #TODO.	"Check if we should provide aTrigger in #obtainValue"
 	virtualTrigger := TLVirtualTrigger new
 		nodeId: nodeId;
-		realNode: aTrigger;
+		tlNode: aTrigger;
 		dimension:
 				(styleSheet obtainValue: #width forEntity: nil inNode: aTrigger)
 						@ (styleSheet obtainValue: #height forEntity: nil inNode: aTrigger);
@@ -146,9 +146,9 @@ TLCytoscapeConnector >> createElementNodeFromNode: aNode [
 	| styleSheet nodeId virtualNode |
 	nodeId := self generateDrawableId.
 	styleSheet := aNode effectiveStyleSheet.
-	virtualNode := TLVirtualNode new
+	virtualNode := TLCytoscapeVirtualNode new
 		nodeId: nodeId;
-		realNode: aNode;
+		tlNode: aNode;
 		dimension:
 				(styleSheet obtainValue: #width forEntity: aNode entity inNode: aNode)
 						@ (styleSheet obtainValue: #height forEntity: aNode entity inNode: aNode);

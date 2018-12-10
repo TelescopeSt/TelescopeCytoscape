@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'visualization'
 	],
-	#category : 'Telescope-Cytoscape'
+	#category : #'Telescope-Cytoscape-Seaside'
 }
 
 { #category : #'as yet unclassified' }

@@ -14,7 +14,7 @@ Class {
 		'serverPort',
 		'clientPort'
 	],
-	#category : #'Telescope-Cytoscape'
+	#category : #'Telescope-Cytoscape-Seaside'
 }
 
 { #category : #'accessing-convenience' }

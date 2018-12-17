@@ -23,7 +23,7 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 			"Packages"
 			spec
 				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
-				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'WebSocket' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
+				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'ZincHTTPComponents' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
 				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape') ];
 				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].
 
@@ -38,12 +38,7 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 
 { #category : #dependencies }
 BaselineOfTelescopeCytoscape >> neoJSON: spec [
-	spec
-		project: 'NeoJSON'
-		with: [ spec
-				className: #ConfigurationOfNeoJSON;
-				versionString: #stable;
-				repository: 'http://smalltalkhub.com/mc/SvenVanCaekenberghe/Neo/main' ]
+	spec baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON:v17/repository' ]
 ]
 
 { #category : #accessing }
@@ -68,10 +63,8 @@ BaselineOfTelescopeCytoscape >> telescope: spec [
 { #category : #dependencies }
 BaselineOfTelescopeCytoscape >> webSocket: spec [
 	spec
-		project: 'WebSocket'
+		baseline: 'ZincHTTPComponents'
 		with: [ spec
-				className: 'ConfigurationOfZincHTTPComponents';
-				version: #stable;
 				loads: #('WebSocket');
-				repository: 'http://mc.stfx.eu/ZincHTTPComponents' ]
+				repository: 'github://svenvc/zinc:v3.0.1/repository' ]
 ]

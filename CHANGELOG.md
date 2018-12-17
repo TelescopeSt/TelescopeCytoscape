@@ -1,3 +1,9 @@
+# [v2.0.2](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.0.1...v2.0.2) (2018-12-17)
+
+## Enhancements
+
+* Use Github version of Sven's projects ([eaadbdb](https://github.com/TelescopeSt/TelescopeCytoscape/commit/eaadbdbc1d2ceb5047debb796eb0a61c1fd000b7))
+
 # [v2.0.1](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.0.0...v2.0.1) (2018-12-05)
 
 ## Enhancements

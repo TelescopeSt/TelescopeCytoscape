@@ -42,18 +42,6 @@ TLCytoscapeWebSocketDelegate class >> clientPort: anObject [
 ]
 
 { #category : #accessing }
-TLCytoscapeWebSocketDelegate class >> defaultPort [
-	self deprecated: 'Use #serverPort'.
-	^ self serverPort
-]
-
-{ #category : #accessing }
-TLCytoscapeWebSocketDelegate class >> defaultPort: anObject [
-	self deprecated: 'Use #serverPort:'.
-	^ self serverPort: anObject
-]
-
-{ #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> delegate [
 	^ self singleton delegate
 ]
@@ -110,12 +98,6 @@ TLCytoscapeWebSocketDelegate class >> openWebDemo [
 		at: #WebBrowser
 		ifPresent: [ :class | class openOn: url ]
 		ifAbsent: [ self class environment at: #OSProcess ifPresent: [ :class | class command: 'open ' , url ] ifAbsent: [ self inform: 'Open ' , url , ' or install WebBrowser/OSProcess.' ] ]
-]
-
-{ #category : #accessing }
-TLCytoscapeWebSocketDelegate class >> port [
-	self deprecated: 'Use #clientPort or #serverPort instead'.
-	^ self clientPort
 ]
 
 { #category : #registration }

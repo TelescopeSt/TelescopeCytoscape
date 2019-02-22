@@ -13,7 +13,7 @@ Class {
 	#category : #'Telescope-Cytoscape-Seaside'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 TLWebAppVisualization class >> singleton [
 self flag:'revoir comment on implem un singleton... Je n aime pas creer des variables de classe'.
 	^self allInstances

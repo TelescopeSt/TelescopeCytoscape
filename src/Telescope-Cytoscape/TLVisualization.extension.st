@@ -17,10 +17,8 @@ TLVisualization >> openOnWeb [
 		ifNotEmpty: [ :adaptors | adaptors detect: #isRunning ifFound: [ :anAdaptor | port := anAdaptor server port ] ifNone: [ (ZnZincServerAdaptor port: (port := 8085)) start ] ].
 	url := 'http://localhost:' , port asString , '/UserVisualization'.
 	self flag: #pharo6.
-	SystemVersion current major < 7
-		ifTrue: [ self class environment
-				at: #OSProcess
-				ifPresent: [ :class | class command: 'open http://localhost:' , port asString , '/UserVisualization' ]
-				ifAbsent: [ self inform: 'Open ' , url , ' or install OSProcess.' ] ]
-		ifFalse: [ WebBrowser openOn: url ]
+	self class environment
+		at: #WebBrowser
+		ifPresent: [ :class | class openOn: url ]
+		ifAbsent: [ self class environment at: #OSProcess ifPresent: [ :class | class command: 'open ' , url ] ifAbsent: [ self inform: 'Open ' , url , ' or install WebBrowser/OSProcess.' ] ]
 ]

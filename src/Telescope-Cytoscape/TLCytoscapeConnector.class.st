@@ -90,6 +90,13 @@ TLCytoscapeConnector >> commandsQueue: anObject [
 	commandsQueue := anObject
 ]
 
+{ #category : #accessing }
+TLCytoscapeConnector >> connectionHeadShapesAvailableForConnector [
+	"I should return all TL shape that can apply on a node for this connector."
+
+	^ TLSimpleShape allSubclasses select: #availableForCytoscapeConnection
+]
+
 { #category : #'generation - connection' }
 TLCytoscapeConnector >> createElementConnection: aTLConnection From: fromNode to: toNode [
 	| edgeId |
@@ -497,6 +504,18 @@ TLCytoscapeConnector >> movedNodesRelativePositionByElement [
 { #category : #accessing }
 TLCytoscapeConnector >> movedNodesRelativePositionByElement: anObject [
 	movedNodesRelativePositionByElement := anObject
+]
+
+{ #category : #accessing }
+TLCytoscapeConnector >> nodesShapesAvailableForConnector [
+	"I should return all TL shape that can apply on a node for this connector."
+
+	^ TLSimpleShape allSubclasses
+		select: [ :each | 
+			[ each forCytoscapeNode.
+			true ]
+				on: TLNotSupportedFunctionalityException
+				do: [ false ] ]
 ]
 
 { #category : #opening }

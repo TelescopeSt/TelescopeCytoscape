@@ -1,16 +1,16 @@
 Class {
-	#name : #TLCysShapeTest,
+	#name : #TLCystoscapeShapeTest,
 	#superclass : #TestCase,
 	#category : #'Telescope-Cytoscape-Tests-Shape'
 }
 
 { #category : #helpers }
-TLCysShapeTest >> actualClass [
+TLCystoscapeShapeTest >> actualClass [
 	^ TLSimpleShape
 ]
 
 { #category : #tests }
-TLCysShapeTest >> testCytoscapePolygonPointsFrom [
+TLCystoscapeShapeTest >> testCytoscapePolygonPointsFrom [
 	self
 		assert:
 			(self actualClass

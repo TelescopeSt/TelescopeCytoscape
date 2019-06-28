@@ -12,7 +12,7 @@ TLCytoscapeConnectorTest >> setUp [
 	connector := TLCytoscapeConnector new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 TLCytoscapeConnectorTest >> testGroupUpdating [
 	| group |
 	group := TLEntitiesGroup new.
@@ -30,7 +30,7 @@ TLCytoscapeConnectorTest >> testGroupUpdating [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 TLCytoscapeConnectorTest >> testGroupUpdatingAfterMoving [
 	| groupA groupB node |
 	groupA := TLEntitiesGroup new.
@@ -53,7 +53,7 @@ TLCytoscapeConnectorTest >> testGroupUpdatingAfterMoving [
 	self assert: (connector elementFromTLDrawable: node) parent equals: (connector elementFromTLDrawable: groupB)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 TLCytoscapeConnectorTest >> testLayoutApplicationOnComposite [
 	| group mockLayout |
 	group := TLEntitiesGroup new.
@@ -67,7 +67,7 @@ TLCytoscapeConnectorTest >> testLayoutApplicationOnComposite [
 	group generate.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 TLCytoscapeConnectorTest >> testLayoutApplicationOnCompositeIntoComposite [
 	| group mockLayout childrenMockLayout |
 	group := TLEntitiesGroup new.

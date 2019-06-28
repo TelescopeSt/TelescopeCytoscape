@@ -7,7 +7,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Libraries'
 }
 
-{ #category : #helpers }
+{ #category : #'as yet unclassified' }
 CYSFileLibrary class >> cytoscapeTelescopeJSCompile [
 	<script>
 	self 

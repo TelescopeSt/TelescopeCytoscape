@@ -10,10 +10,10 @@ Class {
 	#instVars : [
 		'visualization'
 	],
-	#category : #'Telescope-Cytoscape-Seaside'
+	#category : 'Telescope-Cytoscape'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 TLWebAppVisualization class >> singleton [
 self flag:'revoir comment on implem un singleton... Je n aime pas creer des variables de classe'.
 	^self allInstances

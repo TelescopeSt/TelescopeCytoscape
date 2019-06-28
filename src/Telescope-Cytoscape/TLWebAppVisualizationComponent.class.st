@@ -13,21 +13,21 @@ Class {
 	#instVars : [
 		'webAppVisualization'
 	],
-	#category : #'Telescope-Cytoscape-Seaside'
+	#category : 'Telescope-Cytoscape'
 }
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 TLWebAppVisualizationComponent class >> ensureIsRunning [
 	(WAAdmin isAnAppRegisteredAt: 'UserVisualisation')
 		ifFalse:[self initialize]
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 TLWebAppVisualizationComponent class >> initialize [
 	self initializeAt: 'UserVisualization'
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 TLWebAppVisualizationComponent class >> initializeAt: aString [
 	| app |
 	app := WAAdmin register: self asApplicationAt: aString.

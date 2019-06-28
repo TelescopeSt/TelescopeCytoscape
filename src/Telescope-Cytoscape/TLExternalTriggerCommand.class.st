@@ -7,7 +7,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 TLExternalTriggerCommand class >> newWithParameters: aParametersDictionary [
 	^ self new
 		visuId: (aParametersDictionary at: #id);
@@ -15,17 +15,17 @@ TLExternalTriggerCommand class >> newWithParameters: aParametersDictionary [
 		yourself
 ]
 
-{ #category : #execution }
+{ #category : #'as yet unclassified' }
 TLExternalTriggerCommand >> executeOnVisu: aTLVisualization [
 	aTLVisualization generator executeExternalTrigger: self triggerId .
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 TLExternalTriggerCommand >> triggerId [
 	^ triggerId
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 TLExternalTriggerCommand >> triggerId: anID [
 	triggerId := anID
 ]

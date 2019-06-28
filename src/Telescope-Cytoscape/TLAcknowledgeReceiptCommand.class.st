@@ -4,12 +4,12 @@ Class {
 	#category : 'Telescope-Cytoscape-Commands'
 }
 
-{ #category : #command }
+{ #category : #'as yet unclassified' }
 TLAcknowledgeReceiptCommand class >> command [
 	^ #acknoledgeReceipt
 ]
 
-{ #category : #action }
+{ #category : #'as yet unclassified' }
 TLAcknowledgeReceiptCommand >> sendCommandOn: aWebSocket [
    aWebSocket
 				sendMessage:

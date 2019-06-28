@@ -27,7 +27,7 @@ TLMenuInteractionCommand >> entry: anObject [
 	entry := anObject
 ]
 
-{ #category : #execution }
+{ #category : #'as yet unclassified' }
 TLMenuInteractionCommand >> executeOnVisu: aTLVisualization [
 	aTLVisualization generator executeMenuInteraction: self entry onDrawableId: self drawableId
 ]

@@ -44,7 +44,7 @@ TLVisualizationRefreshNodeCommand >> customizeFromInteractions: aCollectionOfInt
 					dic ])
 ]
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 TLVisualizationRefreshNodeCommand >> isAddingCommand [
 	^ false
 ]

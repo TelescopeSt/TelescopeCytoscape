@@ -48,7 +48,7 @@ TLSeasideCallBackAction >> block: anObject [
 	block := anObject
 ]
 
-{ #category : #initialization }
+{ #category : #'as yet unclassified' }
 TLSeasideCallBackAction >> initialize [
 	super initialize.
 	self openInNewTab: false

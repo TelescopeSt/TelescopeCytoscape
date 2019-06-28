@@ -21,7 +21,7 @@ TLVisualizationAddLegendEntryCommand class >> for: aLegendEntry visuId: aVisuId 
 	^ TLVisualizationAddLegendEntryCommand visuId: aVisuId html: aLegendEntry cytoscapeHtmlRepresentation
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'instance-creation' }
 TLVisualizationAddLegendEntryCommand class >> visuId: aVisuId html: aHtml [
 	^ self new
 		visuId: aVisuId;

@@ -60,7 +60,8 @@ TLCytoscapeConnector >> addElementNodeInView: element [
 { #category : #layout }
 TLCytoscapeConnector >> applyLayoutOf: aTLGroup on: group [
 	self commandsQueue managePositioningOf: group.
-	[ super applyLayoutOf: aTLGroup on: group ]
+	group restoreElementsPosition.
+	[ aTLGroup layout on: group ]
 		on: TLNodeDimensionChanged
 		do: [ :notification | 
 			self
@@ -69,8 +70,8 @@ TLCytoscapeConnector >> applyLayoutOf: aTLGroup on: group [
 						virtualNode: notification node;
 						visuId: self visuId;
 						style:
-							{(#width -> notification node width).
-							(#height -> notification node height)} asDictionary).
+								{(#width -> notification node width).
+									(#height -> notification node height)} asDictionary).
 			notification resume ]
 ]
 
@@ -115,7 +116,7 @@ TLCytoscapeConnector >> createElementFromTrigger: aTrigger [
 	self flag: #TODO.	"Check if we should provide aTrigger in #obtainValue"
 	virtualTrigger := TLVirtualTrigger new
 		nodeId: nodeId;
-		tlNode: aTrigger;
+		realNode: aTrigger;
 		dimension:
 				(styleSheet obtainValue: #width forEntity: nil inNode: aTrigger)
 						@ (styleSheet obtainValue: #height forEntity: nil inNode: aTrigger);
@@ -135,14 +136,25 @@ TLCytoscapeConnector >> createElementFromTrigger: aTrigger [
 	^ virtualTrigger
 ]
 
+{ #category : #'generation - legend' }
+TLCytoscapeConnector >> createElementLegendItemFrom: aTLLegendItem [
+	self shouldBeImplemented
+]
+
 { #category : #'generation - node' }
 TLCytoscapeConnector >> createElementNodeFromNode: aNode [
 	| styleSheet nodeId virtualNode |
 	nodeId := self generateDrawableId.
 	styleSheet := aNode effectiveStyleSheet.
-	virtualNode := self createElementNodeFromNode: aNode withStyleSheet: styleSheet.
-	virtualNode nodeId: nodeId.
-	self flag: #TODO. "The responsibility of node creation should be managed by the virtual node"
+	virtualNode := TLVirtualNode new
+		nodeId: nodeId;
+		realNode: aNode;
+		dimension:
+				(styleSheet obtainValue: #width forEntity: aNode entity inNode: aNode)
+						@ (styleSheet obtainValue: #height forEntity: aNode entity inNode: aNode);
+		position: 0 @ 0;
+		yourself.	"temp  position for creation"
+	self tryToFixPositionFor: virtualNode styleSheet: styleSheet node: aNode.
 	self
 		addCommand:
 			(TLVisualizationAddNodeCommand new
@@ -151,6 +163,13 @@ TLCytoscapeConnector >> createElementNodeFromNode: aNode [
 				visuId: self visuId;
 				style: (styleSheet cytoscapeNodeStyleFor: aNode)).
 	^ virtualNode
+]
+
+{ #category : #'generation - group' }
+TLCytoscapeConnector >> createGroup: aTLGroup with: aCollectionOfDrawableId [
+	"just have to return collection"
+	
+	^ TLVirtualGroup withAll: aCollectionOfDrawableId
 ]
 
 { #category : #'generation - legend' }
@@ -163,6 +182,11 @@ TLCytoscapeConnector >> createMenuFor: aTLDrawable [
 	"Menu are managed in a different way in Cytoscape"
 
 	self shouldNotImplement
+]
+
+{ #category : #'generation - node' }
+TLCytoscapeConnector >> define: parentCompositeElement asParentFor: aCollectionOfChildrenElements [
+	aCollectionOfChildrenElements parent: parentCompositeElement
 ]
 
 { #category : #accessing }
@@ -293,8 +317,7 @@ TLCytoscapeConnector >> generateClickInteraction: aClickInteraction onDrawable: 
 
 { #category : #'generation - interaction' }
 TLCytoscapeConnector >> generateDoubleClickInteraction: aDoubleClickInteraction onDrawable: aTLDrawable targetingDrawable: anObject [
-	TLNotSupportedFunctionalityException
-		signal: 'The TLCytoscape connector does not support double click interactions because they are not common in web'
+	self shouldBeImplemented
 ]
 
 { #category : #drawableIds }
@@ -396,7 +419,7 @@ TLCytoscapeConnector >> generateNodeShapeLegendEntry: aLegendEntry [
 
 { #category : #'generation - interaction' }
 TLCytoscapeConnector >> generatePopupInteraction: aTLPopupInteraction onDrawable: aTLDrawable targetingDrawable: aTargetDrawable [
-	"Will be managed on the node creation and sent as part of the command. Ths JS part will create the popup interaction"
+	self shouldBeImplemented
 ]
 
 { #category : #'generation - interaction' }
@@ -475,7 +498,6 @@ TLCytoscapeConnector >> initialize [
 
 { #category : #accessing }
 TLCytoscapeConnector >> movedNodesRelativePositionByElement [
-	"We removed interaction that concern position but still keep this position in the connector in case we want to serialize the visualization full state"
 	^ movedNodesRelativePositionByElement
 ]
 
@@ -484,22 +506,14 @@ TLCytoscapeConnector >> movedNodesRelativePositionByElement: anObject [
 	movedNodesRelativePositionByElement := anObject
 ]
 
-{ #category : #accessing }
-TLCytoscapeConnector >> nodesShapesAvailableForConnector [
-	"I should return all TL shape that can apply on a node for this connector."
-
-	^ TLSimpleShape allSubclasses
-		select: [ :each | 
-			[ each forCytoscapeNode.
-			true ]
-				on: TLNotSupportedFunctionalityException
-				do: [ false ] ]
+{ #category : #opening }
+TLCytoscapeConnector >> open: aTLVisualization inWindowSized: aPoint titled: aString [ 
+	aTLVisualization openOnWeb
 ]
 
-{ #category : #opening }
-TLCytoscapeConnector >> open: aTLVisualization inWindowSized: windowSize titled: aString [
-	self flag: #TODO. "Should openOnWeb with a div dimension equals to windowSize"
-	aTLVisualization openOnWeb
+{ #category : #placing }
+TLCytoscapeConnector >> placeElement: anAssociation correspondingToTrigger: aTLShapeTrigger relativeToDrawable: aTLSimpleNode [
+	"Do nothing because virtual hierarchy will do it"
 ]
 
 { #category : #'generation - group' }
@@ -524,12 +538,18 @@ TLCytoscapeConnector >> registerShape: element forDrawable: aDrawable [
 				ifFalse: [ element id ])
 		put: aDrawable ]
 		on: MessageNotUnderstood
-		do: [ self flag: #TODO. "look why this is needed" ]
+		do: [  ]
 ]
 
 { #category : #commands }
 TLCytoscapeConnector >> removeAllCommands [
 	^ self commandsQueue removeAllCommands
+]
+
+{ #category : #'removing - node' }
+TLCytoscapeConnector >> removeChildrenOf: aCompositeNode [
+	super removeChildrenOf: aCompositeNode.	"we need also to remove it in the virtual hierarchy"
+	(self elementFromTLDrawable: aCompositeNode) children removeAll
 ]
 
 { #category : #view }
@@ -570,15 +590,19 @@ TLCytoscapeConnector >> removeLegend: aTLLegend [
 { #category : #'executing - interaction' }
 TLCytoscapeConnector >> sendAcknowledgeReceiptFor: aTLDrawable [
 	self commandsQueue addCommand: (TLAcknowledgeReceiptCommand new visuId: self visuId).
-	aTLDrawable visualization
-		ifNotNil: [ aTLDrawable visualization update ]
-		ifNil:
-			[ "probably a missclic on a deleted link/node by previous interaction but the clic is possible when lag in interface or network " ]
+	aTLDrawable visualization ifNotNil:[aTLDrawable visualization update] ifNil:["probably a missclic on a deleted link/node by previous interaction but the clic is possible when lag in interface or network "]
 ]
 
 { #category : #accessing }
 TLCytoscapeConnector >> tlDrawableFromId: anId [
 	^ self drawablesById at: anId
+]
+
+{ #category : #'generation - node' }
+TLCytoscapeConnector >> tryToFixPositionFor: virtualNode styleSheet: styleSheet node: aNode [
+	[ virtualNode defineFixedRelativePosition: (styleSheet obtainValue: #position forEntity: aNode entity inNode: aNode) ]
+		on: TLStyleSheetMissingProperty
+		do: [  ]
 ]
 
 { #category : #accessing }
@@ -624,6 +648,31 @@ TLCytoscapeConnector >> updateElementNodeOf: aDrawable [
 ]
 
 { #category : #'updating - interaction' }
+TLCytoscapeConnector >> updateInteractionsOf: aDrawable [
+	self flag: #todo.	"Remove the interaction that are no longer needed and add the new ones."
+	(aDrawable allInteractions select: #isGraphicallyRepresented)
+		do: [ :aGraphicInteraction | aGraphicInteraction updateWith: self forDrawable: aDrawable ]
+]
+
+{ #category : #'updating - legend' }
+TLCytoscapeConnector >> updateLegend: aTLLegend [
+	self flag: 'Can be smarter than just removing and recreating legend'.
+	aTLLegend removeWith: self.
+	aTLLegend generateWith: self.
+]
+
+{ #category : #nesting }
+TLCytoscapeConnector >> updateNestOn: backElement nest: innerElements layout: layout [
+	self shouldBeImplemented
+]
+
+{ #category : #'updating - interaction' }
+TLCytoscapeConnector >> updateShapeTrigger: aShapeTrigger [
+	self updateInteractionsOf: aShapeTrigger.
+	self updateTriggerOf: aShapeTrigger
+]
+
+{ #category : #'updating - interaction' }
 TLCytoscapeConnector >> updateTriggerOf: aShapeTrigger [ 
 	self
 		addCommand:
@@ -637,11 +686,6 @@ TLCytoscapeConnector >> updateTriggerOf: aShapeTrigger [
 { #category : #view }
 TLCytoscapeConnector >> updateViewForVisualization: aTLVisualization [
 	TLCytoscapeWebSocketDelegate delegate sendCommands: self removeAllCommands forVisu: aTLVisualization
-]
-
-{ #category : #dependencies }
-TLCytoscapeConnector >> virtualNodeClass [
-	^ TLCytoscapeVirtualNode 
 ]
 
 { #category : #accessing }

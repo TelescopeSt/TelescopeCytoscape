@@ -158,5 +158,5 @@ TLVisualizationPositionNodesCommand >> triggers: anObject [
 
 { #category : #accessing }
 TLVisualizationPositionNodesCommand >> visualization [
-	^ self nodes anyOne tlNode visualization
+	^ self nodes anyOne realNode visualization
 ]

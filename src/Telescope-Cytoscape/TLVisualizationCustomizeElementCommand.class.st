@@ -15,7 +15,7 @@ TLVisualizationCustomizeElementCommand class >> command [
 	^ #customize
 ]
 
-{ #category : #json }
+{ #category : #'as yet unclassified' }
 TLVisualizationCustomizeElementCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 

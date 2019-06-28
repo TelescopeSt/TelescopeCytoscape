@@ -159,9 +159,8 @@ TLCytoscapeConnector >> createElementNodeFromNode: aNode [
 		dimension:
 				(styleSheet obtainValue: #width forEntity: aNode entity inNode: aNode)
 						@ (styleSheet obtainValue: #height forEntity: aNode entity inNode: aNode);
-		position: 0 @ 0;
-		yourself.	"temp  position for creation"
-	self tryToFixPositionFor: virtualNode styleSheet: styleSheet node: aNode.
+		position: 0 @ 0;	"temp  position for creation"
+		yourself.
 	self
 		addCommand:
 			(TLVisualizationAddNodeCommand new
@@ -615,13 +614,6 @@ TLCytoscapeConnector >> sendAcknowledgeReceiptFor: aTLDrawable [
 { #category : #accessing }
 TLCytoscapeConnector >> tlDrawableFromId: anId [
 	^ self drawablesById at: anId
-]
-
-{ #category : #'generation - node' }
-TLCytoscapeConnector >> tryToFixPositionFor: virtualNode styleSheet: styleSheet node: aNode [
-	[ virtualNode defineFixedRelativePosition: (styleSheet obtainValue: #position forEntity: aNode entity inNode: aNode) ]
-		on: TLStyleSheetMissingProperty
-		do: [  ]
 ]
 
 { #category : #accessing }

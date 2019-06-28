@@ -7,9 +7,17 @@ Class {
 { #category : #tests }
 TLVirtualStructureTest >> testLayoutApplication [
 	| nodes |
-	nodes := (1 to: 10) collect: [ :i | TLVirtualNode new dimension: 5@8 ].
+	nodes := (1 to: 10)
+		collect: [ :i | 
+			TLVirtualNode new
+				dimension: 5 @ 8;
+				realNode:
+					((TLSimpleNode withEntity: i)
+						styleSheet: TLStyleSheet default;
+						yourself);
+				yourself ].
 	TLLinearLayout topToBottom on: nodes.
-	nodes do: [:aNode | self assert: aNode position notNil ]
+	nodes do: [ :aNode | self assert: aNode position notNil ]
 ]
 
 { #category : #tests }

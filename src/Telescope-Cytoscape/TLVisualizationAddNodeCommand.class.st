@@ -15,7 +15,7 @@ TLVisualizationAddNodeCommand class >> command [
 	^ #add
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLVisualizationAddNodeCommand >> customizeFromInteractions: aCollectionOfInteractions forNode: aTLNode [
 	self
 		mouseOverInteraction:

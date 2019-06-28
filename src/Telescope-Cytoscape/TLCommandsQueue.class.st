@@ -17,7 +17,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Connector'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 TLCommandsQueue >> addCommand: aTLVisualizationServerCommand [
 	aTLVisualizationServerCommand isAddingCommand
 		ifFalse: [ self removingCustomizingCommands addLast: aTLVisualizationServerCommand ]
@@ -65,7 +65,7 @@ TLCommandsQueue >> positionNodesCommand: anObject [
 	positionNodesCommand := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #removing }
 TLCommandsQueue >> removeAllCommands [
 	| commands |
 	self addingCommand ifNotEmpty: [ self removingCustomizingCommands addLast: self addingCommand ].

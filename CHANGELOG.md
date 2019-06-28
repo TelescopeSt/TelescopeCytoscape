@@ -1,3 +1,8 @@
+<!--
+git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" d820835...HEAD --grep="Merge pull"
+('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
+-->
+
 # [v2.1.0](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.0.2...v2.1.0) (2019-06-28)
 
 ## New features

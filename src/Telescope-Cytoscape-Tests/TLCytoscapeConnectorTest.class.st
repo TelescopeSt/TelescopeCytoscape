@@ -1,19 +1,19 @@
 Class {
-	#name : #TLCytoscapeConnectorTests,
+	#name : #TLCytoscapeConnectorTest,
 	#superclass : #BabyMock2TestCase,
 	#instVars : [
 		'connector'
 	],
-	#category : 'Telescope-Cytoscape-Tests-Connector'
+	#category : #'Telescope-Cytoscape-Tests-Connector'
 }
 
 { #category : #initialization }
-TLCytoscapeConnectorTests >> setUp [
+TLCytoscapeConnectorTest >> setUp [
 	connector := TLCytoscapeConnector new
 ]
 
 { #category : #'as yet unclassified' }
-TLCytoscapeConnectorTests >> testGroupUpdating [
+TLCytoscapeConnectorTest >> testGroupUpdating [
 	| group |
 	group := TLEntitiesGroup new.
 	group
@@ -31,7 +31,7 @@ TLCytoscapeConnectorTests >> testGroupUpdating [
 ]
 
 { #category : #'as yet unclassified' }
-TLCytoscapeConnectorTests >> testGroupUpdatingAfterMoving [
+TLCytoscapeConnectorTest >> testGroupUpdatingAfterMoving [
 	| groupA groupB node |
 	groupA := TLEntitiesGroup new.
 	groupA
@@ -54,7 +54,7 @@ TLCytoscapeConnectorTests >> testGroupUpdatingAfterMoving [
 ]
 
 { #category : #'as yet unclassified' }
-TLCytoscapeConnectorTests >> testLayoutApplicationOnComposite [
+TLCytoscapeConnectorTest >> testLayoutApplicationOnComposite [
 	| group mockLayout |
 	group := TLEntitiesGroup new.
 	mockLayout := protocol mock: 'layout'.
@@ -68,7 +68,7 @@ TLCytoscapeConnectorTests >> testLayoutApplicationOnComposite [
 ]
 
 { #category : #'as yet unclassified' }
-TLCytoscapeConnectorTests >> testLayoutApplicationOnCompositeIntoComposite [
+TLCytoscapeConnectorTest >> testLayoutApplicationOnCompositeIntoComposite [
 	| group mockLayout childrenMockLayout |
 	group := TLEntitiesGroup new.
 	mockLayout := protocol mock: 'layout'.

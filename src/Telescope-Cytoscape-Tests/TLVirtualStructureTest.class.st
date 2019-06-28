@@ -1,11 +1,11 @@
 Class {
-	#name : #TLVirtualStructureTests,
+	#name : #TLVirtualStructureTest,
 	#superclass : #TestCase,
-	#category : 'Telescope-Cytoscape-Tests-Virtual'
+	#category : #'Telescope-Cytoscape-Tests-Virtual'
 }
 
 { #category : #tests }
-TLVirtualStructureTests >> testLayoutApplication [
+TLVirtualStructureTest >> testLayoutApplication [
 	| nodes |
 	nodes := (1 to: 10) collect: [ :i | TLVirtualNode new dimension: 5@8 ].
 	TLLinearLayout topToBottom on: nodes.
@@ -13,7 +13,7 @@ TLVirtualStructureTests >> testLayoutApplication [
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testNodeInCompositeInCompositePosition [
+TLVirtualStructureTest >> testNodeInCompositeInCompositePosition [
 	"Cyril: I think this test is wrong but I am not sure so I tag this test as expected failure for the release and we can patch this later with Guillaume."
 
 	<expectedFailure>
@@ -37,7 +37,7 @@ TLVirtualStructureTests >> testNodeInCompositeInCompositePosition [
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testNodeInCompositePosition [
+TLVirtualStructureTest >> testNodeInCompositePosition [
 	"Cyril: I think this test is wrong but I am not sure so I tag this test as expected failure for the release and we can patch this later with Guillaume."
 
 	<expectedFailure>
@@ -56,7 +56,7 @@ TLVirtualStructureTests >> testNodeInCompositePosition [
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testNodeWithDimension [
+TLVirtualStructureTest >> testNodeWithDimension [
 	| node |
 	node := TLVirtualNode new dimension: 6 @ 10.
 	node position: 42 @ 47.
@@ -66,7 +66,7 @@ TLVirtualStructureTests >> testNodeWithDimension [
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testNodesInGroupInGroup [
+TLVirtualStructureTest >> testNodesInGroupInGroup [
 	"Cyril: I think this test is wrong but I am not sure so I tag this test as expected failure for the release and we can patch this later with Guillaume."
 
 	<expectedFailure>
@@ -85,7 +85,7 @@ TLVirtualStructureTests >> testNodesInGroupInGroup [
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testRemoveNodeFromAGroupThenAddToAnotherWithAdd [
+TLVirtualStructureTest >> testRemoveNodeFromAGroupThenAddToAnotherWithAdd [
 	|groupSource groupTarget node|
 	node:= TLVirtualNode new.
 	groupSource := TLVirtualGroup new.
@@ -105,7 +105,7 @@ TLVirtualStructureTests >> testRemoveNodeFromAGroupThenAddToAnotherWithAdd [
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testRemoveNodeFromAGroupThenAddToAnotherWithParentSelector [
+TLVirtualStructureTest >> testRemoveNodeFromAGroupThenAddToAnotherWithParentSelector [
 	|groupSource groupTarget node|
 	node:= TLVirtualNode new.
 	groupSource := TLVirtualGroup new.
@@ -125,7 +125,7 @@ TLVirtualStructureTests >> testRemoveNodeFromAGroupThenAddToAnotherWithParentSel
 ]
 
 { #category : #tests }
-TLVirtualStructureTests >> testTwoNodesInCompositePosition [
+TLVirtualStructureTest >> testTwoNodesInCompositePosition [
 	| parent child1 child2 |
 	parent := TLVirtualNode new dimension: 50 @ 40.
 	parent compositeMargin: 0@0.

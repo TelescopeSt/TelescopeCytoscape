@@ -26,18 +26,6 @@ TVirtualElement >> parentNode [
 	^ self parent ifNotNil: [ self parent isNode ifTrue: [ self parent ] ifFalse: [self parent parentNode]]
 ]
 
-{ #category : #position }
-TVirtualElement >> relativePositionToParentNodeOrAbsolute [
-	^ self position
-		+
-			(self parent
-				ifNil: [ 0 @ 0 ]
-				ifNotNil: [ 
-					self parent isNode
-						ifTrue: [ self parent compositeMargin ]
-						ifFalse: [ self parent relativePositionToParentNodeOrAbsolute ] ])
-]
-
 { #category : #actions }
 TVirtualElement >> translateBy: aVector [
 	self position: self position + aVector

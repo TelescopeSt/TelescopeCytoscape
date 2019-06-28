@@ -1,13 +1,11 @@
 Class {
 	#name : #TLVirtualTrigger,
 	#superclass : #TLVirtualNode,
-	#traits : 'TVirtualElement',
-	#classTraits : 'TVirtualElement classTrait',
 	#instVars : [
 		'triggerPosition',
 		'virtualNodeReference'
 	],
-	#category : 'Telescope-Cytoscape-Virtual'
+	#category : #'Telescope-Cytoscape-Virtual'
 }
 
 { #category : #position }

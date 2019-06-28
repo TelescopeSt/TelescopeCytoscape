@@ -16,18 +16,18 @@ Class {
 	#category : 'Telescope-Cytoscape'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLWebAppVisualizationComponent class >> ensureIsRunning [
 	(WAAdmin isAnAppRegisteredAt: 'UserVisualisation')
 		ifFalse:[self initialize]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 TLWebAppVisualizationComponent class >> initialize [
 	self initializeAt: 'UserVisualization'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLWebAppVisualizationComponent class >> initializeAt: aString [
 	| app |
 	app := WAAdmin register: self asApplicationAt: aString.

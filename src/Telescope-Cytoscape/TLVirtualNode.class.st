@@ -208,7 +208,7 @@ TLVirtualNode >> nodeId: anObject [
 
 { #category : #dimension }
 TLVirtualNode >> occupyMaxSpace [
-	^ self realNode ifNil: [ false ] ifNotNil: [ self realNode effectiveStyleSheet takeAllSpace ]
+	^ self realNode effectiveStyleSheet takeAllSpace
 ]
 
 { #category : #dimension }

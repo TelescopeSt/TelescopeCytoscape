@@ -14,15 +14,13 @@ Class {
 		'nodeId',
 		'parent',
 		'children',
-		'incomingEdges',
 		'realNode',
 		'compositeMargin',
-		'attributes',
 		'encompassingRectangle',
 		'userFixedPosition',
 		'triggers'
 	],
-	#category : 'Telescope-Cytoscape-Virtual'
+	#category : #'Telescope-Cytoscape-Virtual'
 }
 
 { #category : #accessing }
@@ -45,18 +43,9 @@ TLVirtualNode >> addTrigger: aTLVirtualTrigger [
 	aTLVirtualTrigger virtualNodeReference: self.
 ]
 
-{ #category : #accessing }
-TLVirtualNode >> attributes [
-	^ attributes ifNil: [ attributes := Dictionary new ]
-]
-
 { #category : #position }
 TLVirtualNode >> calculateRelativePositionFromAbsolute: aPosition [
-	^ aPosition
-		-
-			(self hasParent
-				ifTrue: [ parent upperLeftAbsolutePosition ]
-				ifFalse: [ 0 @ 0 ])
+	^ aPosition - (self hasParent ifTrue: [ parent upperLeftAbsolutePosition ] ifFalse: [ 0 @ 0 ])
 ]
 
 { #category : #accessing }
@@ -117,17 +106,6 @@ TLVirtualNode >> dimension: anObject [
 	self clearEncompassingRectangle
 ]
 
-{ #category : #edges }
-TLVirtualNode >> dropIncomingEdges [
-	incomingEdges := nil
-]
-
-{ #category : #accessing }
-TLVirtualNode >> encompassingCytoscapeRectangle [
-	| encompassingCytoscapeRectangle |
-	^ encompassingCytoscapeRectangle ifNil: [ encompassingCytoscapeRectangle := Rectangle origin: self cytoscapePosition extent: self dimension ]
-]
-
 { #category : #accessing }
 TLVirtualNode >> encompassingRectangle [
 	^ encompassingRectangle ifNil: [ encompassingRectangle := Rectangle center: self position extent: self dimension ]
@@ -167,22 +145,6 @@ TLVirtualNode >> incomingAdjacentNodes [
 				do: [ node generate ] ]
 ]
 
-{ #category : #edges }
-TLVirtualNode >> incomingEdges [
-	incomingEdges
-		ifNil: [ 
-			| generator |
-			generator := self realNode generator.
-			incomingEdges := self realNode incomingConnections
-				collect: [ :aConnection | 
-					TLVirtualConnection new
-						from: (generator elementFromTLDrawable: aConnection fromNode);
-						to: self;
-						yourself ]
-				as: OrderedCollection ].
-	^ incomingEdges
-]
-
 { #category : #accessing }
 TLVirtualNode >> initialize [
 	super initialize.
@@ -208,13 +170,7 @@ TLVirtualNode >> nodeId: anObject [
 
 { #category : #dimension }
 TLVirtualNode >> occupyMaxSpace [
-	^ self realNode ifNil: [ false ] ifNotNil: [ self realNode effectiveStyleSheet takeAllSpace ]
-]
-
-{ #category : #dimension }
-TLVirtualNode >> originalWidth [
-	self flag: #TODO.	"Save Demeter"
-	^ self realNode effectiveStyleSheet obtainValue: #width forEntity: self realNode entity inNode: self realNode
+	^ self realNode effectiveStyleSheet takeAllSpace
 ]
 
 { #category : #adjacent }

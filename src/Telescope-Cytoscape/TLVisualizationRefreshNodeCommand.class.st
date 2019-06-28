@@ -15,7 +15,7 @@ TLVisualizationRefreshNodeCommand class >> command [
 	^ #refreshNode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLVisualizationRefreshNodeCommand >> customizeFromInteractions: aCollectionOfInteractions forNode: aTLNode [
 	self
 		mouseOverInteraction:
@@ -44,7 +44,7 @@ TLVisualizationRefreshNodeCommand >> customizeFromInteractions: aCollectionOfInt
 					dic ])
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 TLVisualizationRefreshNodeCommand >> isAddingCommand [
 	^ false
 ]

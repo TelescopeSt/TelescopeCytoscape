@@ -46,7 +46,7 @@ TLVisualizationMultiAddingCommand >> isMultiAdding [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #json }
 TLVisualizationMultiAddingCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 

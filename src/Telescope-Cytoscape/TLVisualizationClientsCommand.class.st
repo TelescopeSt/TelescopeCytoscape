@@ -7,7 +7,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Commands'
 }
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 TLVisualizationClientsCommand class >> createFrom: aJsonDictionary [
 	^ ({('generate' -> TLVisualizationGenerationCommand).
 	('interaction' -> TLInteractionCommand).

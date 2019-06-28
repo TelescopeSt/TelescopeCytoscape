@@ -40,7 +40,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Actions'
 }
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 TLSeasideAJAXCallBackAction class >> callback: aBlock forElement: aString on: html [
 	| cbId |
 	cbId := html callbacks

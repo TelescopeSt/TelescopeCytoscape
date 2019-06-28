@@ -73,6 +73,46 @@ TLCytoscapeWebSocketDelegate class >> ensureServerIsRunning [
 	self singleton ifNil: [ self run ]
 ]
 
+{ #category : #'world menu' }
+TLCytoscapeWebSocketDelegate class >> menuCommandOn: aBuilder [
+	"Add a custom menu item to the world menu"
+
+	<worldMenu>
+	(aBuilder item: #'Be for development')
+		order: 2;
+		iconName: #smallDebug;
+		parent: #Telescope;
+		help: 'This action will enable the development mode of Telescope';
+		action: [ self beDevelopment ].
+	(aBuilder item: #'Be for deployment')
+		order: 3;
+		iconName: #smallOk;
+		parent: #Telescope;
+		help: 'This action will enable the deployment mode of Telescope';
+		action: [ self beDeployment ].
+	(aBuilder item: #'Open web demo')
+		order: 1;
+		iconName: #glamorousOver;
+		parent: #Telescope;
+		help: 'Open the web demo of Telescope';
+		action: [ self openWebDemo ]
+]
+
+{ #category : #'accessing-convenience' }
+TLCytoscapeWebSocketDelegate class >> openWebDemo [
+	| port url |
+	WAServerManager default adaptors
+		ifEmpty: [ (ZnZincServerAdaptor port: (port := 8087)) start ]
+		ifNotEmpty: [ :adaptors | adaptors detect: #isRunning ifFound: [ :anAdaptor | port := anAdaptor server port ] ifNone: [ (ZnZincServerAdaptor port: (port := 8087)) start ] ].
+	url := 'http://localhost:' , port asString , '/TelescopeDemo'.
+	self flag: #pharo6.
+	self flag: #pharo7.
+	self class environment
+		at: #WebBrowser
+		ifPresent: [ :class | class openOn: url ]
+		ifAbsent: [ self class environment at: #OSProcess ifPresent: [ :class | class command: 'open ' , url ] ifAbsent: [ self inform: 'Open ' , url , ' or install WebBrowser/OSProcess.' ] ]
+]
+
 { #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> port [
 	self deprecated: 'Use #clientPort or #serverPort instead'.

@@ -21,11 +21,6 @@ TLVirtualConnection >> from: anObject [
 	from := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-TLVirtualConnection >> isUsedInLayout [
-	^ true
-]
-
 { #category : #accessing }
 TLVirtualConnection >> to [
 	^ to

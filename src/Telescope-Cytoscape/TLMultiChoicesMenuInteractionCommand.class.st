@@ -8,7 +8,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Commands'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 TLMultiChoicesMenuInteractionCommand class >> newWithParameters: aParametersDictionary [
 	^ (super newWithParameters: aParametersDictionary)
 		entry: (aParametersDictionary at: #entry);

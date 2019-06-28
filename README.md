@@ -1,11 +1,7 @@
 # TelescopeCytoscape
 
-#### Linux/OSX builds
-Master: [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=master)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)| Development: [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=development)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)
-
-#### Windows builds
-Master: [![Build status](https://ci.appveyor.com/api/projects/status/585at1nv33cpk98v/branch/master?svg=true)](https://ci.appveyor.com/project/jecisc/telescopecytoscape/branch/master) | Development: [![Build status](https://ci.appveyor.com/api/projects/status/qusho5y9km7wrowu/branch/development?svg=true)](https://ci.appveyor.com/project/jecisc/telescope/branch/development)
-
+Master [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=master)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)|
+Development [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=development)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)
 
 TelescopeCytoscape is a connector to render [Telescope](https://github.com/TelescopeSt/Telescope) visualization on web via [Seaside](https://github.com/SeasideSt/Seaside).
 
@@ -255,8 +251,8 @@ You can find a demo at: [https://demos.ferlicot.fr/TelescopeDemo](https://demos.
 | TelescopeCytoscape version 	| Compatible Pharo versions 	|
 |---------------------------	|---------------------------	|
 | v1.x.x                | Pharo 61, 70                  |
-| v2.x.x                | Pharo 61, 70                  |
-| development      				| Pharo 61, 70               	|
+| v2.x.x                | Pharo 61, 70, 80                  |
+| development           | Pharo 61, 70, 80               	|
 
 ## Contact
 

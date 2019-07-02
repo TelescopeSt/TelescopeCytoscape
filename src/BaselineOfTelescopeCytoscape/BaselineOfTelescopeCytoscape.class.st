@@ -18,12 +18,13 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				neoJSON: spec;
 				seaside3: spec;
 				webSocket: spec;
-				telescope: spec.
+				telescope: spec;
+				graphLayout: spec.
 
 			"Packages"
 			spec
 				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
-				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'ZincHTTPComponents' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
+				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'ZincHTTPComponents' 'Telescope-Cytoscape-Libraries' 'NeoJSON' 'GraphLayout') ];
 				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape') ];
 				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].
 
@@ -34,6 +35,11 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				group: 'default' with: #('core' 'tests' 'demo');
 				group: 'demo' with: #('Telescope-Demo-Cytoscape');
 				group: 'tests' with: #('Telescope-Cytoscape-Tests') ]
+]
+
+{ #category : #dependencies }
+BaselineOfTelescopeCytoscape >> graphLayout: spec [
+	spec baseline: 'GraphLayout' with: [ spec repository: 'github://medicka/PharoGSoC' ]
 ]
 
 { #category : #dependencies }

@@ -6,8 +6,8 @@ position is the same as rectangle: the upper left corner
 Class {
 	#name : #TLVirtualNode,
 	#superclass : #Object,
-	#traits : 'TVirtualElement',
-	#classTraits : 'TVirtualElement classTrait',
+	#traits : 'TVirtualElement + TVertexTrait',
+	#classTraits : 'TVirtualElement classTrait + TVertexTrait classTrait',
 	#instVars : [
 		'position',
 		'dimension',

@@ -25,7 +25,7 @@ TLDemos class >> exampleChangingLayoutNina [
 		addNodesFromEntities: Collection withAllSubclasses;
 		connectFollowingProperty: #superclass;
 		addInteraction: TLPopUpAction onMouseOver;
-		layout: TLCircularLayout.
+		layout: GraphCircleLayout new.
 	visu layout: TLLinearLayout leftToRight.
 	^ visu
 ]

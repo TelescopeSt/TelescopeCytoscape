@@ -19,7 +19,7 @@ TLDemos class >> exampleChangingLayoutNina [
 		addNodesFromEntities:
 			("{(TLLinearLayout angle: 90).
 			(TLTreeLayout angle: 180).
-			TLCircularLayout new}," (GraphLayout allSubclasses reject: #isAbstract thenCollect: #new));
+			TLCircularLayout new}," (GLayout allSubclasses reject: #isAbstract thenCollect: #new));
 		addInteraction: (TLCustomAction block: [ :aNode | visu > #group2 layout: aNode entity ]) onClick.
 	(visu > #group2)
 		addNodesFromEntities: Collection withAllSubclasses;

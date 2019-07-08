@@ -1,6 +1,6 @@
-Extension { #name : #GraphLayout }
+Extension { #name : #GLayout }
 
 { #category : #'*Telescope-Cytoscape' }
-GraphLayout >> on: aTLGroup [
+GLayout >> on: aTLGroup [
 	self doExecute: aTLGroup
 ]

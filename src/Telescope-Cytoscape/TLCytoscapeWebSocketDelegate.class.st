@@ -33,7 +33,7 @@ TLCytoscapeWebSocketDelegate class >> beDevelopment [
 TLCytoscapeWebSocketDelegate class >> clientPort [
 	^ clientPort
 		ifNil: [ self ensureServerIsRunning.
-			self singleton port ]
+			clientPort := self server port ]
 ]
 
 { #category : #accessing }
@@ -55,7 +55,8 @@ TLCytoscapeWebSocketDelegate class >> defaultPort: anObject [
 
 { #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> delegate [
-	^ self singleton delegate
+	self deprecated: 'Use singleton instead' transformWith: '`@receiver delegate' -> '`@receiver singleton'.
+	^ self singleton
 ]
 
 { #category : #accessing }
@@ -69,8 +70,13 @@ TLCytoscapeWebSocketDelegate class >> development: aBolean [
 ]
 
 { #category : #'starting/stopping' }
-TLCytoscapeWebSocketDelegate class >> ensureServerIsRunning [
+TLCytoscapeWebSocketDelegate class >> ensureCytoscapeIsRunning [
 	self singleton ifNil: [ self run ]
+]
+
+{ #category : #'starting/stopping' }
+TLCytoscapeWebSocketDelegate class >> ensureServerIsRunning [
+	(self server ifNil: [ (ZnServer on: self serverPort) register; yourself  ]) start
 ]
 
 { #category : #'world menu' }
@@ -121,8 +127,8 @@ TLCytoscapeWebSocketDelegate class >> port [
 
 { #category : #registration }
 TLCytoscapeWebSocketDelegate class >> registerVisualization: aTLVisualization underId: aDivId withCallBack: aCallBack callbackUrl: callbackUrl [
-	self ensureServerIsRunning.
-	self singleton delegate
+	self ensureCytoscapeIsRunning.
+	self singleton
 		registerVisualization: aTLVisualization
 		underId: aDivId
 		withCallBack: aCallBack
@@ -140,9 +146,17 @@ TLCytoscapeWebSocketDelegate class >> restart [
 TLCytoscapeWebSocketDelegate class >> run [
 	<script>
 	singleton
-		ifNil: [ 
-			singleton := ZnServer startDefaultOn: self serverPort.
-			singleton delegate: TLCytoscapeWebSocketDelegate new ]
+		ifNil: [ self ensureServerIsRunning.
+			singleton := TLCytoscapeWebSocketDelegate new.
+			self server delegate
+				map: 'ws-TLCytoscape' 
+				to:
+					(ZnWebSocketDelegate map: 'ws-TLCytoscape' to: singleton handler) ]
+]
+
+{ #category : #acccessing }
+TLCytoscapeWebSocketDelegate class >> server [
+	^ ZnServer managedServers detect: [ :server | server port = self serverPort ] ifNone: [ nil ] 
 ]
 
 { #category : #accessing }
@@ -168,13 +182,13 @@ TLCytoscapeWebSocketDelegate class >> singleton: anObject [
 { #category : #'starting/stopping' }
 TLCytoscapeWebSocketDelegate class >> stop [
 	<script>
-	singleton ifNotNil: #stop.
+	self server ifNotNil: [:server | server stop; unregister].
 	singleton := nil
 ]
 
 { #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> visualizationWithId: aDivId [
-	^ self singleton delegate visualizationWithId: aDivId
+	^ self singleton visualizationWithId: aDivId
 ]
 
 { #category : #registration }
@@ -202,8 +216,8 @@ TLCytoscapeWebSocketDelegate >> initialize [
 	self websocketByVisu: Dictionary new.
 	self
 		handler: [ :webSocket | 
-			[ 
-			[ webSocket runWith: [ :message | self onMessageReceived: message webSocket: webSocket ] ]
+			[ [ webSocket
+				runWith: [ :message | self onMessageReceived: message webSocket: webSocket ] ]
 				on: ConnectionClosed
 				do: [ self freeResourcesFor: webSocket ] ]
 				on: PrimitiveFailed

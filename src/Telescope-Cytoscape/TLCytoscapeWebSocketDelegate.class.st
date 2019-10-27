@@ -55,8 +55,7 @@ TLCytoscapeWebSocketDelegate class >> defaultPort: anObject [
 
 { #category : #accessing }
 TLCytoscapeWebSocketDelegate class >> delegate [
-	self development
-		ifTrue: [ self deprecated: 'Use singleton instead' on: '5 June 2018' in: 'Pharo-6.0-60539-' ].
+	self deprecated: 'Use singleton instead' transformWith: '`@receiver delegate' -> '`@receiver singleton'.
 	^ self singleton
 ]
 

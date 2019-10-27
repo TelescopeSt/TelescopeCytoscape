@@ -19,7 +19,7 @@ Class {
 		'visuCallBackUrl',
 		'movedNodesRelativePositionByElement'
 	],
-	#category : 'Telescope-Cytoscape-Connector'
+	#category : #'Telescope-Cytoscape-Connector'
 }
 
 { #category : #accessing }
@@ -542,7 +542,7 @@ TLCytoscapeConnector >> postGenerationFor: aTLVisualization [
 				new
 				visuId: self visuId;
 				yourself).
-	TLCytoscapeWebSocketDelegate delegate sendCommands: self removeAllCommands forVisu: aTLVisualization
+	TLCytoscapeWebSocketDelegate singleton sendCommands: self removeAllCommands forVisu: aTLVisualization
 ]
 
 { #category : #accessing }
@@ -696,7 +696,7 @@ TLCytoscapeConnector >> updateTriggerOf: aShapeTrigger [
 
 { #category : #view }
 TLCytoscapeConnector >> updateViewForVisualization: aTLVisualization [
-	TLCytoscapeWebSocketDelegate delegate sendCommands: self removeAllCommands forVisu: aTLVisualization
+	TLCytoscapeWebSocketDelegate singleton sendCommands: self removeAllCommands forVisu: aTLVisualization
 ]
 
 { #category : #accessing }

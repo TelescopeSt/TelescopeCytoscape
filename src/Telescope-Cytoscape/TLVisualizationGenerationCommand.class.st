@@ -7,7 +7,7 @@ Class {
 	#category : 'Telescope-Cytoscape-Commands'
 }
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 TLVisualizationGenerationCommand class >> newWithParameters: aParametersDictionary [
 	^ self new
 		visuId: (aParametersDictionary at: #id);

@@ -13,7 +13,7 @@ Class {
 	#category : 'Telescope-Cytoscape'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 TLWebAppVisualization class >> singleton [
 self flag:'revoir comment on implem un singleton... Je n aime pas creer des variables de classe'.
 	^self allInstances
@@ -23,7 +23,7 @@ self flag:'revoir comment on implem un singleton... Je n aime pas creer des vari
 
 { #category : #initialization }
 TLWebAppVisualization >> defaultVisualization [
-	^TLVisualization new.
+	^ TLVisualization new
 ]
 
 { #category : #initialization }

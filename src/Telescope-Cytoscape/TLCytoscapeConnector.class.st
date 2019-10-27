@@ -90,6 +90,13 @@ TLCytoscapeConnector >> commandsQueue: anObject [
 	commandsQueue := anObject
 ]
 
+{ #category : #accessing }
+TLCytoscapeConnector >> connectionHeadShapesAvailableForConnector [
+	"I should return all TL shape that can apply on a node for this connector."
+
+	^ TLSimpleShape allSubclasses select: #availableForCytoscapeConnection
+]
+
 { #category : #'generation - connection' }
 TLCytoscapeConnector >> createElementConnection: aTLConnection From: fromNode to: toNode [
 	| edgeId |
@@ -152,9 +159,8 @@ TLCytoscapeConnector >> createElementNodeFromNode: aNode [
 		dimension:
 				(styleSheet obtainValue: #width forEntity: aNode entity inNode: aNode)
 						@ (styleSheet obtainValue: #height forEntity: aNode entity inNode: aNode);
-		position: 0 @ 0;
-		yourself.	"temp  position for creation"
-	self tryToFixPositionFor: virtualNode styleSheet: styleSheet node: aNode.
+		position: 0 @ 0;	"temp  position for creation"
+		yourself.
 	self
 		addCommand:
 			(TLVisualizationAddNodeCommand new
@@ -175,6 +181,13 @@ TLCytoscapeConnector >> createGroup: aTLGroup with: aCollectionOfDrawableId [
 { #category : #'generation - legend' }
 TLCytoscapeConnector >> createLegendFrom: legendEnties [
 	"Nothing to do here"
+]
+
+{ #category : #'generation - interaction' }
+TLCytoscapeConnector >> createMenuFor: aTLDrawable [
+	"Menu are managed in a different way in Cytoscape"
+
+	self shouldNotImplement
 ]
 
 { #category : #'generation - node' }
@@ -499,6 +512,18 @@ TLCytoscapeConnector >> movedNodesRelativePositionByElement: anObject [
 	movedNodesRelativePositionByElement := anObject
 ]
 
+{ #category : #accessing }
+TLCytoscapeConnector >> nodesShapesAvailableForConnector [
+	"I should return all TL shape that can apply on a node for this connector."
+
+	^ TLSimpleShape allSubclasses
+		select: [ :each | 
+			[ each forCytoscapeNode.
+			true ]
+				on: TLNotSupportedFunctionalityException
+				do: [ false ] ]
+]
+
 { #category : #opening }
 TLCytoscapeConnector >> open: aTLVisualization inWindowSized: aPoint titled: aString [ 
 	aTLVisualization openOnWeb
@@ -589,13 +614,6 @@ TLCytoscapeConnector >> sendAcknowledgeReceiptFor: aTLDrawable [
 { #category : #accessing }
 TLCytoscapeConnector >> tlDrawableFromId: anId [
 	^ self drawablesById at: anId
-]
-
-{ #category : #'generation - node' }
-TLCytoscapeConnector >> tryToFixPositionFor: virtualNode styleSheet: styleSheet node: aNode [
-	[ virtualNode defineFixedRelativePosition: (styleSheet obtainValue: #position forEntity: aNode entity inNode: aNode) ]
-		on: TLStyleSheetMissingProperty
-		do: [  ]
 ]
 
 { #category : #accessing }

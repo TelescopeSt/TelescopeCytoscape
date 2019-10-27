@@ -1,11 +1,7 @@
 # TelescopeCytoscape
 
-#### Linux/OSX builds
-Master: [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=master)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)| Development: [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=development)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)
-
-#### Windows builds
-Master: [![Build status](https://ci.appveyor.com/api/projects/status/585at1nv33cpk98v/branch/master?svg=true)](https://ci.appveyor.com/project/jecisc/telescopecytoscape/branch/master) | Development: [![Build status](https://ci.appveyor.com/api/projects/status/qusho5y9km7wrowu/branch/development?svg=true)](https://ci.appveyor.com/project/jecisc/telescope/branch/development)
-
+Master [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=master)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)|
+Development [![Build Status](https://travis-ci.org/TelescopeSt/TelescopeCytoscape.svg?branch=development)](https://travis-ci.org/TelescopeSt/TelescopeCytoscape)
 
 TelescopeCytoscape is a connector to render [Telescope](https://github.com/TelescopeSt/Telescope) visualization on web via [Seaside](https://github.com/SeasideSt/Seaside).
 
@@ -33,10 +29,10 @@ To install TelescopeCytoscape on your Pharo image you can just execute the follo
 
 ```Smalltalk
     Metacello new
-    	githubUser: 'TelescopeSt' project: 'TelescopeCytoscape' commitish: 'v1.x.x' path: 'src';
+    	githubUser: 'TelescopeSt' project: 'TelescopeCytoscape' commitish: 'v2.x.x' path: 'src';
     	baseline: 'TelescopeCytoscape';
     	onWarningLog;
-		onUpgrade: [ :e | e useIncoming ];
+	onUpgrade: [ :e | e useIncoming ];
     	load
 ```
 
@@ -45,16 +41,34 @@ To add TelescopeCytoscape to your baseline just add this:
 ```Smalltalk
     spec
     	baseline: 'TelescopeCytoscape'
-    	with: [ spec repository: 'github://TelescopeSt/TelescopeCytoscape:v1.x.x/src' ]
+    	with: [ spec repository: 'github://TelescopeSt/TelescopeCytoscape:v2.x.x/src' ]
 ```
 
 Note that you can replace the v1.x.x tag by a branch as #master or #development or a tag as #v1.0.0, #v1.? or #v1.0.x or a commit SHA.
 
 ## Getting started
 
-### Add the TelescopeCytoscape FileLibrary to you application 
+### Open a simple visualization
 
-The first thing to do in order to use TelescopeCytoscape is to add its `FileLibrary` to your Seaside application.
+If you wish to use TelescopeCytoscape only to create a see a visualization, you can create you visualization and send `open` or `openOnWeb` to it. 
+
+```Smalltalk
+	| visualization |
+	visualization := TLVisualization fromEntities: (0 to: 359).
+	visualization layout: ((TLLinearLayout maximumDimension: 300) angle: 360 atRandom).
+	visualization styleSheet backgroundColor: ((MDLColor red property: #yourself gradientAt: 0) to: MDLColor yellow at: 360).
+	visualization addInteraction: (TLCustomAction block: [ :node | visualization layout angle: node entity. visualization requireLayoutApplication ]) onClick.
+	visualization addInteraction: (TLPopUpAction text: [ :e | 'Turn to an angle of ', e asString , '°' ]) onMouseOver.
+	visualization open
+```
+
+This will use the first `ZincServerAdaptor` it found (if none it will open one on the port 8085) and open the visualization in an already defined Seaside application.
+
+> Note: If your visualization does not work, verify that the port 8085 and 1701 are free. You can find bellow documentation to know how to change the port 1701 for the websocket. For the seaside adapter, open `World menu > Tools > Seaside Control Panel` and add and start an appropropriate `ZnZincServerAdaptor`
+
+### Use TelescopeCytoscape in your Seaside application
+
+The first thing to do in order to use TelescopeCytoscape with your Seaside application is to add its `FileLibrary` to it.
 
 ```Smalltalk
 	(WAAdmin register: self asApplicationAt: 'myApplication')
@@ -236,8 +250,9 @@ You can find a demo at: [https://demos.ferlicot.fr/TelescopeDemo](https://demos.
 
 | TelescopeCytoscape version 	| Compatible Pharo versions 	|
 |---------------------------	|---------------------------	|
-| v1.0.0	   				   	| Pharo 61                  	|
-| development      				| Pharo 61                  	|
+| v1.x.x                | Pharo 61, 70                  |
+| v2.x.x                | Pharo 61, 70, 80                  |
+| development           | Pharo 61, 70, 80               	|
 
 ## Contact
 

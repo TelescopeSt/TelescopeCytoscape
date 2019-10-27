@@ -16,18 +16,18 @@ Class {
 	#category : 'Telescope-Cytoscape'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLWebAppVisualizationComponent class >> ensureIsRunning [
 	(WAAdmin isAnAppRegisteredAt: 'UserVisualisation')
 		ifFalse:[self initialize]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 TLWebAppVisualizationComponent class >> initialize [
 	self initializeAt: 'UserVisualization'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLWebAppVisualizationComponent class >> initializeAt: aString [
 	| app |
 	app := WAAdmin register: self asApplicationAt: aString.
@@ -45,11 +45,18 @@ TLWebAppVisualizationComponent >> initialize [
 
 { #category : #rendering }
 TLWebAppVisualizationComponent >> renderContentOn: html [
-
 	| component |
-	component := (TLCytoscapeComponent visualization: webAppVisualization visualization ).
-	html render: (component style: 'height: 500px; width:800px;').
+	component := TLCytoscapeComponent visualization: webAppVisualization visualization.
+	html text: 'See all demo in ',  TLCytoscapeTelescopeDemoComponent demoName , ' application'.
+	html render: (component style: 'height: 100%; width:100%;').
+]
 
+{ #category : #hooks }
+TLWebAppVisualizationComponent >> style [
+	^ 'body, html{
+	height: 100%;
+	width: 100%;
+}'
 ]
 
 { #category : #rendering }

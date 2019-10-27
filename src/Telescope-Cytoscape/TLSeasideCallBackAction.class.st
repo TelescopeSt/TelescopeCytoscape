@@ -11,21 +11,21 @@ Class {
 	#category : 'Telescope-Cytoscape-Actions'
 }
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 TLSeasideCallBackAction class >> block: aBlockClosure [
 	^ self new
 		block: aBlockClosure;
 		yourself
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 TLSeasideCallBackAction class >> block: aBlockClosure condition: aBlock2 [
 	^ (self block: aBlockClosure)
 		condition: aBlock2;
 		yourself
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 TLSeasideCallBackAction class >> inNewTabWithBlock: aBlockClosure [
 	^ self new
 		block: aBlockClosure;
@@ -48,7 +48,7 @@ TLSeasideCallBackAction >> block: anObject [
 	block := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 TLSeasideCallBackAction >> initialize [
 	super initialize.
 	self openInNewTab: false

@@ -1,14 +1,15 @@
 Class {
 	#name : #TLCytoscapeConnectorTest,
-	#superclass : #BabyMock2TestCase,
+	#superclass : #TestCase,
 	#instVars : [
 		'connector'
 	],
 	#category : #'Telescope-Cytoscape-Tests-Connector'
 }
 
-{ #category : #initialization }
+{ #category : #running }
 TLCytoscapeConnectorTest >> setUp [
+	super setUp.
 	connector := TLCytoscapeConnector new
 ]
 
@@ -57,24 +58,22 @@ TLCytoscapeConnectorTest >> testGroupUpdatingAfterMoving [
 TLCytoscapeConnectorTest >> testLayoutApplicationOnComposite [
 	| group mockLayout |
 	group := TLEntitiesGroup new.
-	mockLayout := protocol mock: 'layout'.
-	protocol describe once: mockLayout recv: #on:.
+	mockLayout := Mock named: 'layout'.
 	group
 		nodeCreationStrategy: (TLNodeCreationStrategy composite: [:i | i to: i + 5] withLayout: mockLayout);
 		styleSheet: (TLStyleSheet default compositeExpandedByDefault: true).
 	group addNodeFromEntity: 1.
 	group generator: connector.
 	group generate.
+	(mockLayout should receive on: Any) once
 ]
 
 { #category : #tests }
 TLCytoscapeConnectorTest >> testLayoutApplicationOnCompositeIntoComposite [
 	| group mockLayout childrenMockLayout |
 	group := TLEntitiesGroup new.
-	mockLayout := protocol mock: 'layout'.
-	childrenMockLayout := protocol mock: 'childrenLayout'.
-	protocol describe once: mockLayout recv: #on:.
-	protocol describe twice: childrenMockLayout recv: #on:.
+	mockLayout := Mock named: 'layout'.
+	childrenMockLayout := Mock named: 'childrenLayout'.
 	group
 		nodeCreationStrategy: (TLNodeCreationStrategy composite: [ :i | i to: i + 1 ] withLayout: mockLayout);
 		styleSheet: (TLStyleSheet default compositeExpandedByDefault: true).
@@ -82,5 +81,7 @@ TLCytoscapeConnectorTest >> testLayoutApplicationOnCompositeIntoComposite [
 		childrenStrategy: (TLNodeCreationStrategy composite: [ :i | i to: i + 5 ] withLayout: childrenMockLayout).
 	group addNodeFromEntity: 1.
 	group generator: connector.
-	group generate
+	group generate.
+	(mockLayout should receive on: Any) once.
+	(childrenMockLayout should receive on: Any) twice
 ]

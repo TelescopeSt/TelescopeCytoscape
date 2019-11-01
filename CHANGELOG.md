@@ -1,7 +1,15 @@
 <!--
-git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" d820835...HEAD --grep="Merge pull"
+git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" v2.1.0...HEAD --grep="Merge pull"
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
 -->
+
+# [v2.1.1](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.1.0...v2.1.1) (2019-11-01)
+
+## Infrastructure
+
+* Tests migrated from BabyMock 1 and 2 to Mocketry ([e36fb90](https://github.com/TelescopeSt/TelescopeCytoscape/commit/e36fb90fd9b172e9a7a0cfe7858621d720cca218))
+* Refactore websocket usage to be able to share the web socket ([a5eb594](https://github.com/TelescopeSt/TelescopeCytoscape/commit/a5eb59423d577094f7f0cd55d8d90823e5d7d712))
+
 
 # [v2.1.0](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.0.2...v2.1.0) (2019-06-28)
 

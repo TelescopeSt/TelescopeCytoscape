@@ -4,7 +4,7 @@ I am the file library that provide the cytoscape JS file and also the specific J
 Class {
 	#name : #CYSFileLibrary,
 	#superclass : #WAFileLibrary,
-	#category : 'Telescope-Cytoscape-Libraries'
+	#category : #'Telescope-Cytoscape-Libraries'
 }
 
 { #category : #helper }
@@ -535,7 +535,7 @@ SOFTWARE.
 '
 ]
 
-{ #category : #libs }
+{ #category : #uploaded }
 CYSFileLibrary >> cytoscapeTelescopeJs [
 	^ 'var telescope = (function () {
   var wsPort = "1701";// default
@@ -548,6 +548,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   //time in ms before an event like mouse over.
   self.reactTime=150;
 
+  // We save the list of visus and this method allow to get the right visu for an id.
   function visuWithId(aVisuId) {
     for (var i in visus) {
       if (visus[i].visuId == aVisuId)
@@ -560,6 +561,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     return htmlElement.getElementsByClassName("telescopeVisu");
   }
 
+  //Return true if the page has at least one visualization
   function pageHaveVisu(visuDivs){
     visuDivs = visuDivs || getVisusDivs();
     return visuDivs.length >0
@@ -783,7 +785,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     //customize in one visu rendering all element toUpdate
     customizeAll(toUpdate);
     needNotify= Object.keys(needNotify);
-//    console.log(needNotify);
     for(var i=0; i<needNotify.length;i++){
       notifyMessageEnd(needNotify[i]);
       visuWithId(needNotify[i]).container().style.cursor= "";

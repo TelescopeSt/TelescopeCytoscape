@@ -609,6 +609,8 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     });
   }
 
+  // This method creates a websocket and paramatrize it.
+  // Depending on its state it will call different functions
   function parametrizeWebsocket(visus) {
     websocket = new WebSocket( wsProtocol + location.hostname + ":" + wsPort + "/ws-TLCytoscape");
 
@@ -630,6 +632,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  // I am called at the opening of the websocket to initialize the visualization.
   function onOpen(evt, visus) {
     messages = [];
     for (var i in visus) { 
@@ -641,10 +644,12 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     websocket.send(JSON.stringify(messages));
   }
 
+  // I am called when the websocket has an error event
   function onError(evt) {
     tryReconnect=false;
   }
 
+  // I am called when the websocket is closing. 
   function onClose(evt) {
     tryReconnect = tryReconnect && pageHaveVisu();
     if(tryReconnect){
@@ -652,6 +657,8 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  // Telescope is first adding a waiting component in the web page then it loads the visualization through the websocket.
+  // I am called to remove the web component.
   function removeWaitingForVisuId(aVisuId) {
     try {
       waitingDivByVisu[aVisuId].parentNode.removeChild(waitingDivByVisu[aVisuId]);
@@ -762,7 +769,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   function onMessage(evt) {
     commands = JSON.parse(evt.data);
-    //console.log(commands);
     toUpdate = {};
     needNotify = {};
     for (var i in commands) {
@@ -995,14 +1001,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     };
     edges = self.connectedEdges();
     children= self.children();
-    //log("changedata node", self)
-    //log("changedata debug",edges.length, "edges", edges)
-    //uncomment the follow lines when we will understand why edges is empty.
-    //self.remove();
-    //toCustomize=visu.add(newNode);
-    //customizeElement(toCustomize, command);
-    //edges.restore();
-    //children.restore();
   }
 
   /* useful for test with mocha

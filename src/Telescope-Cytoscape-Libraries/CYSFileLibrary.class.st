@@ -584,11 +584,12 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   function init() {
     self.visus = [];
-    visus= self.visus; // make closure as soon as possible to clean API
+    visus = self.visus; // make closure as soon as possible to clean API
     waitingDivByVisu = [];
-	 if(document.getElementsByClassName("telescopeVisu")[0]){
+    var visuDiv 
+	  if(document.getElementsByClassName("telescopeVisu")[0]){
       wsPort = document.getElementsByClassName("telescopeVisu")[0].dataset.port
-	 }
+	  }
 	  if (location.protocol === "https:") {
       wsProtocol = "wss://";
     } else { 
@@ -606,11 +607,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       container: visuDiv.firstChild,
       layout: {name: "preset"}
     });
-  }
-
-
-  function calculateNodesPositionsWithLayout(layout, nodes) {
-
   }
 
   function parametrizeWebsocket(visus) {

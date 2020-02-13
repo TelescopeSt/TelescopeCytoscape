@@ -586,7 +586,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     self.visus = [];
     visus = self.visus; // make closure as soon as possible to clean API
     waitingDivByVisu = [];
-    var visuDiv 
 	  if(document.getElementsByClassName("telescopeVisu")[0]){
       wsPort = document.getElementsByClassName("telescopeVisu")[0].dataset.port
 	  }
@@ -601,12 +600,16 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   function createVisu(visuDiv) {
     //Here we remove the second child which is the waiting display and store it for future waiting
     waitingDivByVisu[visuDiv.getAttribute("id")] = visuDiv.getElementsByClassName("tlWaiting")[0];
-    //visuDiv.removeChild(waitingDivByVisu[aDivId]);
-    return cytoscape({
-		pixelRatio: 1,
+
+    var visu = cytoscape({
+      pixelRatio: 1,
       container: visuDiv.firstChild,
-      layout: {name: "preset"}
+      layout: {name: "preset"},
     });
+
+    visu.currentOveredElements = [];
+
+    return visu;
   }
 
   // This method creates a websocket and paramatrize it.
@@ -910,6 +913,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   }
 
   eventsWithInteractions = {"tap": "click", "cxttap": "rightClick", "mouseover": "mouseOver", "mouseout": "mouseOut"};
+  
 
   function clearOverInteraction(){
     if(timeoutId!=null){
@@ -921,18 +925,29 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   function createEventFunction(visuWithId) {
     return function (evt) {
       clearOverInteraction();
-      if(evt.target.id != null &&  !visuWithId.protectDoubleFire[evt.type] && (!visuWithId.visu.animated() || (evt.type == "mouseout")) ){
+      var visu = visuWithId.visu;
+      if(evt.target.id != null &&  !visuWithId.protectDoubleFire[evt.type] && (!visu.animated() || (evt.type == "mouseout")) ){
         // server interaction processing
         if (!((!evt.target["mouseOverInteraction"]) && ((evt.type == "mouseover") || (evt.type == "mouseout")))) {
           visuWithId.protectDoubleFire[evt.type] =true;
           setTimeout(function() {
             visuWithId.protectDoubleFire[evt.type] =false;
           }, self.reactTime*4);
+          
+          if(evt.type == "mouseout"){
+            visu.currentOveredElements = visu.currentOveredElements.filter(mouseOverEvent => mouseOverEvent.target.id() != evt.target.id());
+          }
+
+          if(evt.type == "mouseover"){
+            visu.currentOveredElements.forEach(mouseOverEvent => sendCommand([{id: visuWithId.visuId, drawableId: mouseOverEvent.target.id(), command: "interaction", kind: (eventsWithInteractions["mouseout"])}]));
+            visu.currentOveredElements = [ ];
+            visu.currentOveredElements.push(evt);
+          }
           sendCommand([{id: visuWithId.visuId, drawableId: evt.target.id(), command: "interaction", kind: (eventsWithInteractions[evt.type])}]);
           // menu management
           if (evt.type == "cxttap" && evt.target["menu"]) {
             displayMenuForElement(evt.target, visuWithId.visuId, {x: evt.originalEvent.clientX, y: evt.originalEvent.clientY});
-            visuWithId.visu.container().style.cursor= "";
+            visu.container().style.cursor= "";
           }
         }
       }

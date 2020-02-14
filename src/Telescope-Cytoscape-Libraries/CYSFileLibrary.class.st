@@ -4,7 +4,7 @@ I am the file library that provide the cytoscape JS file and also the specific J
 Class {
 	#name : #CYSFileLibrary,
 	#superclass : #WAFileLibrary,
-	#category : 'Telescope-Cytoscape-Libraries'
+	#category : #'Telescope-Cytoscape-Libraries'
 }
 
 { #category : #helper }
@@ -123,6 +123,8 @@ CYSFileLibrary >> contextMenuMinJs [
 
 { #category : #libs }
 CYSFileLibrary >> cytoscapeQtipJs [
+	"v2.8.0"
+
 	^ '/*!
 Copyright (c) The Cytoscape Consortium
 
@@ -175,6 +177,10 @@ SOFTWARE.
     } else {
       return obj;
     }
+  };
+
+  var fixDomContainer = function(ele) {
+    return ele && ( ele[0] === window ) ? undefined : ele;
   };
 
   var throttle = function(func, wait, options) {
@@ -321,8 +327,8 @@ SOFTWARE.
 
       // qtip should be positioned relative to cy dom container
       opts.position = opts.position || {};
-      opts.position.container = opts.position.container || $( document.body );
-      opts.position.viewport = opts.position.viewport || $( document.body );
+      opts.position.container = fixDomContainer(opts.position.container) || $( document.body );
+      opts.position.viewport = fixDomContainer(opts.position.viewport) || $( document.body );
       opts.position.target = [0, 0];
       opts.position.my = opts.position.my || ''top center'';
       opts.position.at = opts.position.at || ''bottom center'';
@@ -414,7 +420,8 @@ SOFTWARE.
       var container = cy.container();
 
       if( passedOpts === ''api'' ){
-        return this.scratch().qtip.api;
+        var qtip = this.scratch().qtip;
+        return qtip ? qtip.api : null;
       }
 
       eles.each(function(ele, i){
@@ -467,7 +474,8 @@ SOFTWARE.
       var container = cy.container();
 
       if( passedOpts === ''api'' ){
-        return this.scratch().qtip.api;
+        var qtip = this.scratch().qtip;
+        return qtip ? qtip.api : null;
       }
 
       var scratch = cy.scratch();
@@ -548,6 +556,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   //time in ms before an event like mouse over.
   self.reactTime=150;
 
+  // We save the list of visus and this method allow to get the right visu for an id.
   function visuWithId(aVisuId) {
     for (var i in visus) {
       if (visus[i].visuId == aVisuId)
@@ -560,6 +569,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     return htmlElement.getElementsByClassName("telescopeVisu");
   }
 
+  //Return true if the page has at least one visualization
   function pageHaveVisu(visuDivs){
     visuDivs = visuDivs || getVisusDivs();
     return visuDivs.length >0
@@ -582,11 +592,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   function init() {
     self.visus = [];
-    visus= self.visus; // make closure as soon as possible to clean API
+    visus = self.visus; // make closure as soon as possible to clean API
     waitingDivByVisu = [];
-	 if(document.getElementsByClassName("telescopeVisu")[0]){
+	  if(document.getElementsByClassName("telescopeVisu")[0]){
       wsPort = document.getElementsByClassName("telescopeVisu")[0].dataset.port
-	 }
+	  }
 	  if (location.protocol === "https:") {
       wsProtocol = "wss://";
     } else { 
@@ -598,19 +608,16 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   function createVisu(visuDiv) {
     //Here we remove the second child which is the waiting display and store it for future waiting
     waitingDivByVisu[visuDiv.getAttribute("id")] = visuDiv.getElementsByClassName("tlWaiting")[0];
-    //visuDiv.removeChild(waitingDivByVisu[aDivId]);
+
     return cytoscape({
-		pixelRatio: 1,
+      pixelRatio: 1,
       container: visuDiv.firstChild,
-      layout: {name: "preset"}
+      layout: {name: "preset"},
     });
   }
 
-
-  function calculateNodesPositionsWithLayout(layout, nodes) {
-
-  }
-
+  // This method creates a websocket and paramatrize it.
+  // Depending on its state it will call different functions
   function parametrizeWebsocket(visus) {
     websocket = new WebSocket( wsProtocol + location.hostname + ":" + wsPort + "/ws-TLCytoscape");
 
@@ -632,6 +639,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  // I am called at the opening of the websocket to initialize the visualization.
   function onOpen(evt, visus) {
     messages = [];
     for (var i in visus) { 
@@ -643,10 +651,12 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     websocket.send(JSON.stringify(messages));
   }
 
+  // I am called when the websocket has an error event
   function onError(evt) {
     tryReconnect=false;
   }
 
+  // I am called when the websocket is closing. 
   function onClose(evt) {
     tryReconnect = tryReconnect && pageHaveVisu();
     if(tryReconnect){
@@ -654,6 +664,8 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  // Telescope is first adding a waiting component in the web page then it loads the visualization through the websocket.
+  // I am called to remove the web component.
   function removeWaitingForVisuId(aVisuId) {
     try {
       waitingDivByVisu[aVisuId].parentNode.removeChild(waitingDivByVisu[aVisuId]);
@@ -764,7 +776,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   function onMessage(evt) {
     commands = JSON.parse(evt.data);
-    //console.log(commands);
     toUpdate = {};
     needNotify = {};
     for (var i in commands) {
@@ -783,7 +794,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     //customize in one visu rendering all element toUpdate
     customizeAll(toUpdate);
     needNotify= Object.keys(needNotify);
-//    console.log(needNotify);
     for(var i=0; i<needNotify.length;i++){
       notifyMessageEnd(needNotify[i]);
       visuWithId(needNotify[i]).container().style.cursor= "";
@@ -907,6 +917,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   }
 
   eventsWithInteractions = {"tap": "click", "cxttap": "rightClick", "mouseover": "mouseOver", "mouseout": "mouseOut"};
+  
 
   function clearOverInteraction(){
     if(timeoutId!=null){
@@ -915,21 +926,43 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  // I manage the events I receive from Cytoscape to send to Telescope.
+  // I implement some mecanism to make the management of the events better for the user.
+  // First, I implement a mecanisme to avoid to double fire an event.
+  // Second, I implement an mecanisme to workaround a bug where cytoscape do not send a mouse out event sometimes. 
+  // To do that, I keep the current mouseover event and when I mouseover another element, I send an emulated mouseout event for this saved event to the websocket if there was no mouseout event received before.
+  // This allows TelescopeCytoscape to not accumulate mouse over interactions when we do not receive a mouse out event. 
   function createEventFunction(visuWithId) {
     return function (evt) {
       clearOverInteraction();
-      if(evt.target.id != null &&  !visuWithId.protectDoubleFire[evt.type] && (!visuWithId.visu.animated() || (evt.type == "mouseout")) ){
+      var visu = visuWithId.visu;
+      if(evt.target.id != null &&  !visuWithId.protectDoubleFire[evt.type] && (!visu.animated() || (evt.type == "mouseout")) ){
         // server interaction processing
         if (!((!evt.target["mouseOverInteraction"]) && ((evt.type == "mouseover") || (evt.type == "mouseout")))) {
           visuWithId.protectDoubleFire[evt.type] =true;
           setTimeout(function() {
             visuWithId.protectDoubleFire[evt.type] =false;
           }, self.reactTime*4);
+          
+          // If we have a mouseout event and a previously saved mouseover event, we remove the saved event.
+          if((evt.type == "mouseout") && visu.currentOveredElement != null && visu.currentOveredElement.target.id() == evt.target.id()){
+            visu.currentOveredElement = null;
+          }
+
+          // If we receive a mouseover event, we discard the potentially saved mouseover event for which we did not received a mouseout event from cytoscape. Then save the new mouseover event.
+          if(evt.type == "mouseover"){
+            if(visu.currentOveredElement != null) {
+              sendCommand([{id: visuWithId.visuId, drawableId: visu.currentOveredElement.target.id(), command: "interaction", kind: (eventsWithInteractions["mouseout"])}]);
+              visu.currentOveredElement = null;
+            }
+            visu.currentOveredElement = evt;
+          }
+
           sendCommand([{id: visuWithId.visuId, drawableId: evt.target.id(), command: "interaction", kind: (eventsWithInteractions[evt.type])}]);
           // menu management
           if (evt.type == "cxttap" && evt.target["menu"]) {
             displayMenuForElement(evt.target, visuWithId.visuId, {x: evt.originalEvent.clientX, y: evt.originalEvent.clientY});
-            visuWithId.visu.container().style.cursor= "";
+            visu.container().style.cursor= "";
           }
         }
       }
@@ -998,14 +1031,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     };
     edges = self.connectedEdges();
     children= self.children();
-    //log("changedata node", self)
-    //log("changedata debug",edges.length, "edges", edges)
-    //uncomment the follow lines when we will understand why edges is empty.
-    //self.remove();
-    //toCustomize=visu.add(newNode);
-    //customizeElement(toCustomize, command);
-    //edges.restore();
-    //children.restore();
   }
 
   /* useful for test with mocha

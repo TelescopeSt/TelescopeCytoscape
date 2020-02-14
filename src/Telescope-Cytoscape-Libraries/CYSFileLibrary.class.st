@@ -543,7 +543,7 @@ SOFTWARE.
 '
 ]
 
-{ #category : #uploaded }
+{ #category : #libs }
 CYSFileLibrary >> cytoscapeTelescopeJs [
 	^ 'var telescope = (function () {
   var wsPort = "1701";// default
@@ -609,15 +609,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     //Here we remove the second child which is the waiting display and store it for future waiting
     waitingDivByVisu[visuDiv.getAttribute("id")] = visuDiv.getElementsByClassName("tlWaiting")[0];
 
-    var visu = cytoscape({
+    return cytoscape({
       pixelRatio: 1,
       container: visuDiv.firstChild,
       layout: {name: "preset"},
     });
-
-    visu.currentOveredElements = [];
-
-    return visu;
   }
 
   // This method creates a websocket and paramatrize it.
@@ -930,6 +926,12 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  // I manage the events I receive from Cytoscape to send to Telescope.
+  // I implement some mecanism to make the management of the events better for the user.
+  // First, I implement a mecanisme to avoid to double fire an event.
+  // Second, I implement an mecanisme to workaround a bug where cytoscape do not send a mouse out event sometimes. 
+  // To do that, I keep the current mouseover event and when I mouseover another element, I send an emulated mouseout event for this saved event to the websocket if there was no mouseout event received before.
+  // This allows TelescopeCytoscape to not accumulate mouse over interactions when we do not receive a mouse out event. 
   function createEventFunction(visuWithId) {
     return function (evt) {
       clearOverInteraction();
@@ -942,15 +944,20 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
             visuWithId.protectDoubleFire[evt.type] =false;
           }, self.reactTime*4);
           
-          if(evt.type == "mouseout"){
-            visu.currentOveredElements = visu.currentOveredElements.filter(mouseOverEvent => mouseOverEvent.target.id() != evt.target.id());
+          // If we have a mouseout event and a previously saved mouseover event, we remove the saved event.
+          if((evt.type == "mouseout") && visu.currentOveredElement != null && visu.currentOveredElement.target.id() == evt.target.id()){
+            visu.currentOveredElement = null;
           }
 
+          // If we receive a mouseover event, we discard the potentially saved mouseover event for which we did not received a mouseout event from cytoscape. Then save the new mouseover event.
           if(evt.type == "mouseover"){
-            visu.currentOveredElements.forEach(mouseOverEvent => sendCommand([{id: visuWithId.visuId, drawableId: mouseOverEvent.target.id(), command: "interaction", kind: (eventsWithInteractions["mouseout"])}]));
-            visu.currentOveredElements = [ ];
-            visu.currentOveredElements.push(evt);
+            if(visu.currentOveredElement != null) {
+              sendCommand([{id: visuWithId.visuId, drawableId: visu.currentOveredElement.target.id(), command: "interaction", kind: (eventsWithInteractions["mouseout"])}]);
+              visu.currentOveredElement = null;
+            }
+            visu.currentOveredElement = evt;
           }
+
           sendCommand([{id: visuWithId.visuId, drawableId: evt.target.id(), command: "interaction", kind: (eventsWithInteractions[evt.type])}]);
           // menu management
           if (evt.type == "cxttap" && evt.target["menu"]) {

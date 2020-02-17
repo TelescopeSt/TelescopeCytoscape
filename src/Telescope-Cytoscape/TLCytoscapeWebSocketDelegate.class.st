@@ -233,8 +233,7 @@ TLCytoscapeWebSocketDelegate >> messageOnError [
 TLCytoscapeWebSocketDelegate >> onMessageReceived: message webSocket: aWebSocket [
 	"On message received, we transform the Json string to dictionary; then create clients commands and execute those"
 
-	| visusToUpdate |
-	visusToUpdate := Set new.	"Execute clients commands on server"
+	"Execute clients commands on server"
 	(NeoJSONReader fromString: message)
 		do: [ :aCommandDictionary | 
 			"register the visu"

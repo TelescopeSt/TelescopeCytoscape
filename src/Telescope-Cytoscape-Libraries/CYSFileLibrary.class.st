@@ -550,11 +550,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   var wsProtocol;
   var websocket;
   var timeoutId; //use to delais interaction
-  var toNotifyMessage={};
+  var toNotifyMessage = {};
   var self = {};
-  var tryReconnect=true;
-  //time in ms before an event like mouse over.
-  self.reactTime=150;
+  var tryReconnect = true;
+  var id = 0; // Id use to manage stylesheets
+  self.reactTime=150; //time in ms before an event like mouse over.
 
   // We save the list of visus and this method allow to get the right visu for an id.
   function visuWithId(aVisuId) {
@@ -581,7 +581,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       for (var i = 0; i < visuDivs.length; i++) {
         visus.push({visuId: visuDivs[i].getAttribute("id"), visu: createVisu(visuDivs[i])});
       }
-      wsPort= visuDivs[0].dataset.port || wsPort;
+      wsPort = visuDivs[0].dataset.port || wsPort;
 
       parametrizeWebsocket(visus);
 
@@ -688,31 +688,33 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   // I create a bunch of visual elements from the parameters of the command I receive and add them to the visualization as parameter.
   commandsAction.add = function (command, visu) {
 
-    // Since v3.3.0 of cytoscape, it is not possible anymore to create a node with a style bypass in the parameters.
-    // To do a quick fix I will remove those styles from the parameters but keep them in a map. Once the nodes are created, we can update the styles of the nodes.
-    // In the future we might manage style in another way. Cytoscape has a system of stylesheet. We should probably use this.
-    var styles = new Map();
-
+    // Since v3.3.0 of cytoscape, it is not possible anymore to create a node with a style in the parameters.
+    // Here we create one stylesheet for each element and my add the related class to objet to create. 
+    // Performance wise, it is betten than creating the nodes then applying a style bypass to each of them.
+    // Maybe in the future we can do better but it would mean a good refactoring of the connector.
+    // We would need to group the nodes to add and update by stylesheet. This mean that the multiple add command would no longer be a simple composite and actions should keep state to keep the list of stylesheets.
+    var elementClass;
     command.parameters.forEach(parameter => {
-      styles.set(parameter.data.id, parameter.style);
+      elementClass = "element" + id;
+      id++;
+      visu.style().selector("." + elementClass).css(parameter.style);
       parameter.style = null;
+      parameter.classes = [elementClass];
     })
     
     elements = visu.add(command.parameters);
     for (var elementId = 0; elementId < elements.length; elementId++) {
-      var element = elements[elementId];
-      element.style(styles.get(element.id()));
-      customizeElement(element, command.parameters[elementId]);
+      customizeElement(elements[elementId], command.parameters[elementId]);
     }
   };
 
 
   //just register visu to remove cursor progress
-  commandsAction.acknoledgeReceipt= toBacthCommand;
-  commandsActionBatch.acknoledgeReceipt= function(){};
+  commandsAction.acknoledgeReceipt = toBacthCommand;
+  commandsActionBatch.acknoledgeReceipt = function(){};
 
   commandsAction.remove = toBacthCommand;
-  commandsActionBatch.remove=function(command,visu){
+  commandsActionBatch.remove = function(command,visu){
     visu.remove(visu.getElementById(command.nodeId));
   };
 
@@ -721,7 +723,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   };
 
   commandsAction.customize = toBacthCommand;
-  commandsActionBatch.customize=function(command,visu){
+  commandsActionBatch.customize = function(command,visu){
     var element = visu.getElementById(command.elementId);
     element.style(command.style);
     element.mouseOverInteraction = command.mouseOverInteraction;
@@ -1062,7 +1064,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
-
   function removeMessageEnd(callback, id, optArrToAdd){
     if(id !=null){
        if(toNotifyMessage[id] ==null)
@@ -1088,11 +1089,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     if ( !( "Notification" in window ) ) {
       disableUserNotification();
     } else if ( Notification.permission === "granted" ) {
-       notify=showNotification;
+       notify = showNotification;
     } else if ( Notification.permission !== "denied" ) {
       Notification.requestPermission( function ( permission ) {
         if ( permission === "granted" ) {
-           notify=showNotification;
+           notify = showNotification;
         } else {
           disableUserNotification();
         }

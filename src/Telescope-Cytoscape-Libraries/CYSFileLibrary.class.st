@@ -953,16 +953,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       clearOverInteraction();
       var visu = visuWithId.visu;
       if(evt.target.id != null &&  !visuWithId.protectDoubleFire[evt.type] && (!visu.animated() || (evt.type == "mouseout")) ){
-        // Sometimes cytoscape fail to send a mouseout event. This can cause multiple tooltip to stay visible when they should not.
-        // In order to improve the usability of Telescope, when we go over of any element, we also hide the other tooltips that are visible and that should show on a mouse over. 
-        if(evt.type == "mouseover"){
-          visu.elements().each(function(element){
-            var qtipAPI = element.qtip(''api'');
-            if(element != evt.target && qtipAPI.tooltip && qtipAPI.tooltip.is(":visible") && qtipAPI.options.show.event == "mouseover" ) {
-              qtipAPI.hide();
-            }
-          })
-        }
 
         // Server interaction processing
         if (!((!evt.target["mouseOverInteraction"]) && ((evt.type == "mouseover") || (evt.type == "mouseout")))) {
@@ -976,8 +966,17 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
             visu.currentOveredElement = null;
           }
 
-          // If we receive a mouseover event, we discard the potentially saved mouseover event for which we did not received a mouseout event from cytoscape. Then save the new mouseover event.
+          // If we receive a mouseover event, we discard the potentially tooltips and saved mouseover event for which we did not received a mouseout event from cytoscape. Then save the new mouseover event.
           if(evt.type == "mouseover"){
+
+          // When we go over of any element, we also hide the other tooltips that are visible and that should show on a mouse over. 
+            visu.elements().each(function(element){
+              var qtipAPI = element.qtip(''api'');
+              if(element != evt.target && qtipAPI.tooltip && qtipAPI.tooltip.is(":visible") && qtipAPI.options.show.event == "mouseover" ) {
+                qtipAPI.hide();
+              }
+            })
+
             if(visu.currentOveredElement != null) {
               sendCommand([{id: visuWithId.visuId, drawableId: visu.currentOveredElement.target.id(), command: "interaction", kind: (eventsWithInteractions["mouseout"])}]);
               visu.currentOveredElement = null;

@@ -543,7 +543,7 @@ SOFTWARE.
 '
 ]
 
-{ #category : #uploaded }
+{ #category : #libs }
 CYSFileLibrary >> cytoscapeTelescopeJs [
 	^ 'var telescope = (function () {
   var wsPort = "1701";// default
@@ -864,15 +864,23 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     function addStaticLegendEntry(visuId, html) {
         var div = document.getElementById(visuId + "legend");
         if (!div) {
-            div = $("<div>", {id: visuId + "legend", class: "tlLegend"})
-                .html("<span style=\"font-weight:bold;\">Legend</span><img data-fold style=\"float: right; cursor: pointer;\" src=\"/files/CYSFileLibrary/arrowUp.png\" onclick=\"telescope.toggleLegend(this);\"><table></table>")[0];
-            document.getElementById(visuId).appendChild(div);
+          var legendInfoId = "legend" + id;
+          id++;
+          div = $("<div>", {id: visuId + "legend", class: "tlLegend"})
+              .html("<span style=\"font-weight:bold;\">Legend</span> <div style=\"float: right; margin-left: 15px;\"><span id=\"" + legendInfoId + "\" style=\"cursor: help; margin-right: 5px;\">�</span><div style=\"display: none\"><strong>Box selection</strong><hr>It is possible to move multiple nodes at a time in the visualization by maintaining the SHIFT key (or three finger swipe on tablet) while doing a box selection. You can then move the selected node in group. You can cancel the selection by clicking somewhere in the visualization.</div><img data-fold style=\"cursor: pointer;\" src=\"/files/CYSFileLibrary/arrowUp.png\" onclick=\"telescope.toggleLegend(this);\"></div><table></table>")[0];
+          document.getElementById(visuId).appendChild(div);
+          $(''#'' + legendInfoId).qtip({
+            content: {
+              text: $(''#'' + legendInfoId).next()
+            }
+          });
         }
+        
         div.getElementsByTagName("table")[0].insertRow(-1).innerHTML = html;
     }
 
     function toggleLegend(button) {
-        var table = $(button.parentNode.getElementsByTagName("table")[0]);
+        var table = $(button.parentNode.parentNode.getElementsByTagName("table")[0]);
         if (button.dataset.fold) {
             table.fadeIn();
             button.setAttribute("src", "/files/CYSFileLibrary/arrowUp.png");

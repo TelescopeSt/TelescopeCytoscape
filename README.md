@@ -246,6 +246,13 @@ When you install in a plain Pharo image you need to start the seaside server fir
 
 You can find a demo at: [https://demos.ferlicot.fr/TelescopeDemo](https://demos.ferlicot.fr/TelescopeDemo)
 
+
+## Latest supported Dependencies
+
+- [CytoscapeJS v3.14.0](https://github.com/cytoscape/cytoscape.js/releases/tag/v3.14.0)
+- [Cytoscape QTip v2.8.0](https://github.com/cytoscape/cytoscape.js-qtip/releases/tag/2.8.0)
+
+
 ## Smalltalk versions compatibility
 
 | TelescopeCytoscape version 	| Compatible Pharo versions 	|

@@ -16,7 +16,7 @@ Class {
 		'AnimateLayoutApplicationDuringGeneration',
 		'AnimationDuration'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #accessing }
@@ -97,15 +97,6 @@ TLVisualizationPositionNodesCommand >> animateLayoutApplicationDuringGeneration 
 
 { #category : #accessing }
 TLVisualizationPositionNodesCommand >> animationDuration [
-	self nodes ifEmpty: [ ^ 0 ].
-	
-	(self visualization hasBeenGenerated or: [ self animateLayoutApplicationDuringGeneration ]) ifFalse: [ ^ 0 ].
-	
-	^ self defaultAnimationDuration
-]
-
-{ #category : #accessing }
-TLVisualizationPositionNodesCommand >> defaultAnimationDuration [
 	^ self class animationDuration
 ]
 
@@ -130,7 +121,7 @@ TLVisualizationPositionNodesCommand >> neoJsonOn: writer [
 				writeKey: #layout
 				value:
 					{(#name -> 'preset').
-					(#animate -> true).
+					(#animate -> self shouldAnimateLayoutApplication).
 					(#animationDuration -> self animationDuration).
 					(#positions -> self allElementsPositions asDictionary)} asDictionary ]
 ]
@@ -144,6 +135,13 @@ TLVisualizationPositionNodesCommand >> nodes [
 TLVisualizationPositionNodesCommand >> nodes: anObject [
 	nodes := anObject.
 	triggers := Set new
+]
+
+{ #category : #asserting }
+TLVisualizationPositionNodesCommand >> shouldAnimateLayoutApplication [
+	self nodes ifEmpty: [ ^ false ].
+
+	^ self visualization hasBeenGenerated or: [ self animateLayoutApplicationDuringGeneration ]
 ]
 
 { #category : #accessing }

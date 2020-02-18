@@ -1,7 +1,30 @@
 <!--
-git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" v2.1.0...HEAD --grep="Merge pull"
-('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: '') copyReplaceAll: '-' with: ' '
+git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" v2.2.0...HEAD --grep="Merge pull"
+('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: ' ') copyReplaceAll: '-' with: ' '
 -->
+
+# [v2.2.0](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.1.1...v2.2.0) (2020-02-18)
+
+## New features
+
+* Explain new box selection feature of Cytoscape in the legend ([34b0fed](https://github.com/TelescopeSt/TelescopeCytoscape/commit/34b0fed7515348a42134815325d02332a6524121))
+
+## Bug fixes 
+
+It happend a lot that some mouse out events were missing and interactions where not reverted in that case. Now we try to invalidate those interactions when entering a new graphical element:
+* Improve stability of tooltip on mouse over ([fc55898](https://github.com/TelescopeSt/TelescopeCytoscape/commit/fc55898bffad042d4854e275b1824763e50825cf))
+* Better management of mouse out for most interactions ([5e5ac7a](https://github.com/TelescopeSt/TelescopeCytoscape/commit/5e5ac7a30fdee535fb72cff1c6e5a415062ffffe))
+* Fix bug causing the first rendering of labels to not have the right style ([11aa649](https://github.com/TelescopeSt/TelescopeCytoscape/commit/11aa649d71d88d1deee8711a70b636f0d4f6e4eb))
+
+## Cleanings
+
+* Improve management of first animation ([979eb4f](https://github.com/TelescopeSt/TelescopeCytoscape/commit/979eb4fc1734857fe1365081315a6f2ef3fe1c60))
+
+## Infrastructure
+
+* Update Cytoscape from v3.2.6 to v3.14.0 ([11aa649](https://github.com/TelescopeSt/TelescopeCytoscape/commit/11aa649d71d88d1deee8711a70b636f0d4f6e4eb))
+* Update Cytoscape-Qtip to v2.8.0 ([5e5ac7a](https://github.com/TelescopeSt/TelescopeCytoscape/commit/5e5ac7a30fdee535fb72cff1c6e5a415062ffffe))
+* Update CI to not allow failure for Pharo 8 + add Pharo 9 as allowed failure
 
 # [v2.1.1](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.1.0...v2.1.1) (2019-11-01)
 

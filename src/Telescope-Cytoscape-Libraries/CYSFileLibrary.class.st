@@ -543,7 +543,7 @@ SOFTWARE.
 '
 ]
 
-{ #category : #libs }
+{ #category : #uploaded }
 CYSFileLibrary >> cytoscapeTelescopeJs [
 	^ 'var telescope = (function () {
   var wsPort = "1701";// default
@@ -554,7 +554,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   var self = {};
   var tryReconnect = true;
   var id = 0; // Id use to manage stylesheets
-  self.reactTime=150; //time in ms before an event like mouse over.
+  self.reactTime = 150; //time in ms before an event like mouse over.
 
   // We save the list of visus and this method allow to get the right visu for an id.
   function visuWithId(aVisuId) {
@@ -564,13 +564,13 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
-  function getVisusDivs(htmlElement){
+  function getVisusDivs(htmlElement) {
     htmlElement= htmlElement || document;
     return htmlElement.getElementsByClassName("telescopeVisu");
   }
 
   //Return true if the page has at least one visualization
-  function pageHaveVisu(visuDivs){
+  function pageHaveVisu(visuDivs) {
     visuDivs = visuDivs || getVisusDivs();
     return visuDivs.length >0
   }
@@ -608,7 +608,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   function createVisu(visuDiv) {
     //Here we remove the second child which is the waiting display and store it for future waiting
     waitingDivByVisu[visuDiv.getAttribute("id")] = visuDiv.getElementsByClassName("tlWaiting")[0];
-
     return cytoscape({
       pixelRatio: 1,
       container: visuDiv.firstChild,
@@ -769,13 +768,13 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   handleServerError.noVisu= function(command){
     //If the waitingDivByVisu variable is not initialized it probably means that the page was refresh and the old visu was discarded. In that case just silence the error.
     if(!waitingDivByVisu=="undefined") {
-      notify("An error has occured: "+command.visuId+ " was not found.");
+      notify("An error has occured: " + command.visuId + " was not found.");
       waitingDivByVisu[command.visuId].innerHTML= "<h1>"+command.message+"</h1>";
     }
   };
 
-  handleServerError.messageOnError= function(command){
-    notify( command.message);
+  handleServerError.messageOnError = function(command){
+    notify(command.message);
   };
 
   function customizeAll(toUpdate){
@@ -798,7 +797,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     for (var i in commands) {
       command = commands[i];
       if(command.visuId){
-         needNotify[command.visuId]=true;
+         needNotify[command.visuId] = true;
       }
       visu = visuWithId(command.visuId);
       if (commandsAction[command.command]) {
@@ -954,7 +953,18 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       clearOverInteraction();
       var visu = visuWithId.visu;
       if(evt.target.id != null &&  !visuWithId.protectDoubleFire[evt.type] && (!visu.animated() || (evt.type == "mouseout")) ){
-        // server interaction processing
+        // Sometimes cytoscape fail to send a mouseout event. This can cause multiple tooltip to stay visible when they should not.
+        // In order to improve the usability of Telescope, when we go over of any element, we also hide the other tooltips that are visible and that should show on a mouse over. 
+        if(evt.type == "mouseover"){
+          visu.elements().each(function(element){
+            var qtipAPI = element.qtip(''api'');
+            if(element != evt.target && qtipAPI && qtipAPI.tooltip && qtipAPI.tooltip.is(":visible") && qtipAPI.options.show.event == "mouseover" ) {
+              qtipAPI.hide();
+            }
+          })
+        }
+
+        // Server interaction processing
         if (!((!evt.target["mouseOverInteraction"]) && ((evt.type == "mouseover") || (evt.type == "mouseout")))) {
           visuWithId.protectDoubleFire[evt.type] =true;
           setTimeout(function() {

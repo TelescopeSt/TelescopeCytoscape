@@ -543,7 +543,7 @@ SOFTWARE.
 '
 ]
 
-{ #category : #libs }
+{ #category : #uploaded }
 CYSFileLibrary >> cytoscapeTelescopeJs [
 	^ 'var telescope = (function () {
   var wsPort = "1701";// default
@@ -958,7 +958,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         if(evt.type == "mouseover"){
           visu.elements().each(function(element){
             var qtipAPI = element.qtip(''api'');
-            if(element != evt.target && qtipAPI.tooltip && qtipAPI.tooltip.is(":visible") && qtipAPI.options.show.event == "mouseover" ) {
+            if(element != evt.target && qtipAPI && qtipAPI.tooltip && qtipAPI.tooltip.is(":visible") && qtipAPI.options.show.event == "mouseover" ) {
               qtipAPI.hide();
             }
           })

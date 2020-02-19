@@ -18,13 +18,14 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				neoJSON: spec;
 				seaside3: spec;
 				webSocket: spec;
-				telescope: spec.
+				telescope: spec;
+				pragmaCompatibility: spec.
 
 			"Packages"
 			spec
 				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
 				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'ZincHTTPComponents' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
-				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape') ];
+				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape' 'PragmaCompatibility') ];
 				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].
 
 			"Groups"
@@ -39,6 +40,15 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 { #category : #dependencies }
 BaselineOfTelescopeCytoscape >> neoJSON: spec [
 	spec baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON/repository' ]
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfTelescopeCytoscape >> pragmaCompatibility: spec [
+	spec
+		baseline: 'PragmaCompatibility'
+		with: [ spec
+				loads: 'Core';
+				repository: 'github://jecisc/PragmaCompatibility:v1.x.x/src' ]
 ]
 
 { #category : #accessing }

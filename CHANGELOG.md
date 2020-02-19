@@ -1,7 +1,13 @@
 <!--
-git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" v2.2.0...HEAD --grep="Merge pull"
+git log --pretty="*%s ([%h](https://github.com/TelescopeSt/TelescopeCytoscape/commit/%H))" v2.2.1...HEAD --grep="Merge pull"
 ('Content' copyWithRegex: 'Merge pull request #[0-9]+ from [^/]+/[0-9]*' matchesReplacedWith: ' ') copyReplaceAll: '-' with: ' '
 -->
+
+# [v2.2.1](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.2.0...v2.2.1) (2020-02-19)
+
+## Bug fixes
+
+*  Demo is broken because of API missmatch between Pharo 61 and 7 ([f1572e4](https://github.com/TelescopeSt/TelescopeCytoscape/commit/f1572e488df2110d8742c890acabe4552b0b4a0a))
 
 # [v2.2.0](https://github.com/TelescopeSt/TelescopeCytoscape/compare/v2.1.1...v2.2.0) (2020-02-18)
 

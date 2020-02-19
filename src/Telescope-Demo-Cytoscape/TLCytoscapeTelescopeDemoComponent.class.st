@@ -29,7 +29,7 @@ TLCytoscapeTelescopeDemoComponent class >> initialize [
 
 { #category : #versions }
 TLCytoscapeTelescopeDemoComponent class >> version [
-	^ 'v2.2.0'
+	^ 'v2.2.1'
 ]
 
 { #category : #accessing }

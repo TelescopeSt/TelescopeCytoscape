@@ -29,7 +29,7 @@ TLCytoscapeTelescopeDemoComponent class >> initialize [
 
 { #category : #versions }
 TLCytoscapeTelescopeDemoComponent class >> version [
-	^ 'v2.2.0'
+	^ 'v2.2.1'
 ]
 
 { #category : #accessing }
@@ -98,7 +98,7 @@ TLCytoscapeTelescopeDemoComponent >> filteredMethods [
 	^ (self filters
 		inject: Set new
 		into: [ :res :filterClass | 
-			res addAll: ((PragmaCollector new filter: [ :prg | prg selector = 'tlFilter:' and: [ (prg argumentAt: 1) = filterClass filterSymbol ] ]) reset collect: #method).
+			res addAll: ((PragmaCollector new filter: [ :prg | prg pragmaSelector = 'tlFilter:' and: [ (prg argumentAt: 1) = filterClass filterSymbol ] ]) reset collect: #method).
 			res ]) sorted: [ :a :b | a selector < b selector ]
 ]
 

@@ -12,6 +12,7 @@ TLVisualizationCommandTest >> testTLVisualizationAddEdgeCommand [
 		fromNodeId: 'sourceNode';
 		toNodeId: 'targetNode';
 		mouseOverInteraction: true;
+		menu: {  };
 		yourself.
 	json := NeoJSONWriter toString: command.
 	#('"mouseOverInteraction":true' '"data":{' '"target":"targetNode"' '"id":"5"' '"source":"sourceNode"' '"group":"edges"') do: [ :jsonPart | self assert: (json includesSubstring: jsonPart) ]

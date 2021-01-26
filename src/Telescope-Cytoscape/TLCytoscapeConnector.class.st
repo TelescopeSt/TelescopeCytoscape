@@ -104,8 +104,7 @@ TLCytoscapeConnector >> createElementConnection: aTLConnection From: fromNode to
 	
 	self addCommand:  (TLVisualizationAddEdgeCommand new
 		edgeId: edgeId;
-		mouseOverInteraction: (aTLConnection allInteractions anySatisfy: #isMouseOver);
-				
+		customizeFromInteractions: aTLConnection allInteractions forEdge: aTLConnection;
 		fromNodeId: (self elementFromTLDrawable: fromNode) nodeId;
 		toNodeId: (self elementFromTLDrawable: toNode) nodeId;
 		style: (aTLConnection effectiveStyleSheet cytoscapeConnectionStyleFor: aTLConnection) ;

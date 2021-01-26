@@ -9,14 +9,25 @@ Class {
 		'fromNodeId',
 		'toNodeId',
 		'style',
-		'mouseOverInteraction'
+		'mouseOverInteraction',
+		'menu'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #command }
 TLVisualizationAddEdgeCommand class >> command [
 	^ #add
+]
+
+{ #category : #initialization }
+TLVisualizationAddEdgeCommand >> customizeFromInteractions: aCollectionOfInteractions forEdge: aTLEdge [
+	self mouseOverInteraction: (aCollectionOfInteractions anySatisfy: [ :interaction | interaction shouldOccursOn: 'mouseOver' with: aTLEdge ]).
+	self
+		menu:
+			(aCollectionOfInteractions
+				select: [ :interaction | interaction shouldOccursOn: #menu with: aTLEdge ]
+				thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aTLEdge ])
 ]
 
 { #category : #accessing }
@@ -45,6 +56,16 @@ TLVisualizationAddEdgeCommand >> isAddingCommand [
 ]
 
 { #category : #accessing }
+TLVisualizationAddEdgeCommand >> menu [
+	^ menu
+]
+
+{ #category : #accessing }
+TLVisualizationAddEdgeCommand >> menu: anObject [
+	menu := anObject
+]
+
+{ #category : #accessing }
 TLVisualizationAddEdgeCommand >> mouseOverInteraction [
 	^ mouseOverInteraction
 ]
@@ -66,7 +87,8 @@ TLVisualizationAddEdgeCommand >> neoJsonOn: writer [
 					(#source -> self fromNodeId).
 					(#target -> self toNodeId)} asDictionary.
 			jsonMapWriter writeKey: #mouseOverInteraction value: self mouseOverInteraction.
-			jsonMapWriter writeKey: #style value: self style ]
+			jsonMapWriter writeKey: #style value: self style.
+			self menu ifNotEmpty: [ :m | jsonMapWriter writeKey: #menu value: m ] ] 
 ]
 
 { #category : #accessing }

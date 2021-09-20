@@ -19,6 +19,7 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				seaside3: spec;
 				webSocket: spec;
 				telescope: spec;
+				gitBridge: spec;
 				pragmaCompatibility: spec.
 
 			"Packages"
@@ -35,6 +36,13 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				group: 'default' with: #('core' 'tests' 'demo');
 				group: 'demo' with: #('Telescope-Demo-Cytoscape');
 				group: 'tests' with: #('Telescope-Cytoscape-Tests') ]
+]
+
+{ #category : #baselines }
+BaselineOfTelescopeCytoscape >> gitBridge: spec [
+	spec
+    	baseline: 'GitBridge'
+    	with: [ spec repository: 'github://jecisc/GitBridge:v1.x.x/src' ]
 ]
 
 { #category : #dependencies }

@@ -680,6 +680,50 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       return false;
   }
 
+
+  displayMenuForElement(element, visuId, position) {
+    const menu = [];
+    function fun(name, evt) {
+      sendCommand([
+        {"id": visuId,
+          "drawableId": element.id(),
+          "command": "menuInteraction",
+          "kind": "menu",
+          "entry": ($(evt.target).index() + 1)
+        }]);
+    };
+
+    function subFun(name, evt) {
+      const selected = evt.currentTarget;
+      sendCommand([
+        {"id": visuId,
+          "drawableId": element.id(),
+          "command": "multiMenuInteraction",
+          "kind": "menu",
+          "entry": ($(selected.parentNode.parentNode).index() + 1),
+          "selection": ($(selected).index() + 1)
+        }]);
+    };
+
+    for (let i = 0; i < element.menu.length; i++) {
+      const entry = {name: element.menu[i].title, title: element.menu[i].title};
+
+      if (element.menu[i].subMenu) {
+        entry["subMenu"] = [];
+        for (let j = 0; j < element.menu[i].subMenu.length; j++) {
+          const subMenuTitle = element.menu[i].subMenu[j];
+          entry["subMenu"].push({name: subMenuTitle, title: subMenuTitle, fun: subFun});
+        }
+      } else {
+        entry["fun"] = fun;
+      }
+      menu.push(entry);
+    }
+    $("#" + visuId).contextMenu(menu);
+    //Should remove old menu
+    setTimeout(e=> { $("#" + visuId).contextMenu("open", {top: position.y, left: position.x}) }, 70) ;
+  }
+
   // I manage the events I receive from Cytoscape to send to Telescope.
   // I implement some mecanism to make the management of the events better for the user.
   // First, I implement a mecanisme to avoid to double fire an event.

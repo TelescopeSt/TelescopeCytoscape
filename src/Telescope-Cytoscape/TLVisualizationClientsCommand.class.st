@@ -22,7 +22,6 @@ TLVisualizationClientsCommand class >> createFrom: aJsonDictionary [
 TLVisualizationClientsCommand class >> newWithParameters: aParametersDictionary [
 	^ self new
 		visuId: (aParametersDictionary at: #id);
-		commandId: (aParametersDictionary at: #commandId);
 		yourself
 ]
 

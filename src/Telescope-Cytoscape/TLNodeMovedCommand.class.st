@@ -8,13 +8,12 @@ Class {
 		'nodeId',
 		'nodePosition'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #'instance creation' }
 TLNodeMovedCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
+	^ (super newWithParameters: aParametersDictionary)
 		nodeId: (aParametersDictionary at: #nodeId);
 		nodePosition: ((aParametersDictionary at: #position) at: #x) @ ((aParametersDictionary at: #position) at: #y);
 		yourself

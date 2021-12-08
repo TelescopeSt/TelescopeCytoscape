@@ -8,13 +8,12 @@ Class {
 		'drawableId',
 		'kind'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #'instance creation' }
 TLInteractionCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
+	^ (super newWithParameters: aParametersDictionary)
 		drawableId: (aParametersDictionary at: #drawableId);
 		kind: (aParametersDictionary at: #kind);
 		yourself

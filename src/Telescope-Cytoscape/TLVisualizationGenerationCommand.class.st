@@ -4,15 +4,8 @@ I am the command sent by the client after the opening of the connection to ask f
 Class {
 	#name : #TLVisualizationGenerationCommand,
 	#superclass : #TLVisualizationClientsCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
-
-{ #category : #'instance creation' }
-TLVisualizationGenerationCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
-		yourself
-]
 
 { #category : #execution }
 TLVisualizationGenerationCommand >> executeOnVisu: aTLVisualization [ 

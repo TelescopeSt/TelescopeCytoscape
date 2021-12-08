@@ -8,13 +8,12 @@ Class {
 		'droppedNodeId',
 		'targetNodeId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #'instance creation' }
 TLDropNodeCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
+	^ (super newWithParameters: aParametersDictionary)
 		droppedNodeId: (aParametersDictionary at: #nodeId);
 		targetNodeId: (aParametersDictionary at: #targetNode);
 		yourself

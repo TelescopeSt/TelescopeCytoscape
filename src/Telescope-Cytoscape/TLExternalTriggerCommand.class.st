@@ -4,13 +4,12 @@ Class {
 	#instVars : [
 		'triggerId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #'instance creation' }
 TLExternalTriggerCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
+	^ (super newWithParameters: aParametersDictionary)
 		triggerId: (aParametersDictionary at: #triggerId);
 		yourself
 ]

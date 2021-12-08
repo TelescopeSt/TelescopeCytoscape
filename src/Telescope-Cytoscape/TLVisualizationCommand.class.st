@@ -5,14 +5,25 @@ Class {
 	#name : #TLVisualizationCommand,
 	#superclass : #Object,
 	#instVars : [
-		'visuId'
+		'visuId',
+		'commandId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #command }
 TLVisualizationCommand class >> command [
 	self subclassResponsibility .
+]
+
+{ #category : #accessing }
+TLVisualizationCommand >> commandId [
+	^ commandId
+]
+
+{ #category : #accessing }
+TLVisualizationCommand >> commandId: anObject [
+	commandId := anObject
 ]
 
 { #category : #json }

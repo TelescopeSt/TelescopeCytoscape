@@ -4,7 +4,7 @@ I am the abstract superclass for all commands sent by the client
 Class {
 	#name : #TLVisualizationClientsCommand,
 	#superclass : #TLVisualizationCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #'instance creation' }
@@ -19,8 +19,11 @@ TLVisualizationClientsCommand class >> createFrom: aJsonDictionary [
 ]
 
 { #category : #'instance creation' }
-TLVisualizationClientsCommand class >> newWithParameters: aCollection [
-	^ self subclassResponsibility
+TLVisualizationClientsCommand class >> newWithParameters: aParametersDictionary [
+	^ self new
+		visuId: (aParametersDictionary at: #id);
+		commandId: (aParametersDictionary at: #commandId);
+		yourself
 ]
 
 { #category : #execution }

@@ -688,7 +688,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   parametrizeInteractionsListenerForVisu(visuWithId) {
     visuWithId.protectDoubleFire = {}
-    visuWithId.nextCommandId = 0
     visuWithId.visu.waitingForCommand = new Map();
     const evtFunction = this.createEventFunction(visuWithId)
     const evtFunctionWithDelais = this.delaisEvtFunction(evtFunction)
@@ -728,6 +727,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
 
   displayMenuForElement(element, visuId, position) {
+    const that = this;
     const menu = [];
     function fun(name, evt) {
       that.sendCommand([
@@ -874,12 +874,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   sendCommand(jsonArr, progress, port) {
     if (progress !== false) // strict equality to accept null as true value for progress
-      for (var i = 0; i < jsonArr.length; i++) {
+      for (let i = 0; i < jsonArr.length; i++) {
         let visuWithId = this.visuWithId(jsonArr[i].id)
-        visuWithId.waitingForCommand.set(visuWithId.nextCommandId ++, true )
+        visuWithId.waitingForCommand.set(jsonArr[i].command, true )
         let container = visuWithId.container()
         container.classList.add("fetching")
-        container.classList.remove("no-result")
       }
     TLJS.getWebSocket(port).send(JSON.stringify(jsonArr))
   }
@@ -905,6 +904,11 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     commands.forEach(command => {
       if (command.visuId) {
         needNotify[command.visuId] = true
+        let visuWithId = this.visuWithId(command.visuId)
+        visuWithId.waitingForCommand.set(command.command, false )
+        let container = visuWithId.container()
+        container.classList.remove("fetching")
+
       }
       const visu = this.visuWithId(command.visuId)
       if (this.commandsAction.has(command.command)) {

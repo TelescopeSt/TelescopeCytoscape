@@ -610,6 +610,18 @@ TLCytoscapeConnector >> sendAcknowledgeReceiptFor: aTLDrawable [
 	aTLDrawable visualization ifNotNil:[aTLDrawable visualization update] ifNil:["probably a missclic on a deleted link/node by previous interaction but the clic is possible when lag in interface or network "]
 ]
 
+{ #category : #'as yet unclassified' }
+TLCytoscapeConnector >> sendEndCommand [
+	self shouldBeImplemented.
+]
+
+{ #category : #'as yet unclassified' }
+TLCytoscapeConnector >> sendEndCommandFor: aCommandName [
+	self addCommand: (TLEndCommand commandId: aCommandName).
+	self halt.
+	self removeAllCommands
+]
+
 { #category : #accessing }
 TLCytoscapeConnector >> tlDrawableFromId: anId [
 	^ self drawablesById at: anId

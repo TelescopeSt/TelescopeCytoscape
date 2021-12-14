@@ -30,8 +30,8 @@ TLDropNodeCommand >> droppedNodeId: anObject [
 ]
 
 { #category : #execution }
-TLDropNodeCommand >> executeOnVisu: aVisualization [
-	aVisualization generator executeDropInteraction: self droppedNodeId onDrawableId: self targetNodeId
+TLDropNodeCommand >> executeOnVisu: aTLVisualization [
+	aTLVisualization generator executeDropInteraction: self droppedNodeId onDrawableId: self targetNodeId
 ]
 
 { #category : #accessing }

@@ -16,7 +16,7 @@ TLExternalTriggerCommand class >> newWithParameters: aParametersDictionary [
 
 { #category : #execution }
 TLExternalTriggerCommand >> executeOnVisu: aTLVisualization [
-	aTLVisualization generator executeExternalTrigger: self triggerId .
+	aTLVisualization generator executeExternalTrigger: self triggerId
 ]
 
 { #category : #accessing }

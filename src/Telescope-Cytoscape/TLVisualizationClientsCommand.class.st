@@ -27,5 +27,5 @@ TLVisualizationClientsCommand class >> newWithParameters: aParametersDictionary 
 
 { #category : #execution }
 TLVisualizationClientsCommand >> executeOnVisu: aTLVisualization [
-	self subclassResponsibility
+	self subclassResponsibility 
 ]

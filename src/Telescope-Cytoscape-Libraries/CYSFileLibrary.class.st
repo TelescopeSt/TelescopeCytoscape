@@ -659,12 +659,14 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   constructor() {
     this.visus = new WeakMap()
     this.commandsAction = new Map()
+    this.handleServerError = {}
     this.visusWaitingConnectToGenerate = []
     this.waitingDivByVisu = {}
     this.toNotifyMessage = {}
     this.id = 0
-    this.timeoutId=null
+    this.timeoutId = null
     this.setUpCommand()
+    this.setUpErrorHandler()
   }
 
   initVisus(htmlElement) {
@@ -688,7 +690,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   parametrizeInteractionsListenerForVisu(visuWithId) {
     visuWithId.protectDoubleFire = {}
-    visuWithId.visu.waitingForCommand = new Map();
+    visuWithId.visu.waitingForCommand = new Map()
     const evtFunction = this.createEventFunction(visuWithId)
     const evtFunctionWithDelais = this.delaisEvtFunction(evtFunction)
     visuWithId.visu.on("tap mouseout cxttap", evtFunction)
@@ -701,73 +703,88 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     return function (evt) {
       //We only send a moveNode command if it is not considered as a drop
       if (!that.isDropActionOnANode(visuWithId, evt.cy.elements(), this.renderedPosition(), evt.target))
-        that.sendCommand([{id: visuWithId.visuId, nodeId: evt.target.id(), command: "moveNode", position: evt.target.position()}], false);
+        that.sendCommand([{
+          id: visuWithId.visuId,
+          nodeId: evt.target.id(),
+          command: "moveNode",
+          position: evt.target.position()
+        }], false)
     }
   }
 
   isDropActionOnANode(visuWithId, candidates, pos, droppedNode) {
-    var target;
+    var target
 
     for (let i = 0; i < candidates.length; i++) {
-      var node = candidates[i];
-      var bound = node.renderedBoundingBox();
+      var node = candidates[i]
+      var bound = node.renderedBoundingBox()
       if (node != droppedNode && bound.x1 < pos.x && bound.x2 > pos.x && bound.y1 < pos.y && bound.y2 > pos.y) {
         //here we found a node correctly positionned and *WARNING* we keep the last one so with the closest zIndex
-        target = node;
+        target = node
       }
     }
 
     // if we found a target and this one has a drop interaction then we request the server
     if (target && target.dropInteraction) {
-      this.sendCommand([{id: visuWithId.visuId, nodeId: droppedNode.id(), command: "dropNode", targetNode: target.id()}]);
-      return true;
+      this.sendCommand([{
+        id: visuWithId.visuId,
+        nodeId: droppedNode.id(),
+        command: "dropNode",
+        targetNode: target.id()
+      }])
+      return true
     } else
-      return false;
+      return false
   }
 
 
   displayMenuForElement(element, visuId, position) {
-    const that = this;
-    const menu = [];
+    const that = this
+    const menu = []
+
     function fun(name, evt) {
       that.sendCommand([
-        {"id": visuId,
+        {
+          "id": visuId,
           "drawableId": element.id(),
           "command": "menuInteraction",
           "kind": "menu",
           "entry": ($(evt.target).index() + 1)
-        }]);
-    };
+        }])
+    }
 
     function subFun(name, evt) {
-      const selected = evt.currentTarget;
+      const selected = evt.currentTarget
       that.sendCommand([
-        {"id": visuId,
+        {
+          "id": visuId,
           "drawableId": element.id(),
           "command": "multiMenuInteraction",
           "kind": "menu",
           "entry": ($(selected.parentNode.parentNode).index() + 1),
           "selection": ($(selected).index() + 1)
-        }]);
-    };
+        }])
+    }
 
     for (let i = 0; i < element.menu.length; i++) {
-      const entry = {name: element.menu[i].title, title: element.menu[i].title};
+      const entry = {name: element.menu[i].title, title: element.menu[i].title}
 
       if (element.menu[i].subMenu) {
-        entry["subMenu"] = [];
+        entry["subMenu"] = []
         for (let j = 0; j < element.menu[i].subMenu.length; j++) {
-          const subMenuTitle = element.menu[i].subMenu[j];
-          entry["subMenu"].push({name: subMenuTitle, title: subMenuTitle, fun: subFun});
+          const subMenuTitle = element.menu[i].subMenu[j]
+          entry["subMenu"].push({name: subMenuTitle, title: subMenuTitle, fun: subFun})
         }
       } else {
-        entry["fun"] = fun;
+        entry["fun"] = fun
       }
-      menu.push(entry);
+      menu.push(entry)
     }
-    $("#" + visuId).contextMenu(menu);
+    $("#" + visuId).contextMenu(menu)
     //Should remove old menu
-    setTimeout(e=> { $("#" + visuId).contextMenu("open", {top: position.y, left: position.x}) }, 70) ;
+    setTimeout(e => {
+      $("#" + visuId).contextMenu("open", {top: position.y, left: position.x})
+    }, 70)
   }
 
   // I manage the events I receive from Cytoscape to send to Telescope.
@@ -841,18 +858,18 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   delaisEvtFunction(evtFunction) {
     const that = this
     return function (evt) {
-      that.clearOverInteraction();
-      that.timeoutId = setTimeout(function() {
-        evt.target.onmouseover= null;
-        evtFunction(evt);
-      }, self.reactTime);
+      that.clearOverInteraction()
+      that.timeoutId = setTimeout(function () {
+        evt.target.onmouseover = null
+        evtFunction(evt)
+      }, self.reactTime)
     }
   }
 
-  clearOverInteraction(){
-    if(this.timeoutId!=null){
-      clearTimeout(this.timeoutId);
-      this.timeoutId=null;
+  clearOverInteraction() {
+    if (this.timeoutId != null) {
+      clearTimeout(this.timeoutId)
+      this.timeoutId = null
     }
   }
 
@@ -867,16 +884,24 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         }
         return acc
       }, [])
-      websocket.send(JSON.stringify(messages))
+      this.sendCommand(messages, true, port)
       this.visusWaitingConnectToGenerate = []
     }
   }
 
+  generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2)
+  }
+
   sendCommand(jsonArr, progress, port) {
+    for (let i = 0; i < jsonArr.length; i++) {
+      let uniqueId = this.generateUniqueId()
+      jsonArr[i].commanduid = uniqueId
+    }
     if (progress !== false) // strict equality to accept null as true value for progress
       for (let i = 0; i < jsonArr.length; i++) {
         let visuWithId = this.visuWithId(jsonArr[i].id)
-        visuWithId.waitingForCommand.set(jsonArr[i].command, true )
+        visuWithId.waitingForCommand.set(jsonArr[i].commanduid, true)
         let container = visuWithId.container()
         container.classList.add("fetching")
       }
@@ -904,11 +929,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     commands.forEach(command => {
       if (command.visuId) {
         needNotify[command.visuId] = true
-        let visuWithId = this.visuWithId(command.visuId)
-        visuWithId.waitingForCommand.set(command.command, false )
-        let container = visuWithId.container()
-        container.classList.remove("fetching")
-
       }
       const visu = this.visuWithId(command.visuId)
       if (this.commandsAction.has(command.command)) {
@@ -1010,6 +1030,21 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     div.getElementsByTagName("table")[0].insertRow(-1).innerHTML = html
   }
 
+
+  setUpErrorHandler() {
+    this.handleServerError.noVisu = function (command) {
+      //If the waitingDivByVisu variable is not initialized it probably means that the page was refresh and the old visu was discarded. In that case just silence the error.
+      if (!this.waitingDivByVisu == "undefined") {
+        notify("An error has occured: " + command.visuId + " was not found.")
+        this.waitingDivByVisu[command.visuId].innerHTML = "<h1>" + command.message + "</h1>"
+      }
+    }
+
+    this.handleServerError.messageOnError = function (command) {
+      notify(command.message)
+    }
+  }
+
   setUpCommand() {
     this.commandsAction.set("add", (command, visu) => {
       // Since v3.3.0 of cytoscape, it is not possible anymore to create a node with a style in the parameters.
@@ -1080,9 +1115,15 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       this.removeWaitingForVisuId(command.visuId)
     })
 
+    this.commandsAction.set("endCommand", (command, visuWithId) => {
+      visuWithId.waitingForCommand.delete(command.commanduid, false)
+      let container = visuWithId.container()
+      container.classList.remove("fetching")
+    })
+
     this.commandsAction.set("error", (command) => {
-      if (handleServerError[command.detail]) {
-        handleServerError[command.detail](command)//usefull to display messages
+      if (this.handleServerError[command.detail]) {
+        this.handleServerError[command.detail](command)//usefull to display messages
       } else if (this.waitingDivByVisu[command.visuId] != null) {
         this.waitingDivByVisu[command.visuId].innerHTML = "An error has occured."
         notify("An error has occured")

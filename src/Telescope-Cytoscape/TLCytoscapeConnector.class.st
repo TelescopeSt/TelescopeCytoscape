@@ -205,6 +205,18 @@ TLCytoscapeConnector >> drawablesById: anObject [
 ]
 
 { #category : #callback }
+TLCytoscapeConnector >> executeAJAXCallBack: callbackURL onComplete: aJSString onDrawable: aDrawable  onElement: aCssSelector [
+		"ask the client to execute it"
+	self
+		addCommand:
+			(TLVisualizationAJAXCallBackExecutionCommand new
+				callbackUrl:  callbackURL;
+				onComplete: (String streamContents: [ :s | s javascript: aJSString]) ;
+				cssQuery: aCssSelector;
+				yourself)
+]
+
+{ #category : #callback }
 TLCytoscapeConnector >> executeAJAXCallBack: callbackURL onDrawable: aDrawable  onElement: aCssSelector [
 		"ask the client to execute it"
 	self
@@ -648,32 +660,39 @@ TLCytoscapeConnector >> updateEdgeOf: aConnection [
 { #category : #'updating - node' }
 TLCytoscapeConnector >> updateElementNodeOf: aDrawable [
 	| element |
-	element := self elementFromTLDrawable: aDrawable. 
+	element := self elementFromTLDrawable: aDrawable.
 	aDrawable hierarchyChanged
-		ifTrue: [ 
-			self
+		ifTrue: [ self
 				addCommand:
 					(TLVisualizationRefreshNodeCommand new
 						virtualNode: element;
 						customizeFromInteractions: aDrawable allInteractions forNode: aDrawable;
 						visuId: self visuId;
-						style: (aDrawable effectiveStyleSheet cytoscapeNodeStyleFor: aDrawable)) ]
-		ifFalse: [ 
-			self
+						style: (aDrawable effectiveStyleSheet cytoscapeNodeStyleFor: aDrawable);
+						menu:
+							(aDrawable allInteractions
+								select: [ :interaction | interaction shouldOccursOn: #menu with: aDrawable ]
+								thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aDrawable ])) ]
+		ifFalse: [ self
 				addCommand:
 					(TLVisualizationCustomizeElementCommand new
 						virtualNode: element;
 						mouseOverInteraction: (aDrawable allInteractions anySatisfy: #isMouseOver);
 						visuId: self visuId;
-						style: (aDrawable effectiveStyleSheet cytoscapeNodeStyleFor: aDrawable)) ].
-		self commandsQueue managePositioningOf: element triggers
+						style: (aDrawable effectiveStyleSheet cytoscapeNodeStyleFor: aDrawable);
+						menu:
+							(aDrawable allInteractions
+								select: [ :interaction | interaction shouldOccursOn: #menu with: aDrawable ]
+								thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aDrawable ])) ].
+	self commandsQueue managePositioningOf: element triggers
 ]
 
 { #category : #'updating - interaction' }
 TLCytoscapeConnector >> updateInteractionsOf: aDrawable [
 	self flag: #todo.	"Remove the interaction that are no longer needed and add the new ones."
 	(aDrawable allInteractions select: #isGraphicallyRepresented)
-		do: [ :aGraphicInteraction | aGraphicInteraction updateWith: self forDrawable: aDrawable ]
+		do: [ :aGraphicInteraction | aGraphicInteraction updateWith: self forDrawable: aDrawable ].
+
 ]
 
 { #category : #'updating - legend' }

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'virtualNode'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #command }
@@ -24,7 +24,8 @@ TLVisualizationCustomizeElementCommand >> neoJsonOn: writer [
 			jsonMapWriter writeKey: #elementId value: self nodeId.
 			jsonMapWriter writeKey: #mouseOverInteraction value: self mouseOverInteraction.
 			jsonMapWriter writeKey: #dropInteraction value: self dropInteraction.
-			jsonMapWriter writeKey: #style value: self style ]
+			jsonMapWriter writeKey: #style value: self style.
+			self menu ifNotNil: [ jsonMapWriter writeKey: #menu value: self menu ] ]
 ]
 
 { #category : #accessing }

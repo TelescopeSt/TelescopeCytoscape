@@ -6,9 +6,10 @@ Class {
 	#superclass : #TLVisualizationServerCommand,
 	#instVars : [
 		'callbackUrl',
-		'cssQuery'
+		'cssQuery',
+		'onComplete'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
 
 { #category : #command }
@@ -34,4 +35,14 @@ TLVisualizationAJAXCallBackExecutionCommand >> cssQuery [
 { #category : #accessing }
 TLVisualizationAJAXCallBackExecutionCommand >> cssQuery: anObject [
 	cssQuery := anObject
+]
+
+{ #category : #accessing }
+TLVisualizationAJAXCallBackExecutionCommand >> onComplete [
+	^ onComplete
+]
+
+{ #category : #accessing }
+TLVisualizationAJAXCallBackExecutionCommand >> onComplete: anObject [
+	onComplete := anObject
 ]

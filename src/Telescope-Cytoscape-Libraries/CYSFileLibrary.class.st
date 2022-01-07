@@ -1088,6 +1088,9 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       let element = visu.getElementById(command.elementId)
       element.style(command.style)
       element.mouseOverInteraction = command.mouseOverInteraction
+      if(command.menu) {
+        element.menu = command.menu
+      }
     }
 
     this.commandsAction.set("addStaticLegendEntry", (command) => {
@@ -1106,9 +1109,14 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       sendCallBack(command.callbackUrl, command.openInNewTab)
     })
 
-// Called when we execute a Seaside ajax callback interaction
+    // Called when we execute a Seaside ajax callback interaction
     this.commandsAction.set("ajax", (command, visu) => {
-      $(command.cssQuery).load(command.callbackUrl)
+      let script = $(command.cssQuery).load(command.callbackUrl)
+      if(command.onComplete) {
+        $(command.cssQuery).load(command.callbackUrl,()=>{Function(command.onComplete)()})
+      } else {
+        $(command.cssQuery).load(command.callbackUrl)
+      }
     })
 
     this.commandsAction.set("generated", (command) => {

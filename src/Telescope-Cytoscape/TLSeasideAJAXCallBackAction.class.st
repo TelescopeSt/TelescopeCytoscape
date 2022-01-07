@@ -35,9 +35,10 @@ Class {
 	#instVars : [
 		'cssQuery',
 		'url',
-		'beforeBlock'
+		'beforeBlock',
+		'onComplete'
 	],
-	#category : 'Telescope-Cytoscape-Actions'
+	#category : #'Telescope-Cytoscape-Actions'
 }
 
 { #category : #'instance creation' }
@@ -71,7 +72,7 @@ TLSeasideAJAXCallBackAction class >> callback: aBlock forElement: aString on: ht
 { #category : #action }
 TLSeasideAJAXCallBackAction >> actionOn: aTLDrawable [
   self beforeBlock ifNotNil: [ self beforeBlock cull: aTLDrawable cull: aTLDrawable entity ].
-  aTLDrawable generator executeAJAXCallBack: self url onDrawable: aTLDrawable  onElement: self cssQuery 
+  aTLDrawable generator executeAJAXCallBack: self url onComplete: self onComplete onDrawable: aTLDrawable onElement: self cssQuery 
 ]
 
 { #category : #accessing }
@@ -92,6 +93,16 @@ TLSeasideAJAXCallBackAction >> cssQuery [
 { #category : #accessing }
 TLSeasideAJAXCallBackAction >> cssQuery: anObject [
 	cssQuery := anObject
+]
+
+{ #category : #accessing }
+TLSeasideAJAXCallBackAction >> onComplete [
+	^ onComplete
+]
+
+{ #category : #accessing }
+TLSeasideAJAXCallBackAction >> onComplete: anObject [
+	onComplete := anObject
 ]
 
 { #category : #accessing }

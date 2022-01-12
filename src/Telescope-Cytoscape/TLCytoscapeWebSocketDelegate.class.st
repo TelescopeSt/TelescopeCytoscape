@@ -234,7 +234,6 @@ TLCytoscapeWebSocketDelegate >> onMessageReceived: message webSocket: aWebSocket
 	"On message received, we transform the Json string to dictionary; then create clients commands and execute those"
 
 	"Execute clients commands on server"
-
 	(NeoJSONReader fromString: message)
 		do: [ :aCommandDictionary | 
 			"register the visu"

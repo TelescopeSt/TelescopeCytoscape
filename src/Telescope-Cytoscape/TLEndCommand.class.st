@@ -1,3 +1,6 @@
+"
+I am a command sent at the end of the management of an action. This makes it possible to inform the client that the server has fully processed the order if the action generates regular sent of the component commands. 
+"
 Class {
 	#name : #TLEndCommand,
 	#superclass : #TLVisualizationServerCommand,

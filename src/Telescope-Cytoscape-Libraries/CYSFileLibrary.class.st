@@ -1123,6 +1123,12 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       this.removeWaitingForVisuId(command.visuId)
     })
 
+    this.commandsAction.set("startCommand", (command, visuWithId) => {
+      visuWithId.waitingForCommand.set(command.commanduid, true)
+      let container = visuWithId.container()
+      container.classList.add("fetching")
+    })
+
     this.commandsAction.set("endCommand", (command, visuWithId) => {
       visuWithId.waitingForCommand.delete(command.commanduid, false)
       let container = visuWithId.container()

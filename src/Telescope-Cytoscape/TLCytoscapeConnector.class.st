@@ -629,9 +629,12 @@ TLCytoscapeConnector >> sendEndCommand [
 
 { #category : #'as yet unclassified' }
 TLCytoscapeConnector >> sendEndCommandFor: aCommandName [
-	self addCommand: (TLEndCommand commandId: aCommandName).
-	self halt.
-	self removeAllCommands
+	self addCommand: (TLEndCommand new commanduid: aCommandName;visuId: self visuId; yourself)
+]
+
+{ #category : #'as yet unclassified' }
+TLCytoscapeConnector >> startServerCommandWith: aCommandUuid [
+	self addCommand: (TLStartCommand new commanduid: aCommandUuid; visuId: self visuId;yourself)
 ]
 
 { #category : #accessing }

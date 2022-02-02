@@ -24,7 +24,7 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 
 			"Packages"
 			spec
-				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
+				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3' 'GitBridge') ];
 				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'ZincHTTPComponents' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
 				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape' 'PragmaCompatibility') ];
 				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].

@@ -84,5 +84,5 @@ BaselineOfTelescopeCytoscape >> webSocket: spec [
 		baseline: 'ZincHTTPComponents'
 		with: [ spec
 				loads: #('WebSocket');
-				repository: 'github://svenvc/zinc:v3.0.1/repository' ]
+				repository: 'github://svenvc/zinc:master/repository' ]
 ]

@@ -38,7 +38,7 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				group: 'tests' with: #('Telescope-Cytoscape-Tests') ]
 ]
 
-{ #category : #baselines }
+{ #category : #dependencies }
 BaselineOfTelescopeCytoscape >> gitBridge: spec [
 	spec
     	baseline: 'GitBridge'
@@ -50,7 +50,7 @@ BaselineOfTelescopeCytoscape >> neoJSON: spec [
 	spec baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON/repository' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #dependencies }
 BaselineOfTelescopeCytoscape >> pragmaCompatibility: spec [
 	spec
 		baseline: 'PragmaCompatibility'

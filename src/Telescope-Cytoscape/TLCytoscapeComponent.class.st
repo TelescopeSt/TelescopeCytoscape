@@ -133,7 +133,7 @@ TLCytoscapeComponent >> renderContentOn: html [
 		style: self style;
 		attributeAt: #isTelescopeVisu put: 'true';
 		attributeAt: #'data-port' put: self webSocketPort;
-		attributeAt: #'data-panzoom' put: self panzoom;
+		attributeAt: #'data-panzoom' put: self panzoom asString;
 		class: 'telescopeVisu';
 		with: [ html div
 				class: 'visualization';

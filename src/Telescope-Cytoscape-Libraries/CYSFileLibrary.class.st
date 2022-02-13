@@ -684,6 +684,9 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         this.visus.set(container, visu)
         idsNeedGeneration.push(container.id)
         this.parametrizeInteractionsListenerForVisu({visuId: container.id, visu})
+        if(container.dataset.panzoom) {
+          visu.panzoom()
+        }
       }
     }
     this.sendGenerationCommand(idsNeedGeneration)
@@ -1322,6 +1325,781 @@ var va=function(){function e(e){return-e.tension*e.x-e.friction*e.v}function t(t
 '
 ]
 
+{ #category : #libs }
+CYSFileLibrary >> cytoscapepanzoomCss [
+	^ '.cy-panzoom {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    font-size: 12px;
+    color: #fff;
+    font-family: arial, helvetica, sans-serif;
+    line-height: 1;
+    color: #666;
+    font-size: 11px;
+    z-index: 99999;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-zoom-button {
+    cursor: pointer;
+    padding: 3px;
+    text-align: center;
+    position: absolute;
+    border-radius: 3px;
+    width: 10px;
+    height: 10px;
+    left: 16px;
+    background: #fff;
+    border: 1px solid #999;
+    margin-left: -1px;
+    margin-top: -1px;
+    z-index: 1;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-zoom-button:active,
+.cy-panzoom-slider-handle:active,
+.cy-panzoom-slider-handle.active {
+    background: #ddd;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-pan-button {
+    position: absolute;
+    z-index: 1;
+    height: 16px;
+    width: 16px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-reset {
+    top: 55px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-zoom-in {
+    top: 60px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-zoom-out {
+    top: 177px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-pan-up {
+    top: 0;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #666;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-pan-down {
+    bottom: 0;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #666;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-pan-left {
+    top: 50%;
+    left: 0;
+    margin-top: -5px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-right: 5px solid #666;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-pan-right {
+    top: 50%;
+    right: 0;
+    margin-top: -5px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #666;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-pan-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background: #000;
+    border-radius: 8px;
+    margin-left: -5px;
+    margin-top: -5px;
+    display: none;
+    z-index: 999;
+    opacity: 0.6;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-slider {
+    position: absolute;
+    top: 77px;
+    left: 17px;
+    height: 100px;
+    width: 15px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-slider-background {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100px;
+    left: 5px;
+    background: #fff;
+    border-left: 1px solid #999;
+    border-right: 1px solid #999;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-slider-handle {
+    position: absolute;
+    width: 16px;
+    height: 8px;
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 2px;
+    margin-left: -2px;
+    z-index: 999;
+    line-height: 8px;
+    cursor: default;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-slider-handle .icon {
+    margin: 0 4px;
+    line-height: 10px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-no-zoom-tick {
+    position: absolute;
+    background: #666;
+    border: 1px solid #fff;
+    border-radius: 2px;
+    margin-left: -1px;
+    width: 8px;
+    height: 2px;
+    left: 3px;
+    z-index: 1;
+    margin-top: 3px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-panner {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 40px;
+    margin-left: -1px;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-panner-handle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    outline: none;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    z-index: 999;
+    box-sizing: content-box;
+}
+
+.cy-panzoom-zoom-only .cy-panzoom-slider,
+.cy-panzoom-zoom-only .cy-panzoom-panner {
+    display: none;
+}
+
+.cy-panzoom-zoom-only .cy-panzoom-reset {
+    top: 20px;
+}
+
+.cy-panzoom-zoom-only .cy-panzoom-zoom-in {
+    top: 45px;
+}
+
+.cy-panzoom-zoom-only .cy-panzoom-zoom-out {
+    top: 70px;
+}'
+]
+
+{ #category : #libs }
+CYSFileLibrary >> cytoscapepanzoomJs [
+	^ '/*!
+Copyright (c) The Cytoscape Consortium
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the “Software”), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+;(function(){ ''use strict'';
+
+    // registers the extension on a cytoscape lib ref
+    var register = function( cytoscape, $ ){
+        if( !cytoscape || !$ ){ return; } // can''t register if cytoscape or jquery unspecified
+
+        $.fn.cyPanzoom = $.fn.cytoscapePanzoom = function( options ){
+            panzoom.apply( this, [ options, cytoscape, $ ] );
+
+            return this; // chainability
+        };
+
+        // if you want a core extension
+        cytoscape(''core'', ''panzoom'', function( options ){ // could use options object, but args are up to you
+            panzoom.apply( this, [ options, cytoscape, $ ] );
+
+            return this; // chainability
+        });
+
+    };
+
+    var defaults = {
+        zoomFactor: 0.05, // zoom factor per zoom tick
+        zoomDelay: 45, // how many ms between zoom ticks
+        minZoom: 0.1, // min zoom level
+        maxZoom: 10, // max zoom level
+        fitPadding: 50, // padding when fitting
+        panSpeed: 10, // how many ms in between pan ticks
+        panDistance: 10, // max pan distance per tick
+        panDragAreaSize: 75, // the length of the pan drag box in which the vector for panning is calculated (bigger = finer control of pan speed and direction)
+        panMinPercentSpeed: 0.25, // the slowest speed we can pan by (as a percent of panSpeed)
+        panInactiveArea: 8, // radius of inactive area in pan drag box
+        panIndicatorMinOpacity: 0.5, // min opacity of pan indicator (the draggable nib); scales from this to 1.0
+        zoomOnly: false, // a minimal version of the ui only with zooming (useful on systems with bad mousewheel resolution)
+        fitSelector: undefined, // selector of elements to fit
+        animateOnFit: function(){ // whether to animate on fit
+            return false;
+        },
+        fitAnimationDuration: 1000, // duration of animation on fit
+    };
+
+    var panzoom = function( params, cytoscape, $ ){
+        var cyRef = this;
+        var options = $.extend(true, {}, defaults, params);
+        var fn = params;
+
+        var functions = {
+            destroy: function(){
+                var $this = $(cyRef.container());
+                var $pz = $this.find(".cy-panzoom");
+
+                $pz.data(''winbdgs'').forEach(function( l ){
+                    $(window).unbind( l.evt, l.fn );
+                });
+
+                $pz.data(''cybdgs'').forEach(function( l ){
+                    cyRef.off( l.evt, l.fn );
+                });
+
+                $pz.remove();
+            },
+
+            init: function(){
+                var browserIsMobile = ''ontouchstart'' in window;
+
+                return $(cyRef.container()).each(function(){
+                    var $container = $(this);
+                    $container.cytoscape = cytoscape;
+
+                    var winbdgs = [];
+                    var $win = $(window);
+
+                    var windowBind = function( evt, fn ){
+                        winbdgs.push({ evt: evt, fn: fn });
+
+                        $win.bind( evt, fn );
+                    };
+
+                    var windowUnbind = function( evt, fn ){
+                        for( var i = 0; i < winbdgs.length; i++ ){
+                            var l = winbdgs[i];
+
+                            if( l.evt === evt && l.fn === fn ){
+                                winbdgs.splice( i, 1 );
+                                break;
+                            }
+                        }
+
+                        $win.unbind( evt, fn );
+                    };
+
+                    var cybdgs = [];
+
+                    var cyOn = function( evt, fn ){
+                        cybdgs.push({ evt: evt, fn: fn });
+
+                        cyRef.on( evt, fn );
+                    };
+
+                    var cyOff = function( evt, fn ){
+                        for( var i = 0; i < cybdgs.length; i++ ){
+                            var l = cybdgs[i];
+
+                            if( l.evt === evt && l.fn === fn ){
+                                cybdgs.splice( i, 1 );
+                                break;
+                            }
+                        }
+
+                        cyRef.off( evt, fn );
+                    };
+
+                    var $panzoom = $(''<div class="cy-panzoom"></div>'');
+                    $container.prepend( $panzoom );
+
+                    $panzoom.css(''position'', ''absolute''); // must be absolute regardless of stylesheet
+
+                    $panzoom.data(''winbdgs'', winbdgs);
+                    $panzoom.data(''cybdgs'', cybdgs);
+
+                    if( options.zoomOnly ){
+                        $panzoom.addClass("cy-panzoom-zoom-only");
+                    }
+
+                    // add base html elements
+                    /////////////////////////
+
+                    var $zoomIn = $(''<div class="cy-panzoom-zoom-in cy-panzoom-zoom-button"><span class="icon">+</span></div>'');
+                    $panzoom.append( $zoomIn );
+
+                    var $zoomOut = $(''<div class="cy-panzoom-zoom-out cy-panzoom-zoom-button"><span class="icon">-</span></div>'');
+                    $panzoom.append( $zoomOut );
+
+                    var $slider = $(''<div class="cy-panzoom-slider"></div>'');
+                    $panzoom.append( $slider );
+
+                    $slider.append(''<div class="cy-panzoom-slider-background"></div>'');
+
+                    var $sliderHandle = $(''<div class="cy-panzoom-slider-handle"><span class="icon '' + options.sliderHandleIcon + ''"></span></div>'');
+                    $slider.append( $sliderHandle );
+
+                    var $noZoomTick = $(''<div class="cy-panzoom-no-zoom-tick"></div>'');
+                    $slider.append( $noZoomTick );
+
+                    var $panner = $(''<div class="cy-panzoom-panner"></div>'');
+                    $panzoom.append( $panner );
+
+                    var $pHandle = $(''<div class="cy-panzoom-panner-handle"></div>'');
+                    $panner.append( $pHandle );
+
+                    var $pUp = $(''<div class="cy-panzoom-pan-up cy-panzoom-pan-button"></div>'');
+                    var $pDown = $(''<div class="cy-panzoom-pan-down cy-panzoom-pan-button"></div>'');
+                    var $pLeft = $(''<div class="cy-panzoom-pan-left cy-panzoom-pan-button"></div>'');
+                    var $pRight = $(''<div class="cy-panzoom-pan-right cy-panzoom-pan-button"></div>'');
+                    $panner.append( $pUp ).append( $pDown ).append( $pLeft ).append( $pRight );
+
+                    var $pIndicator = $(''<div class="cy-panzoom-pan-indicator"></div>'');
+                    $panner.append( $pIndicator );
+
+                    // functions for calculating panning
+                    ////////////////////////////////////
+
+                    function handle2pan(e){
+                        var v = {
+                            x: e.originalEvent.pageX - $panner.offset().left - $panner.width()/2,
+                            y: e.originalEvent.pageY - $panner.offset().top - $panner.height()/2
+                        }
+
+                        var r = options.panDragAreaSize;
+                        var d = Math.sqrt( v.x*v.x + v.y*v.y );
+                        var percent = Math.min( d/r, 1 );
+
+                        if( d < options.panInactiveArea ){
+                            return {
+                                x: NaN,
+                                y: NaN
+                            };
+                        }
+
+                        v = {
+                            x: v.x/d,
+                            y: v.y/d
+                        };
+
+                        percent = Math.max( options.panMinPercentSpeed, percent );
+
+                        var vnorm = {
+                            x: -1 * v.x * (percent * options.panDistance),
+                            y: -1 * v.y * (percent * options.panDistance)
+                        };
+
+                        return vnorm;
+                    }
+
+                    function donePanning(){
+                        clearInterval(panInterval);
+                        windowUnbind("mousemove", handler);
+
+                        $pIndicator.hide();
+                    }
+
+                    function positionIndicator(pan){
+                        var v = pan;
+                        var d = Math.sqrt( v.x*v.x + v.y*v.y );
+                        var vnorm = {
+                            x: -1 * v.x/d,
+                            y: -1 * v.y/d
+                        };
+
+                        var w = $panner.width();
+                        var h = $panner.height();
+                        var percent = d/options.panDistance;
+                        var opacity = Math.max( options.panIndicatorMinOpacity, percent );
+                        var color = 255 - Math.round( opacity * 255 );
+
+                        $pIndicator.show().css({
+                            left: w/2 * vnorm.x + w/2,
+                            top: h/2 * vnorm.y + h/2,
+                            background: "rgb(" + color + ", " + color + ", " + color + ")"
+                        });
+                    }
+
+                    function calculateZoomCenterPoint(){
+                        var pan = cyRef.pan();
+                        var zoom = cyRef.zoom();
+
+                        zx = $container.width()/2;
+                        zy = $container.height()/2;
+                    }
+
+                    var zooming = false;
+                    function startZooming(){
+                        zooming = true;
+
+                        calculateZoomCenterPoint();
+                    }
+
+
+                    function endZooming(){
+                        zooming = false;
+                    }
+
+                    var zx, zy;
+                    function zoomTo(level){
+                        if( !zooming ){ // for non-continuous zooming (e.g. click slider at pt)
+                            calculateZoomCenterPoint();
+                        }
+
+                        cyRef.zoom({
+                            level: level,
+                            renderedPosition: { x: zx, y: zy }
+                        });
+                    }
+
+                    var panInterval;
+
+                    var handler = function(e){
+                        e.stopPropagation(); // don''t trigger dragging of panzoom
+                        e.preventDefault(); // don''t cause text selection
+                        clearInterval(panInterval);
+
+                        var pan = handle2pan(e);
+
+                        if( isNaN(pan.x) || isNaN(pan.y) ){
+                            $pIndicator.hide();
+                            return;
+                        }
+
+                        positionIndicator(pan);
+                        panInterval = setInterval(function(){
+                            cyRef.panBy(pan);
+                        }, options.panSpeed);
+                    };
+
+                    $pHandle.bind("mousedown", function(e){
+                        // handle click of icon
+                        handler(e);
+
+                        // update on mousemove
+                        windowBind("mousemove", handler);
+                    });
+
+                    $pHandle.bind("mouseup", function(){
+                        donePanning();
+                    });
+
+                    windowBind("mouseup blur", function(){
+                        donePanning();
+                    });
+
+
+
+                    // set up slider behaviour
+                    //////////////////////////
+
+                    $slider.bind(''mousedown'', function(){
+                        return false; // so we don''t pan close to the slider handle
+                    });
+
+                    var sliderVal;
+                    var sliding = false;
+                    var sliderPadding = 2;
+
+                    function setSliderFromMouse(evt, handleOffset){
+                        if( handleOffset === undefined ){
+                            handleOffset = 0;
+                        }
+
+                        var padding = sliderPadding;
+                        var min = 0 + padding;
+                        var max = $slider.height() - $sliderHandle.height() - 2*padding;
+                        var top = evt.pageY - $slider.offset().top - handleOffset;
+
+                        // constrain to slider bounds
+                        if( top < min ){ top = min }
+                        if( top > max ){ top = max }
+
+                        var percent = 1 - (top - min) / ( max - min );
+
+                        // move the handle
+                        $sliderHandle.css(''top'', top);
+
+                        var zmin = options.minZoom;
+                        var zmax = options.maxZoom;
+
+                        // assume (zoom = zmax ^ p) where p ranges on (x, 1) with x negative
+                        var x = Math.log(zmin) / Math.log(zmax);
+                        var p = (1 - x)*percent + x;
+
+                        // change the zoom level
+                        var z = Math.pow( zmax, p );
+
+                        // bound the zoom value in case of floating pt rounding error
+                        if( z < zmin ){
+                            z = zmin;
+                        } else if( z > zmax ){
+                            z = zmax;
+                        }
+
+                        zoomTo( z );
+                    }
+
+                    var sliderMdownHandler, sliderMmoveHandler;
+                    $sliderHandle.bind(''mousedown'', sliderMdownHandler = function( mdEvt ){
+                        var handleOffset = mdEvt.target === $sliderHandle[0] ? mdEvt.offsetY : 0;
+                        sliding = true;
+
+                        startZooming();
+                        $sliderHandle.addClass("active");
+
+                        var lastMove = 0;
+                        windowBind(''mousemove'', sliderMmoveHandler = function( mmEvt ){
+                            var now = +new Date;
+
+                            // throttle the zooms every 10 ms so we don''t call zoom too often and cause lag
+                            if( now > lastMove + 10 ){
+                                lastMove = now;
+                            } else {
+                                return false;
+                            }
+
+                            setSliderFromMouse(mmEvt, handleOffset);
+
+                            return false;
+                        });
+
+                        // unbind when
+                        windowBind(''mouseup'', function(){
+                            windowUnbind(''mousemove'', sliderMmoveHandler);
+                            sliding = false;
+
+                            $sliderHandle.removeClass("active");
+                            endZooming();
+                        });
+
+                        return false;
+                    });
+
+                    $slider.bind(''mousedown'', function(e){
+                        if( e.target !== $sliderHandle[0] ){
+                            sliderMdownHandler(e);
+                            setSliderFromMouse(e);
+                        }
+                    });
+
+                    function positionSliderFromZoom(){
+                        var z = cyRef.zoom();
+                        var zmin = options.minZoom;
+                        var zmax = options.maxZoom;
+
+                        // assume (zoom = zmax ^ p) where p ranges on (x, 1) with x negative
+                        var x = Math.log(zmin) / Math.log(zmax);
+                        var p = Math.log(z) / Math.log(zmax);
+                        var percent = 1 - (p - x) / (1 - x); // the 1- bit at the front b/c up is in the -ve y direction
+
+                        var min = sliderPadding;
+                        var max = $slider.height() - $sliderHandle.height() - 2*sliderPadding;
+                        var top = percent * ( max - min );
+
+                        // constrain to slider bounds
+                        if( top < min ){ top = min }
+                        if( top > max ){ top = max }
+
+                        // move the handle
+                        $sliderHandle.css(''top'', top);
+                    }
+
+                    positionSliderFromZoom();
+
+                    cyOn(''zoom'', function(){
+                        if( !sliding ){
+                            positionSliderFromZoom();
+                        }
+                    });
+
+                    // set the position of the zoom=1 tick
+                    (function(){
+                        var z = 1;
+                        var zmin = options.minZoom;
+                        var zmax = options.maxZoom;
+
+                        // assume (zoom = zmax ^ p) where p ranges on (x, 1) with x negative
+                        var x = Math.log(zmin) / Math.log(zmax);
+                        var p = Math.log(z) / Math.log(zmax);
+                        var percent = 1 - (p - x) / (1 - x); // the 1- bit at the front b/c up is in the -ve y direction
+
+                        if( percent > 1 || percent < 0 ){
+                            $noZoomTick.hide();
+                            return;
+                        }
+
+                        var min = sliderPadding;
+                        var max = $slider.height() - $sliderHandle.height() - 2*sliderPadding;
+                        var top = percent * ( max - min );
+
+                        // constrain to slider bounds
+                        if( top < min ){ top = min }
+                        if( top > max ){ top = max }
+
+                        $noZoomTick.css(''top'', top);
+                    })();
+
+                    // set up zoom in/out buttons
+                    /////////////////////////////
+
+                    function bindButton($button, factor){
+                        var zoomInterval;
+
+                        $button.bind("mousedown", function(e){
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            if( e.button != 0 ){
+                                return;
+                            }
+
+                            var doZoom = function(){
+                                var zoom = cyRef.zoom();
+                                var lvl = cyRef.zoom() * factor;
+
+                                if( lvl < options.minZoom ){
+                                    lvl = options.minZoom;
+                                }
+
+                                if( lvl > options.maxZoom ){
+                                    lvl = options.maxZoom;
+                                }
+
+                                if( (lvl == options.maxZoom && zoom == options.maxZoom) ||
+                                    (lvl == options.minZoom && zoom == options.minZoom)
+                                ){
+                                    return;
+                                }
+
+                                zoomTo(lvl);
+                            };
+
+                            startZooming();
+                            doZoom();
+                            zoomInterval = setInterval(doZoom, options.zoomDelay);
+
+                            return false;
+                        });
+
+                        windowBind("mouseup blur", function(){
+                            clearInterval(zoomInterval);
+                            endZooming();
+                        });
+                    }
+
+                    bindButton( $zoomIn, (1 + options.zoomFactor) );
+                    bindButton( $zoomOut, (1 - options.zoomFactor) );
+
+
+
+                });
+            }
+        };
+
+        if( functions[fn] ){
+            return functions[fn].apply(this, Array.prototype.slice.call( arguments, 1 ));
+        } else if( typeof fn == ''object'' || !fn ) {
+            return functions.init.apply( this, arguments );
+        } else {
+            $.error("No such function `"+ fn +"` for jquery.cytoscapePanzoom");
+        }
+
+        return $(this);
+    };
+
+
+    if( typeof module !== ''undefined'' && module.exports ){ // expose as a commonjs module
+        module.exports = function( cytoscape, jquery ){
+            register( cytoscape, jquery || require(''jquery'') );
+        }
+    } else if( typeof define !== ''undefined'' && define.amd ){ // expose as an amd/requirejs module
+        define(''cytoscape-panzoom'', function(){
+            return register;
+        });
+    }
+
+    if( typeof cytoscape !== ''undefined'' && typeof jQuery !== ''undefined'' ){ // expose to global cytoscape (i.e. window.cytoscape)
+        register( cytoscape, jQuery );
+    }
+
+})();'
+]
+
 { #category : #legend }
 CYSFileLibrary >> diamondPng [
 	^ #[137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 100 0 0 0 100 8 6 0 0 0 112 226 149 84 0 0 0 6 98 75 71 68 0 0 0 0 0 0 249 67 187 127 0 0 0 9 112 72 89 115 0 0 11 19 0 0 11 19 1 0 154 156 24 0 0 0 7 116 73 77 69 7 225 1 12 14 57 40 87 213 252 197 0 0 0 29 105 84 88 116 67 111 109 109 101 110 116 0 0 0 0 0 67 114 101 97 116 101 100 32 119 105 116 104 32 71 73 77 80 100 46 101 7 0 0 9 16 73 68 65 84 120 218 237 157 89 79 83 91 20 199 23 85 241 62 152 48 105 101 40 80 76 68 84 160 131 5 68 124 82 163 34 82 70 5 73 252 0 190 249 53 156 53 50 213 198 1 169 250 162 128 65 165 128 133 130 128 6 10 74 11 177 20 138 222 134 43 67 68 35 17 1 161 93 247 169 55 92 61 251 48 116 58 167 238 149 172 7 66 56 208 243 203 222 235 191 215 176 1 160 70 141 26 53 106 212 214 103 1 203 191 64 68 250 70 124 108 2 250 10 40 16 106 20 8 5 66 141 2 161 64 168 81 32 20 8 53 10 132 2 161 70 129 80 163 64 40 16 239 153 213 106 5 147 201 68 129 112 193 140 70 35 156 63 127 30 207 158 61 139 173 173 173 254 181 92 16 145 87 110 52 26 65 169 84 226 198 141 27 49 32 32 0 165 82 41 190 120 241 130 119 159 99 185 243 22 136 213 106 133 147 39 79 254 7 195 233 50 153 12 27 27 27 41 16 111 250 204 204 12 28 57 114 228 127 32 150 123 82 82 18 190 126 253 154 2 241 134 79 77 77 193 161 67 135 136 48 156 46 145 72 176 183 183 151 2 241 164 155 205 102 56 118 236 216 138 48 156 46 149 74 177 187 187 155 2 241 132 247 247 247 131 82 169 68 129 64 240 219 139 23 139 197 184 123 247 110 70 40 137 137 137 216 220 220 76 129 184 211 7 6 6 32 39 39 103 113 211 166 77 191 189 240 29 59 118 224 163 71 143 160 171 171 11 164 82 41 35 20 153 76 198 27 245 197 121 32 54 155 13 178 178 178 112 195 134 13 191 189 232 152 152 24 124 240 224 1 44 44 44 0 34 66 95 95 31 200 100 50 34 20 157 78 71 129 184 226 11 11 11 196 0 190 125 251 118 188 123 247 238 111 63 211 211 211 3 73 73 73 196 237 203 96 48 80 32 235 241 177 177 49 34 140 240 240 112 172 168 168 32 254 236 203 151 47 65 46 151 19 3 125 95 95 31 5 178 22 31 28 28 132 19 39 78 48 190 80 145 72 132 106 181 122 197 103 52 52 52 16 183 47 137 68 130 157 157 157 20 200 106 213 84 78 78 206 34 83 204 136 139 139 195 234 234 234 85 63 75 167 211 17 183 175 228 228 100 78 158 232 57 5 196 108 54 19 213 84 92 92 28 62 124 248 16 126 254 252 185 166 103 26 12 6 226 74 145 203 229 168 213 106 41 16 38 159 156 156 132 204 204 76 70 53 37 18 137 176 186 186 122 205 48 156 222 219 219 11 18 137 132 24 83 218 218 218 40 144 229 62 59 59 11 135 15 31 38 170 169 213 196 140 149 188 179 179 19 146 147 147 137 219 87 95 95 31 56 28 14 10 228 195 135 15 196 68 161 80 40 100 85 83 107 245 198 198 70 162 250 146 201 100 156 80 95 62 5 98 50 153 32 59 59 155 241 5 69 71 71 227 237 219 183 221 254 59 27 26 26 136 39 250 228 228 100 212 235 245 127 38 16 147 201 4 185 185 185 115 191 214 51 156 1 92 163 209 120 236 119 235 245 122 226 246 37 147 201 124 26 232 125 2 100 100 100 4 148 74 37 50 169 41 177 88 252 191 116 136 167 220 96 48 16 87 202 190 125 251 176 169 169 233 207 0 242 237 219 55 56 122 244 40 227 139 136 136 136 192 170 170 42 88 92 92 244 248 223 225 112 56 192 96 48 16 87 138 68 34 193 174 174 46 255 6 50 61 61 205 170 166 42 43 43 189 254 2 244 122 61 113 165 72 165 82 124 251 246 173 127 2 177 88 44 112 252 248 241 117 229 166 60 237 108 105 22 153 76 230 213 202 163 87 128 24 141 70 200 201 201 89 100 42 46 197 198 198 50 102 109 189 237 90 173 150 184 125 37 37 37 97 75 75 139 127 0 25 28 28 132 188 188 188 25 82 58 68 163 209 128 221 110 231 196 41 185 163 163 131 120 162 247 86 154 197 163 64 108 54 27 100 103 103 35 147 180 141 137 137 65 141 70 3 243 243 243 156 202 37 173 164 190 60 93 228 242 24 144 133 133 5 98 0 23 10 133 120 231 206 29 78 164 42 152 188 167 167 7 18 19 19 137 219 151 39 99 138 71 128 140 143 143 179 170 169 242 242 114 206 151 82 155 155 155 89 107 244 239 222 189 227 7 16 179 217 12 89 89 89 140 31 36 50 50 210 39 210 118 189 254 252 249 115 86 73 252 230 205 27 110 3 49 26 141 144 151 151 55 195 148 66 23 139 197 120 239 222 61 222 53 174 53 53 53 193 222 189 123 137 135 71 119 183 24 185 13 136 217 108 134 220 220 220 57 82 58 68 163 209 172 187 158 225 107 239 238 238 102 13 244 238 172 60 186 5 200 196 196 4 177 85 71 36 18 225 253 251 247 61 158 155 242 134 250 98 147 196 238 42 114 185 12 100 126 126 158 85 77 221 186 117 139 215 32 126 45 114 177 213 232 221 145 102 113 9 136 205 102 35 22 151 182 109 219 134 101 101 101 126 3 99 249 137 158 180 125 201 229 114 236 239 239 247 13 144 193 193 65 80 42 149 196 86 29 127 90 25 76 234 139 173 70 223 209 209 225 93 32 38 147 9 242 243 243 191 48 157 192 197 98 49 86 85 85 249 45 140 213 180 24 201 229 242 117 215 83 214 12 100 100 100 132 168 166 98 99 99 177 186 186 154 247 1 220 29 234 75 161 80 172 75 18 175 121 232 243 251 247 239 48 58 58 250 215 210 210 210 111 223 219 178 101 11 196 199 199 67 96 96 224 31 49 194 156 152 152 8 33 33 33 140 223 27 27 27 131 137 137 9 239 12 125 106 181 90 32 205 99 40 20 10 28 26 26 242 251 213 49 51 51 3 153 153 153 140 239 32 36 36 4 175 93 187 230 221 160 94 91 91 11 123 246 236 97 252 131 82 82 82 112 96 96 192 111 97 124 252 248 17 114 115 115 231 152 62 251 214 173 91 241 234 213 171 190 145 189 79 159 62 133 93 187 118 17 87 138 43 106 131 203 99 117 69 69 69 102 210 33 216 213 196 169 203 7 195 150 150 22 98 174 39 61 61 29 91 91 91 253 6 134 197 98 129 226 226 226 129 205 155 55 51 214 119 212 106 181 203 13 26 110 73 157 188 122 245 138 177 126 32 16 8 48 61 61 221 47 86 202 248 248 56 20 22 22 254 195 164 46 163 162 162 80 173 86 195 143 31 63 184 145 203 114 56 28 160 215 235 89 183 47 190 199 20 82 73 33 52 52 20 75 75 75 97 105 105 137 123 233 247 103 207 158 17 213 87 106 106 42 90 44 22 222 129 248 252 249 51 171 154 186 114 229 10 183 11 84 53 53 53 172 234 139 203 227 100 76 135 224 130 130 130 41 82 229 115 189 210 214 235 37 220 250 250 122 226 246 149 150 150 134 237 237 237 188 80 83 197 197 197 3 76 49 67 36 18 121 172 242 233 177 38 7 189 94 79 84 95 7 14 28 240 121 151 249 74 23 219 144 212 84 116 116 52 170 213 106 143 117 203 120 12 136 195 225 128 246 246 118 70 40 78 245 229 137 154 180 171 254 229 203 23 40 40 40 152 98 74 156 134 135 135 99 101 101 37 204 205 205 241 183 81 78 167 211 65 124 124 60 177 252 201 165 64 111 183 219 137 1 60 56 56 24 111 220 184 225 31 173 164 117 117 117 196 64 207 21 245 245 233 211 39 226 240 80 112 112 48 94 190 124 217 191 154 173 107 106 106 32 33 33 129 120 78 241 229 173 61 22 139 5 78 159 62 109 37 141 72 120 99 101 248 100 28 161 161 161 129 120 78 73 79 79 247 73 160 55 155 205 112 230 204 153 119 129 129 129 140 1 92 165 82 249 247 192 14 73 125 9 4 2 204 200 200 240 170 36 182 217 108 68 53 229 44 67 187 35 29 194 105 32 118 187 29 218 218 218 136 43 101 255 254 253 94 153 199 152 157 157 37 54 245 9 133 66 44 47 47 247 73 35 184 207 134 62 181 90 45 241 240 152 146 146 130 195 195 195 30 133 65 186 75 37 56 56 216 165 122 6 175 199 162 107 106 106 88 115 95 239 223 191 247 200 54 69 42 46 133 133 133 121 77 77 113 246 226 128 218 218 90 226 57 69 161 80 184 117 240 114 104 104 8 138 139 139 7 152 182 169 200 200 72 44 45 45 165 55 57 56 27 154 73 231 148 140 140 12 183 168 175 225 225 97 40 41 41 233 33 165 67 84 42 149 87 166 127 121 115 249 204 74 234 203 149 34 215 248 248 56 20 21 21 153 153 164 109 100 100 36 170 84 42 175 171 41 206 3 177 219 237 208 218 218 202 154 37 54 153 76 235 122 46 169 195 50 44 44 12 111 222 188 201 137 149 193 217 11 204 234 235 235 137 39 250 212 212 84 28 25 25 89 245 179 190 126 253 202 170 166 46 93 186 68 47 48 91 141 63 121 242 132 85 125 173 166 161 121 116 116 20 10 11 11 255 33 53 130 187 187 210 231 247 151 96 214 213 213 193 206 157 59 137 135 71 182 152 50 52 52 4 37 37 37 61 76 41 244 168 168 40 78 119 229 115 250 154 88 157 78 71 84 95 7 15 30 100 28 146 177 90 173 68 53 37 18 137 80 165 82 113 110 20 155 55 64 156 221 44 76 80 156 234 107 121 145 107 122 122 26 78 157 58 245 55 83 217 53 34 34 2 43 42 42 56 163 166 120 9 100 249 74 33 109 95 10 133 226 191 122 10 169 85 39 40 40 8 175 95 191 206 217 185 120 222 1 113 198 20 146 250 74 75 75 67 210 149 79 65 65 65 120 241 226 69 222 116 186 240 234 223 85 60 126 252 152 120 78 33 181 234 248 50 81 232 247 64 86 106 49 114 119 227 51 5 226 134 6 239 229 125 83 92 15 224 126 3 196 153 102 97 58 60 10 133 66 44 43 43 243 104 171 14 5 194 82 228 90 174 190 130 130 130 56 123 2 255 35 128 56 211 44 9 9 9 24 26 26 138 23 46 92 224 253 216 195 70 190 15 94 230 231 231 3 0 4 76 78 78 194 185 115 231 120 63 72 26 240 235 10 161 70 255 23 46 53 10 132 2 161 70 129 80 32 212 40 16 255 179 127 1 98 252 68 218 196 218 231 219 0 0 0 0 73 69 78 68 174 66 96 130]
@@ -1437,7 +2215,7 @@ CYSFileLibrary >> rhomboidPng [
 
 { #category : #accessing }
 CYSFileLibrary >> selectorsToInclude [
-	^ #( downloadJpgPng downloadJsonPng downloadPngPng downloadingJs arrowDownPng arrowUpPng diamondPng ellipsePng filePng folderPng heptagonPng hexagonPng labelPng noPng octagonPng pentagonPng rectanglePng rhomboidPng starPng telescopeHeightPng telescopeWidthPng trianglePng veePng contextMenuCss contextMenuMinJs cytoscapeminJs jqueryqtipminCss jqueryqtipminJs telescopeCss cogGif cytoscapeTelescopeJs cytoscapeQtipJs)
+	^ #( downloadJpgPng downloadJsonPng downloadPngPng downloadingJs arrowDownPng arrowUpPng diamondPng ellipsePng filePng folderPng heptagonPng hexagonPng labelPng noPng octagonPng pentagonPng rectanglePng rhomboidPng starPng telescopeHeightPng telescopeWidthPng trianglePng veePng contextMenuCss contextMenuMinJs cytoscapeminJs cytoscapepanzoomCss cytoscapepanzoomJs jqueryqtipminCss jqueryqtipminJs telescopeCss cogGif cytoscapeTelescopeJs cytoscapeQtipJs)
 ]
 
 { #category : #legend }

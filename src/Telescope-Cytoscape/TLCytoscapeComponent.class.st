@@ -10,7 +10,8 @@ Class {
 		'visuDivId',
 		'waitingMessage',
 		'style',
-		'exportStrategy'
+		'exportStrategy',
+		'panzoom'
 	],
 	#classInstVars : [
 		'lastId'
@@ -113,6 +114,16 @@ TLCytoscapeComponent >> initialize [
 	self exportStrategy: TLCytoscapeNullExportStrategy new
 ]
 
+{ #category : #accessing }
+TLCytoscapeComponent >> panzoom [
+	^ panzoom ifNil: [ false ]
+]
+
+{ #category : #accessing }
+TLCytoscapeComponent >> panzoom: anObject [
+	panzoom := anObject
+]
+
 { #category : #rendering }
 TLCytoscapeComponent >> renderContentOn: html [
 	| visuId div callback |
@@ -122,6 +133,7 @@ TLCytoscapeComponent >> renderContentOn: html [
 		style: self style;
 		attributeAt: #isTelescopeVisu put: 'true';
 		attributeAt: #'data-port' put: self webSocketPort;
+		attributeAt: #'data-panzoom' put: self panzoom;
 		class: 'telescopeVisu';
 		with: [ html div
 				class: 'visualization';

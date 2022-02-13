@@ -677,6 +677,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         this.waitingDivByVisu[container.getAttribute("id")] = container.getElementsByClassName("tlWaiting")[0]
         const visu = cytoscape({
           pixelRatio: 1,
+          wheelSensitivity: 0.5,
           container: visuElement,
           layout: {name: "preset"},
         })
@@ -780,6 +781,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       }
       menu.push(entry)
     }
+    this.visuWithId(visuId).menuIsOpen = true
     $("#" + visuId).contextMenu(menu)
     //Should remove old menu
     setTimeout(e => {
@@ -798,6 +800,12 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     return function (evt) {
       that.clearOverInteraction()
       var visu = visuWithId.visu
+      if(visu.menuIsOpen && evt.type == "tap") {
+        //if menu is open, event only close him
+        $("#" + visuWithId.visuId).contextMenu("close")
+        visu.menuIsOpen = false
+        return
+      }
       if (evt.target.id != null && !visuWithId.protectDoubleFire[evt.type] && (!visu.animated() || (evt.type == "mouseout"))) {
         // Sometimes cytoscape fail to send a mouseout event. This can cause multiple tooltip to stay visible when they should not.
         // In order to improve the usability of Telescope, when we go over of any element, we also hide the other tooltips that are visible and that should show on a mouse over.

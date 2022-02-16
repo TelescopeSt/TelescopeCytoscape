@@ -213,6 +213,7 @@ TLCytoscapeConnector >> executeAJAXCallBack: callbackURL onComplete: aJSString o
 				callbackUrl:  callbackURL;
 				onComplete: (String streamContents: [ :s | s javascript: aJSString]) ;
 				cssQuery: aCssSelector;
+				visuId: self visuId;
 				yourself)
 ]
 

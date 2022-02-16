@@ -745,8 +745,10 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   displayMenuForElement(element, visuId, position) {
     const that = this
     const menu = []
+    const visu = this.visuWithId(visuId)
 
     function fun(name, evt) {
+      visu.menuIsOpen = false
       that.sendCommand([
         {
           "id": visuId,
@@ -758,6 +760,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
 
     function subFun(name, evt) {
+      visu.menuIsOpen = false
       const selected = evt.currentTarget
       that.sendCommand([
         {
@@ -1123,11 +1126,14 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     // Called when we execute a Seaside ajax callback interaction
     this.commandsAction.set("ajax", (command, visu) => {
       let script = $(command.cssQuery).load(command.callbackUrl)
-      if(command.onComplete) {
-        $(command.cssQuery).load(command.callbackUrl,()=>{Function(command.onComplete)()})
-      } else {
-        $(command.cssQuery).load(command.callbackUrl)
-      }
+      const container = visu.container()
+      container.classList.add("ajax-fetching")
+      $(command.cssQuery).load(command.callbackUrl, {}, () => {
+        if (command.onComplete) {
+          Function(command.onComplete)()
+        }
+        container.classList.remove("ajax-fetching")
+      })
     })
 
     this.commandsAction.set("generated", (command) => {
@@ -2289,7 +2295,7 @@ CYSFileLibrary >> telescopeCss [
     z-index: 100000 !important;
 }
 
-.visualization.fetching::after {
+.visualization.fetching::after, .visualization.ajax-fetching::after {
     content: "fetching";
     position: absolute;
     bottom: 0px;

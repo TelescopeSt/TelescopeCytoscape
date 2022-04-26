@@ -665,6 +665,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     this.toNotifyMessage = {}
     this.id = 0
     this.timeoutId = null
+    this.fectchingDisplayDelais = 150;
     this.setUpCommand()
     this.setUpErrorHandler()
   }
@@ -885,6 +886,21 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
+  delaisFetchingApparition(container) {
+    const that = this
+    that.clearOverFetching()
+    that.timeoutFetching = setTimeout(function () {
+      container.classList.add("fetching")
+    }, that.fectchingDisplayDelais)
+  }
+
+  clearOverFetching() {
+    if (this.timeoutFetching != null) {
+      clearTimeout(this.timeoutFetching)
+      this.timeoutFetching = null
+    }
+  }
+
   sendGenerationCommand(visusIds, port) {
     const websocket = TLJS.getWebSocket(port)
     if (websocket.readyState == 0) {
@@ -915,7 +931,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         let visuWithId = this.visuWithId(jsonArr[i].id)
         visuWithId.waitingForCommand.set(jsonArr[i].commanduid, true)
         let container = visuWithId.container()
-        container.classList.add("fetching")
+        this.delaisFetchingApparition(container)
       }
     TLJS.getWebSocket(port).send(JSON.stringify(jsonArr))
   }
@@ -1158,6 +1174,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     this.commandsAction.set("endCommand", (command, visuWithId) => {
       visuWithId.waitingForCommand.delete(command.commanduid, false)
       let container = visuWithId.container()
+      this.clearOverFetching()
       container.classList.remove("fetching")
     })
 

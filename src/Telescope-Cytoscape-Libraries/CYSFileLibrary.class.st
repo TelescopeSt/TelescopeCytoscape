@@ -809,6 +809,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         visu.menuIsOpen = false
         return
       }
+      visu.menuIsOpen = false
       if (evt.target.id != null && !visuWithId.protectDoubleFire[evt.type] && (!visu.animated() || (evt.type == "mouseout"))) {
         // Sometimes cytoscape fail to send a mouseout event. This can cause multiple tooltip to stay visible when they should not.
         // In order to improve the usability of Telescope, when we go over of any element, we also hide the other tooltips that are visible and that should show on a mouse over.

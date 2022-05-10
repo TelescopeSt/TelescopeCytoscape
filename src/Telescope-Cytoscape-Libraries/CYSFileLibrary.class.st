@@ -939,7 +939,10 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   // I am called when the websocket has an error event
   onError(evt) {
-    this.tryReconnect = false
+    this.tryReconnect = this.tryReconnect && this.pageHaveVisu()
+    if (this.tryReconnect) {
+      TLJS.resetWebSocket(visus)
+    }
   }
 
   // I am called when the websocket is closing.
@@ -1187,7 +1190,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         console.log("message error have no display")
         console.log(command)
       }
-      onError()//generic handle Error
     })
   }
 

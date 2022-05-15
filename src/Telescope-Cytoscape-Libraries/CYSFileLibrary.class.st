@@ -663,6 +663,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     this.visusWaitingConnectToGenerate = []
     this.waitingDivByVisu = {}
     this.toNotifyMessage = {}
+    this.clientSideFunctions = {}
     this.id = 0
     this.timeoutId = null
     this.fectchingDisplayDelais = 150;
@@ -793,6 +794,14 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }, 70)
   }
 
+  handleClientSideInteractions(visu, evt) {
+    (evt.target["clientSideInteractions"] || []).forEach(interaction => {
+      if(interaction.eventType == evt.type) {
+        this.clientSideFunctions[interaction.fctName](evt.target)
+      }
+    })
+  }
+
   // I manage the events I receive from Cytoscape to send to Telescope.
   // I implement some mecanism to make the management of the events better for the user.
   // First, I implement a mecanisme to avoid to double fire an event.
@@ -803,6 +812,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     const that = this
     return function (evt) {
       that.clearOverInteraction()
+      that.handleClientSideInteractions(visuWithId.visu, evt)
       var visu = visuWithId.visu
       if(visu.menuIsOpen && evt.type == "tap") {
         //if menu is open, event only close him
@@ -1041,6 +1051,16 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     if (commandParametersForElement.menu) {
       element["menu"] = commandParametersForElement.menu
     }
+
+    //here we define client side interactions only if needed
+    let clientInteractions = (commandParametersForElement.mouseClientInteractions || []);
+    clientInteractions.forEach(interaction => {
+      if(interaction.script) {
+        this.clientSideFunctions[interaction.fctName] = Function(interaction.script)
+      }
+    })
+    //then we link to node this interactions
+    element["clientSideInteractions"] = clientInteractions
   }
 
   addStaticLegendEntry(visuId, html) {

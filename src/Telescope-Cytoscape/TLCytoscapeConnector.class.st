@@ -334,6 +334,11 @@ TLCytoscapeConnector >> generateClickInteraction: aClickInteraction onDrawable: 
 ]
 
 { #category : #'generation - interaction' }
+TLCytoscapeConnector >> generateClientInteraction: aClickInteraction onDrawable: aTLDrawable targetingDrawable: anObject [
+	"already create in TLVisualizationDrawableCommand"
+]
+
+{ #category : #'generation - interaction' }
 TLCytoscapeConnector >> generateDoubleClickInteraction: aDoubleClickInteraction onDrawable: aTLDrawable targetingDrawable: anObject [
 	self shouldBeImplemented
 ]

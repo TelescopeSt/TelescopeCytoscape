@@ -60,6 +60,35 @@ TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 ]
 
 { #category : #'*Telescope-Cytoscape' }
+TLStyleSheet >> cytoscapeGenericConnectionStyle [
+	| styleDictionary |
+	styleDictionary := Dictionary new.
+	self
+		fillStyleDictionary: styleDictionary
+		with:
+			{(#width -> #width).
+			(#'line-color' -> #color).
+			(#'line-style' -> #connectionStyle).
+			(#label -> #connectionLabel).
+			(#'curve-style' -> #curveStyle).
+			(#'line-style' -> #connectionLineStyle).
+			(#'font-size' -> #connectionLabelSize)}
+		converter: #forCytoscapeConnection.
+	{(#base -> #'source-arrow-').
+	(#middleReversed -> #'mid-source-arrow-').
+	(#head -> #'target-arrow-').
+	(#middle -> #'mid-target-arrow-')}
+		do: [ :substyleAndCytoStyle | 
+			 (self > substyleAndCytoStyle key)
+				fillStyleDictionary: styleDictionary
+				with:
+					{((substyleAndCytoStyle value , #color) -> #color).
+					((substyleAndCytoStyle value , #shape) -> #shape)}
+				converter: #forCytoscapeConnection ].
+	^ styleDictionary
+]
+
+{ #category : #'*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeNodeStyleFor: aNode [
 	| nodeLabelPosition styleDictionary shape |
 	nodeLabelPosition := TLPosition for: (self obtainValue: #nodeLabelPosition forEntity: aNode entity inNode: aNode).
@@ -127,6 +156,20 @@ TLStyleSheet >> cytoscapeTriggerStyleFor: aTrigger [
 		at: 'text-halign' put: nodeLabelPosition horizontal;
 		at: 'text-valign' put: nodeLabelPosition vertical.
 	^ styleDictionary
+]
+
+{ #category : #'*Telescope-Cytoscape' }
+TLStyleSheet >> fillStyleDictionary: aDictionary with: aCollectionOfProperties converter: aConverter [
+	aCollectionOfProperties
+		inject: aDictionary
+		into: [ :style :aPropertyAndValuable | 
+			[ 
+			style
+				at: aPropertyAndValuable key
+				put: (( aPropertyAndValuable value cull: self ) perform: aConverter) ]
+				on: TLStyleSheetMissingProperty
+				do: [  ].
+			style ]
 ]
 
 { #category : #'*Telescope-Cytoscape' }

@@ -9,10 +9,21 @@ Class {
 		'dropInteraction',
 		'popUp',
 		'menu',
-		'style'
+		'style',
+		'clientSideInteractions'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : #'Telescope-Cytoscape-Commands'
 }
+
+{ #category : #accessing }
+TLVisualizationDrawableCommand >> clientSideInteractions [
+	^ clientSideInteractions
+]
+
+{ #category : #accessing }
+TLVisualizationDrawableCommand >> clientSideInteractions: aCollection [
+	clientSideInteractions := aCollection
+]
 
 { #category : #accessing }
 TLVisualizationDrawableCommand >> dropInteraction [

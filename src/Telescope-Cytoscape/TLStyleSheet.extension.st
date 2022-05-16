@@ -49,7 +49,7 @@ TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 	(#head -> #'target-arrow-').
 	(#middle -> #'mid-target-arrow-')}
 		do: [ :substyleAndCytoStyle | 
-			(self copyWithout: #(#shape)) + (self > substyleAndCytoStyle key)
+			(self copySafeWithout: #(#shape)) + (self > substyleAndCytoStyle key)
 				fillStyleDictionary: styleDictionary
 				with:
 					{((substyleAndCytoStyle value , #color) -> #color).
@@ -79,7 +79,7 @@ TLStyleSheet >> cytoscapeGenericConnectionStyle [
 	(#head -> #'target-arrow-').
 	(#middle -> #'mid-target-arrow-')}
 		do: [ :substyleAndCytoStyle | 
-			 (self > substyleAndCytoStyle key)
+			(self copySafeWithout: #(#shape)) + (self > substyleAndCytoStyle key)
 				fillStyleDictionary: styleDictionary
 				with:
 					{((substyleAndCytoStyle value , #color) -> #color).

@@ -640,7 +640,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
     websocket.onopen = function (evt) {
       const instance = TLJS.singleton
-      instance.sendGenerationCommand(instance.visusWaitingConnectToGenerate)
+      instance.sendGenerationCommand(instance.visusWaitingConnectToGenerate, wsPort)
     }
     webSocketMap.set(wsPort, websocket)
   }
@@ -684,14 +684,13 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
           layout: {name: "preset"},
         })
         this.visus.set(container, visu)
-        idsNeedGeneration.push(container.id)
-        this.parametrizeInteractionsListenerForVisu({visuId: container.id, visu})
+        this.parametrizeInteractionsListenerForVisu({visuId: container.id, port: container.dataset.port, visu})
         if(container.dataset.panzoom) {
           visu.panzoom()
         }
+        this.sendGenerationCommand([container.id], container.dataset.port)
       }
     }
-    this.sendGenerationCommand(idsNeedGeneration)
   }
 
   parametrizeInteractionsListenerForVisu(visuWithId) {
@@ -714,7 +713,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
           nodeId: evt.target.id(),
           command: "moveNode",
           position: evt.target.position()
-        }], false)
+        }], false, visuWithId.port)
     }
   }
 
@@ -737,14 +736,14 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
         nodeId: droppedNode.id(),
         command: "dropNode",
         targetNode: target.id()
-      }])
+      }], null, visuWithId.port)
       return true
     } else
       return false
   }
 
 
-  displayMenuForElement(element, visuId, position) {
+  displayMenuForElement(element, visuId, position, port) {
     const that = this
     const menu = []
 
@@ -756,7 +755,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
           "command": "menuInteraction",
           "kind": "menu",
           "entry": ($(evt.target).index() + 1)
-        }])
+        }], null, port)
     }
 
     function subFun(name, evt) {
@@ -769,7 +768,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
           "kind": "menu",
           "entry": ($(selected.parentNode.parentNode).index() + 1),
           "selection": ($(selected).index() + 1)
-        }])
+        }], null, port)
     }
 
     for (let i = 0; i < element.menu.length; i++) {
@@ -853,7 +852,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
                 drawableId: visu.currentOveredElement.target.id(),
                 command: "interaction",
                 kind: (TLJS.eventsWithInteractions["mouseout"])
-              }])
+              }], null, visuWithId.port)
               visu.currentOveredElement = null
             }
             visu.currentOveredElement = evt
@@ -864,13 +863,13 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
             drawableId: evt.target.id(),
             command: "interaction",
             kind: (TLJS.eventsWithInteractions[evt.type])
-          }])
+          }], null, visuWithId.port)
           // menu management
           if (evt.type == "cxttap" && evt.target["menu"]) {
             that.displayMenuForElement(evt.target, visuWithId.visuId, {
               x: evt.originalEvent.clientX,
               y: evt.originalEvent.clientY
-            })
+            }, visuWithId.port)
             visu.container().style.cursor = ""
           }
         }
@@ -1283,17 +1282,17 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
-  static useExternalTrigger(evt, visuId, triggerId) {
-    return this.singleton.useExternalTrigger(evt, visuId, triggerId)
+  static useExternalTrigger(evt, visuId, triggerId, port) {
+    return this.singleton.useExternalTrigger(evt, visuId, triggerId, port)
   }
 
-  useExternalTrigger(evt, visuId, triggerId) {
+  useExternalTrigger(evt, visuId, triggerId, port) {
     this.sendCommand([{
       id: visuId,
       command: "externalTrigger",
       triggerId: triggerId,
       kind: (TLJS.eventsWithInteractions[evt.type] || evt.type)
-    }])
+    }], null, port)
   }
 
 }

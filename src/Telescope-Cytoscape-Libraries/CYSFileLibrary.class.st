@@ -630,13 +630,13 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   static __initWebSocketOnPort(wsPort, webSocketMap) {
     const websocket = new WebSocket(TLJS.wsProtocol + location.hostname + ":" + wsPort + "/ws-TLCytoscape")
     websocket.onclose = function (evt) {
-      TLJS.singleton.onClose(evt)
+      TLJS.singleton.onClose(evt, wsPort, webSocketMap)
     }
     websocket.onmessage = function (evt) {
       TLJS.singleton.onMessage(evt)
     }
     websocket.onerror = function (evt) {
-      TLJS.singleton.onError(evt)
+      TLJS.singleton.onError(evt, wsPort, webSocketMap)
     }
     websocket.onopen = function (evt) {
       const instance = TLJS.singleton
@@ -666,7 +666,8 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     this.clientSideFunctions = {}
     this.id = 0
     this.timeoutId = null
-    this.fectchingDisplayDelais = 150;
+    this.fectchingDisplayDelais = 150
+    this.tryReconnect = true
     this.setUpCommand()
     this.setUpErrorHandler()
   }
@@ -947,18 +948,18 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
 
   // I am called when the websocket has an error event
-  onError(evt) {
+  onError(evt, wsPort, webSocketMap) {
     this.tryReconnect = this.tryReconnect && this.pageHaveVisu()
     if (this.tryReconnect) {
-      TLJS.resetWebSocket(visus)
+      TLJS.resetWebSocket(wsPort, webSocketMap)
     }
   }
 
   // I am called when the websocket is closing.
-  onClose(evt) {
+  onClose(evt, wsPort, webSocketMap) {
     this.tryReconnect = this.tryReconnect && this.pageHaveVisu()
     if (this.tryReconnect) {
-      TLJS.resetWebSocket(visus)
+      TLJS.resetWebSocket(wsPort, webSocketMap)
     }
   }
 
@@ -995,7 +996,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   //Return true if the page has at least one visualization
   pageHaveVisu() {
-    return this.visus.size > 0
+    return document.querySelector(".telescopeVisu") !== null
   }
 
   static visuWithId(aVisuId) {

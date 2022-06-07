@@ -811,6 +811,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
   createEventFunction(visuWithId) {
     const that = this
     return function (evt) {
+      TLJS.enableUserNotification(evt)
       that.clearOverInteraction()
       that.handleClientSideInteractions(visuWithId.visu, evt)
       var visu = visuWithId.visu
@@ -1243,8 +1244,14 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       }
   }
 
-  static enableUserNotification() {
-    this.singleton.enableUserNotification()
+  static enableUserNotification(evt) {
+    if(!this.alreadyAskPermissions) {
+      if(!(["click", "tap", "cxttap", "contextmenu"].includes(evt.type))) {
+        return null;
+      }
+      this.alreadyAskPermissions = true
+      this.singleton.enableUserNotification()
+    }
   }
 
   enableUserNotification() {
@@ -1305,8 +1312,6 @@ window.addEventListener("load", () => {
 
 
 var notify
-TLJS.enableUserNotification()
-
 
 function changeData(command) {
   let self = this

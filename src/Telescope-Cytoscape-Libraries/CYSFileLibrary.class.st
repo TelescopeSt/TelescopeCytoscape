@@ -599,7 +599,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   static getWebSocket(wsPortOrNull, webSocketMapOrNull) {
     const webSocketMap = webSocketMapOrNull || this.webSocketMap
-    const wsPort = wsPortOrNull || "1701"
+    const wsPort = (wsPortOrNull || "1701").toString()
     if (!this.__webSocketMap.has(wsPort)) {
       TLJS.__initWebSocketOnPort(wsPort, webSocketMap)
     }
@@ -627,7 +627,8 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
     }
   }
 
-  static __initWebSocketOnPort(wsPort, webSocketMap) {
+  static __initWebSocketOnPort(wsPortAnyType, webSocketMap) {
+	 const wsPort = wsPortAnyType.toString()
     const websocket = new WebSocket(TLJS.wsProtocol + location.hostname + ":" + wsPort + "/ws-TLCytoscape")
     websocket.onclose = function (evt) {
       TLJS.singleton.onClose(evt, wsPort, webSocketMap)

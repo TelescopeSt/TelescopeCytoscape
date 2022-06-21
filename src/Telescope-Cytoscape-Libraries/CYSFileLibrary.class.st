@@ -1178,7 +1178,6 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
     // Called when we execute a Seaside ajax callback interaction
     this.commandsAction.set("ajax", (command, visu) => {
-      let script = $(command.cssQuery).load(command.callbackUrl)
       if(command.onComplete) {
         $(command.cssQuery).load(command.callbackUrl,()=>{Function(command.onComplete)()})
       } else {

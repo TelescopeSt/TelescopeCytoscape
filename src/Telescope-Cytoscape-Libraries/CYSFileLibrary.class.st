@@ -589,7 +589,9 @@ SOFTWARE.
 
 { #category : #bindings }
 CYSFileLibrary >> cytoscapeTelescopeJs [
-	^ 'class TLJS {
+	^ 'var notify
+
+class TLJS {
   static eventsWithInteractions = {
     "tap": "click",
     "cxttap": "rightClick",
@@ -1154,6 +1156,10 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
       $("#" + command.visuId + "legend").find("table").children().remove()
     })
 
+    this.commandsAction.set("notify", (command) => {
+      notify(command.message)
+    })
+
     this.commandsAction.set("refreshNode", (command, visu) => {
       visu.$("#" + command.data.id).changeData(command)
     })
@@ -1256,7 +1262,7 @@ CYSFileLibrary >> cytoscapeTelescopeJs [
 
   enableUserNotification() {
     function showNotification(message) {
-      new Notification(message)
+      new Notification(message, { body: message })
     }
 
     if (!("Notification" in window)) {
@@ -1309,9 +1315,6 @@ window.addEventListener("load", () => {
   console.log("loaded")
   TLJS.initVisus()
 }, false)
-
-
-var notify
 
 function changeData(command) {
   let self = this

@@ -541,6 +541,12 @@ TLCytoscapeConnector >> nodesShapesAvailableForConnector [
 				do: [ false ] ]
 ]
 
+{ #category : #accessing }
+TLCytoscapeConnector >> notify: aString forVisualization: aTLVisualizaton [
+
+	TLCytoscapeWebSocketDelegate singleton sendCommands: { (TLNotifyCommand message: aString) } forVisu: aTLVisualizaton
+]
+
 { #category : #opening }
 TLCytoscapeConnector >> open: aTLVisualization inWindowSized: aPoint titled: aString [ 
 	aTLVisualization openOnWeb

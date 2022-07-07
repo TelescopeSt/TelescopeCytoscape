@@ -2351,11 +2351,16 @@ CYSFileLibrary >> telescopeCss [
     z-index: 100000 !important;
 }
 
-.visualization.fetching::after {
-    content: "fetching";
+.visualization #fetching {
+    display: none;
     position: absolute;
     bottom: 0px;
     right: 0px;
+    z-index: 10;
+}
+
+.visualization.fetching #fetching {
+    display: block
 }
 
 .visualization.no-result::after {

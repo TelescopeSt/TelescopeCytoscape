@@ -126,29 +126,41 @@ TLCytoscapeComponent >> panzoom: anObject [
 
 { #category : #rendering }
 TLCytoscapeComponent >> renderContentOn: html [
+
 	| visuId div callback |
 	visuId := self visuDivId.
 	div := html div
-		id: visuId;
-		style: self style;
-		attributeAt: #isTelescopeVisu put: 'true';
-		attributeAt: #'data-port' put: self webSocketPort;
-		attributeAt: #'data-panzoom' put: self panzoom asString;
-		class: 'telescopeVisu';
-		with: [ html div
-				class: 'visualization';
-				style: 'height: 100%; width: 100%;'.
-			self waitingMessage value: html.
-			self renderOptionalButtonsOn: html ];
-		yourself.
+		       id: visuId;
+		       style: self style;
+		       attributeAt: #isTelescopeVisu put: 'true';
+		       attributeAt: #'data-port' put: self webSocketPort;
+		       attributeAt: #'data-panzoom' put: self panzoom asString;
+		       class: 'telescopeVisu';
+		       with: [ 
+			       html div
+				       class: 'visualization';
+				       style: 'height: 100%; width: 100%;';
+				       with: [ 
+					       html div
+						       id: #fetching;
+						       with: [ self renderFetchingDivOn: html ] ].
+			       self waitingMessage value: html.
+			       self renderOptionalButtonsOn: html ];
+		       yourself.
 	callback := WAValueCallback new.
 	TLCytoscapeWebSocketDelegate
 		registerVisualization: self visualization
 		underId: visuId
 		withCallBack: callback
-		callbackUrl:
-			{html actionUrl asString.
-			(div storeCallback: callback)}
+		callbackUrl: { 
+				html actionUrl asString.
+				(div storeCallback: callback) }
+]
+
+{ #category : #rendering }
+TLCytoscapeComponent >> renderFetchingDivOn: html [
+
+	html text: 'Fetching'
 ]
 
 { #category : #rendering }

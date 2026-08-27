@@ -1,11 +1,11 @@
-Extension { #name : #TLHexagon }
+Extension { #name : 'TLHexagon' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLHexagon class >> forCytoscape [
 	^ 'hexagon'
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLHexagon class >> forCytoscapeConnection [
 	^ TLCytoscapeNotSupportedFunctionalityException signal: 'Impossible to put an hexagon on a connection'
 ]

@@ -1,6 +1,6 @@
-Extension { #name : #TLTriangle }
+Extension { #name : 'TLTriangle' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLTriangle class >> forCytoscape [
 	^ 'triangle'
 ]

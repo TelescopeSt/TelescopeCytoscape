@@ -1,11 +1,11 @@
-Extension { #name : #TLEllipse }
+Extension { #name : 'TLEllipse' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLEllipse class >> forCytoscapeConnection [
 	^ 'circle'
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLEllipse class >> forCytoscapeNode [
 	^ 'ellipse'
 ]

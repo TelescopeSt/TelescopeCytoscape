@@ -1,11 +1,11 @@
-Extension { #name : #TLOctagon }
+Extension { #name : 'TLOctagon' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLOctagon class >> forCytoscape [
 	^ 'octagon'
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLOctagon class >> forCytoscapeConnection [
 	^ TLCytoscapeNotSupportedFunctionalityException signal: 'Impossible to put an octagon on a connection'
 ]

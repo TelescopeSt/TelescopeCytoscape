@@ -1,6 +1,6 @@
-Extension { #name : #TLStyleSheetLegendEntry }
+Extension { #name : 'TLStyleSheetLegendEntry' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheetLegendEntry >> cytoscapeHtmlRepresentation [
 	^ String
 		streamContents: [ :s | 

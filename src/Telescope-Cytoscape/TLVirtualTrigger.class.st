@@ -1,39 +1,41 @@
 Class {
-	#name : #TLVirtualTrigger,
-	#superclass : #TLVirtualNode,
+	#name : 'TLVirtualTrigger',
+	#superclass : 'TLVirtualNode',
 	#instVars : [
 		'triggerPosition',
 		'virtualNodeReference'
 	],
-	#category : #'Telescope-Cytoscape-Virtual'
+	#category : 'Telescope-Cytoscape-Virtual',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Virtual'
 }
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualTrigger >> cytoscapePosition [
 	^ self position
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualTrigger >> position [
 	^ self triggerPosition computePositionOf: self relativeTo: self virtualNodeReference
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualTrigger >> triggerPosition [
 	^ triggerPosition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualTrigger >> triggerPosition: aTLposition [
 	triggerPosition:= aTLposition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualTrigger >> virtualNodeReference [
 	^ virtualNodeReference
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualTrigger >> virtualNodeReference: aTLvirtualNode [
 	virtualNodeReference := aTLvirtualNode
 ]

@@ -1,14 +1,16 @@
 Class {
-	#name : #TLMultiChoicesMenuInteractionCommand,
-	#superclass : #TLInteractionCommand,
+	#name : 'TLMultiChoicesMenuInteractionCommand',
+	#superclass : 'TLInteractionCommand',
 	#instVars : [
 		'entry',
 		'selection'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLMultiChoicesMenuInteractionCommand class >> newWithParameters: aParametersDictionary [
 	^ (super newWithParameters: aParametersDictionary)
 		entry: (aParametersDictionary at: #entry);
@@ -16,27 +18,27 @@ TLMultiChoicesMenuInteractionCommand class >> newWithParameters: aParametersDict
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLMultiChoicesMenuInteractionCommand >> entry [
 	^ entry
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLMultiChoicesMenuInteractionCommand >> entry: anObject [
 	entry := anObject
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 TLMultiChoicesMenuInteractionCommand >> executeOnVisu: aTLVisualization [
 	aTLVisualization generator executeMultiChoice: self selection menuInteraction: self entry onDrawableId: self drawableId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLMultiChoicesMenuInteractionCommand >> selection [
 	^ selection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLMultiChoicesMenuInteractionCommand >> selection: anObject [
 	selection := anObject
 ]

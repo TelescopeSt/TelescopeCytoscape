@@ -2,20 +2,22 @@
 I am the command for a new node creation
 "
 Class {
-	#name : #TLVisualizationAddNodeCommand,
-	#superclass : #TLVisualizationDrawableCommand,
+	#name : 'TLVisualizationAddNodeCommand',
+	#superclass : 'TLVisualizationDrawableCommand',
 	#instVars : [
 		'virtualNode'
 	],
-	#category : #'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationAddNodeCommand class >> command [
 	^ #add
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVisualizationAddNodeCommand >> customizeFromInteractions: aCollectionOfInteractions forNode: aTLNode [
 	self
 		mouseOverInteraction:
@@ -50,12 +52,12 @@ TLVisualizationAddNodeCommand >> customizeFromInteractions: aCollectionOfInterac
 				thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aTLNode ])
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationAddNodeCommand >> isAddingCommand [
 	^ true
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationAddNodeCommand >> neoJsonOn: writer [
 	| data |
 	data := {(#id -> self nodeId)} asDictionary.
@@ -80,17 +82,17 @@ TLVisualizationAddNodeCommand >> neoJsonOn: writer [
 			self menu ifNotEmpty: [ jsonMapWriter writeKey: #menu value: self menu ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddNodeCommand >> nodeId [
 	^ self virtualNode nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddNodeCommand >> virtualNode [
 	^ virtualNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddNodeCommand >> virtualNode: anObject [
 	virtualNode := anObject
 ]

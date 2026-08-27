@@ -1,19 +1,21 @@
 Class {
-	#name : #TLCytoscapeConnectorTest,
-	#superclass : #TestCase,
+	#name : 'TLCytoscapeConnectorTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'connector'
 	],
-	#category : #'Telescope-Cytoscape-Tests-Connector'
+	#category : 'Telescope-Cytoscape-Tests-Connector',
+	#package : 'Telescope-Cytoscape-Tests',
+	#tag : 'Connector'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 TLCytoscapeConnectorTest >> setUp [
 	super setUp.
 	connector := TLCytoscapeConnector new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLCytoscapeConnectorTest >> testGroupUpdating [
 	| group |
 	group := TLEntitiesGroup new.
@@ -31,7 +33,7 @@ TLCytoscapeConnectorTest >> testGroupUpdating [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLCytoscapeConnectorTest >> testGroupUpdatingAfterMoving [
 	| groupA groupB node |
 	groupA := TLEntitiesGroup new.
@@ -54,7 +56,7 @@ TLCytoscapeConnectorTest >> testGroupUpdatingAfterMoving [
 	self assert: (connector elementFromTLDrawable: node) parent equals: (connector elementFromTLDrawable: groupB)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLCytoscapeConnectorTest >> testLayoutApplicationOnComposite [
 	| group mockLayout |
 	group := TLEntitiesGroup new.
@@ -68,7 +70,7 @@ TLCytoscapeConnectorTest >> testLayoutApplicationOnComposite [
 	(mockLayout should receive on: Any) once
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLCytoscapeConnectorTest >> testLayoutApplicationOnCompositeIntoComposite [
 	| group mockLayout childrenMockLayout |
 	group := TLEntitiesGroup new.

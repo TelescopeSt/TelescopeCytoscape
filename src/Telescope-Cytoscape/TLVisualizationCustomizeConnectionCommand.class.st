@@ -2,30 +2,32 @@
 I am the command for a connection style customization
 "
 Class {
-	#name : #TLVisualizationCustomizeConnectionCommand,
-	#superclass : #TLVisualizationDrawableCommand,
+	#name : 'TLVisualizationCustomizeConnectionCommand',
+	#superclass : 'TLVisualizationDrawableCommand',
 	#instVars : [
 		'connectionId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationCustomizeConnectionCommand class >> command [
 	^ #customize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCustomizeConnectionCommand >> connectionId [
 	^ connectionId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCustomizeConnectionCommand >> connectionId: aString [
 	connectionId := aString
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationCustomizeConnectionCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 

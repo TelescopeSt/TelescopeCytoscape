@@ -5,15 +5,16 @@ I'm a singleton because I'm handled by a WebComponent for which I should not cha
 The default visualization is a blank visualization.
 "
 Class {
-	#name : #TLWebAppVisualization,
-	#superclass : #Object,
+	#name : 'TLWebAppVisualization',
+	#superclass : 'Object',
 	#instVars : [
 		'visualization'
 	],
-	#category : 'Telescope-Cytoscape'
+	#category : 'Telescope-Cytoscape',
+	#package : 'Telescope-Cytoscape'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLWebAppVisualization class >> singleton [
 self flag:'revoir comment on implem un singleton... Je n aime pas creer des variables de classe'.
 	^self allInstances
@@ -21,23 +22,23 @@ self flag:'revoir comment on implem un singleton... Je n aime pas creer des vari
 		ifNotEmpty:[self allInstances first]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLWebAppVisualization >> defaultVisualization [
 	^ TLVisualization new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLWebAppVisualization >> initialize [
 	super initialize.
 	visualization := self defaultVisualization
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLWebAppVisualization >> visualization [
 	^ visualization
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLWebAppVisualization >> visualization: anObject [
 	visualization := anObject
 ]

@@ -1,6 +1,6 @@
-Extension { #name : #TLDashedLineStyle }
+Extension { #name : 'TLDashedLineStyle' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLDashedLineStyle class >> forCytoscape [
 	^ #dashed
 ]

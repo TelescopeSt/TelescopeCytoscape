@@ -21,27 +21,29 @@ Examples
 	                yourself)
 "
 Class {
-	#name : #TLCytoscapeJSONExportStrategy,
-	#superclass : #TLCytoscapeAbstractExportStrategy,
-	#category : 'Telescope-Cytoscape-Export'
+	#name : 'TLCytoscapeJSONExportStrategy',
+	#superclass : 'TLCytoscapeAbstractExportStrategy',
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeJSONExportStrategy >> exportJsFunctionOn: aStream [
 	aStream nextPutAll: 'json()'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeJSONExportStrategy >> extension [
 	^ '.json'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeJSONExportStrategy >> iconName [
 	^ 'downloadJsonPng'
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeJSONExportStrategy >> telescopeExportFunction [
 	^ 'downloadJSON'
 ]

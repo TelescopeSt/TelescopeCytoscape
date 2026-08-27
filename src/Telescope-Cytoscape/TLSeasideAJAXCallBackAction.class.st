@@ -30,18 +30,20 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #TLSeasideAJAXCallBackAction,
-	#superclass : #TLDrawableAction,
+	#name : 'TLSeasideAJAXCallBackAction',
+	#superclass : 'TLDrawableAction',
 	#instVars : [
 		'cssQuery',
 		'url',
 		'beforeBlock',
 		'onComplete'
 	],
-	#category : #'Telescope-Cytoscape-Actions'
+	#category : 'Telescope-Cytoscape-Actions',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Actions'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLSeasideAJAXCallBackAction class >> callback: aBlock forElement: aString on: html [
 	| cbId |
 	cbId := html callbacks
@@ -69,48 +71,48 @@ TLSeasideAJAXCallBackAction class >> callback: aBlock forElement: aString on: ht
 		yourself
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 TLSeasideAJAXCallBackAction >> actionOn: aTLDrawable [
   self beforeBlock ifNotNil: [ self beforeBlock cull: aTLDrawable cull: aTLDrawable entity ].
   aTLDrawable generator executeAJAXCallBack: self url onComplete: self onComplete onDrawable: aTLDrawable onElement: self cssQuery 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> beforeBlock [
 	^ beforeBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> beforeBlock: anObject [
 	beforeBlock := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> cssQuery [
 	^ cssQuery
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> cssQuery: anObject [
 	cssQuery := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> onComplete [
 	^ onComplete
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> onComplete: anObject [
 	onComplete := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> url [
 	^ url
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideAJAXCallBackAction >> url: anObject [
 	url := anObject
 ]

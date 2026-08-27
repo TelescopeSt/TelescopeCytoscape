@@ -1,6 +1,6 @@
-Extension { #name : #Fraction }
+Extension { #name : 'Fraction' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 Fraction >> forCytoscape [
 	^ self asFloat asString
 ]

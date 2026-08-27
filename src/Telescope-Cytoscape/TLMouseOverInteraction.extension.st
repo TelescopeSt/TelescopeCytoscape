@@ -1,6 +1,6 @@
-Extension { #name : #TLMouseOverInteraction }
+Extension { #name : 'TLMouseOverInteraction' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLMouseOverInteraction >> forCytoscapeFromNode: aTLNode [
 	^ (self action forCytoscapeFromNode: aTLNode)
 		at: 'show' put: {('event' -> #mouseover)} asDictionary;

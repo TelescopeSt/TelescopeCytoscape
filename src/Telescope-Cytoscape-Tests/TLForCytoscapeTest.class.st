@@ -1,10 +1,12 @@
 Class {
-	#name : #TLForCytoscapeTest,
-	#superclass : #TestCase,
-	#category : #'Telescope-Cytoscape-Tests-Model'
+	#name : 'TLForCytoscapeTest',
+	#superclass : 'TestCase',
+	#category : 'Telescope-Cytoscape-Tests-Model',
+	#package : 'Telescope-Cytoscape-Tests',
+	#tag : 'Model'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLForCytoscapeTest >> testForCytoscapeColor [
 	| rgbaMap |
 	rgbaMap := Dictionary new
@@ -31,14 +33,14 @@ TLForCytoscapeTest >> testForCytoscapeColor [
 	rgbaMap keysAndValuesDo: [ :tint :rgba | self assert: (MDLColor tint: tint) forCytoscape equals: rgba ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLForCytoscapeTest >> testForCytoscapeNumber [
 	self assert: 1 forCytoscape equals: '1'.
 	self assert: 1.5 forCytoscape equals: '1.5'.
 	self assert: (22 / 4) forCytoscape equals: '5.5'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLForCytoscapeTest >> testForCytoscapeString [
 	self assert: 'test' forCytoscape equals: 'test'
 ]

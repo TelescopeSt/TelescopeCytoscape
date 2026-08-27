@@ -1,6 +1,6 @@
-Extension { #name : #Color }
+Extension { #name : 'Color' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 Color >> forCytoscape [
 	^ self asRGBA
 ]

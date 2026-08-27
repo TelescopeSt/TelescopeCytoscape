@@ -1,11 +1,11 @@
-Extension { #name : #TLNoShape }
+Extension { #name : 'TLNoShape' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLNoShape class >> forCytoscape [
 	^ ''
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLNoShape class >> forCytoscapeConnection [
 	^ 'none'
 ]

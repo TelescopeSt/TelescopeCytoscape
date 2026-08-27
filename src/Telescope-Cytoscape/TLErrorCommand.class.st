@@ -2,16 +2,18 @@
 I am the abstract superclass for all error commands sent to the client
 "
 Class {
-	#name : #TLErrorCommand,
-	#superclass : #TLVisualizationCommand,
+	#name : 'TLErrorCommand',
+	#superclass : 'TLVisualizationCommand',
 	#instVars : [
 		'error',
 		'message'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLErrorCommand class >> new: id withError: anError on: aSocket [
 	self new
 		visuId: id;
@@ -19,27 +21,27 @@ TLErrorCommand class >> new: id withError: anError on: aSocket [
 		sendCommandOn: aSocket.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLErrorCommand >> errorObject [
 	^ error
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLErrorCommand >> errorObject: anError [
 	error:= anError
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLErrorCommand >> message [
 	^ message ifNil:[ self errorObject messageText ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLErrorCommand >> message: aString [
   message:= aString
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 TLErrorCommand >> sendCommandOn: aWebSocket [
 	aWebSocket
 		sendMessage:
@@ -51,7 +53,7 @@ TLErrorCommand >> sendCommandOn: aWebSocket [
 					(#message -> self message)} asDictionary})
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLErrorCommand >> type [
 	^ 'generic'
 ]

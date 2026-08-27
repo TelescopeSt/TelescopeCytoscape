@@ -1,6 +1,6 @@
-Extension { #name : #TLDirectCurve }
+Extension { #name : 'TLDirectCurve' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLDirectCurve class >> forCytoscape [
 	^ #haystack
 ]

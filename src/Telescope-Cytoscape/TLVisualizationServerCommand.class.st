@@ -2,17 +2,19 @@
 I am the abstract superclass for all commands sent to the client by the server
 "
 Class {
-	#name : #TLVisualizationServerCommand,
-	#superclass : #TLVisualizationCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#name : 'TLVisualizationServerCommand',
+	#superclass : 'TLVisualizationCommand',
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationServerCommand >> isAddingCommand [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationServerCommand >> isMultiAdding [
 	^ false
 ]

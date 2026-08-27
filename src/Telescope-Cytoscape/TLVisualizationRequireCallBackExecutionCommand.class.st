@@ -2,36 +2,38 @@
 I am a command that ask the client to execute the provided callback by load a new page
 "
 Class {
-	#name : #TLVisualizationRequireCallBackExecutionCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationRequireCallBackExecutionCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'callbackUrl',
 		'openInNewTab'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationRequireCallBackExecutionCommand class >> command [
 	^ #callbackUrl
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationRequireCallBackExecutionCommand >> callbackUrl [
 	^ callbackUrl
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationRequireCallBackExecutionCommand >> callbackUrl: anObject [
 	callbackUrl := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationRequireCallBackExecutionCommand >> openInNewTab [
 	^ openInNewTab
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationRequireCallBackExecutionCommand >> openInNewTab: anObject [
 	openInNewTab := anObject
 ]

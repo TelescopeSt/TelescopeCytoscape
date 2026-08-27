@@ -2,32 +2,34 @@
 I am a specialized interaction for menu
 "
 Class {
-	#name : #TLMenuInteractionCommand,
-	#superclass : #TLInteractionCommand,
+	#name : 'TLMenuInteractionCommand',
+	#superclass : 'TLInteractionCommand',
 	#instVars : [
 		'entry'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLMenuInteractionCommand class >> newWithParameters: aParametersDictionary [
 	^ (super newWithParameters: aParametersDictionary)
 		entry: (aParametersDictionary at: #entry);
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLMenuInteractionCommand >> entry [
 	^ entry
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLMenuInteractionCommand >> entry: anObject [
 	entry := anObject
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 TLMenuInteractionCommand >> executeOnVisu: aTLVisualization [
 	aTLVisualization generator executeMenuInteraction: self entry onDrawableId: self drawableId
 ]

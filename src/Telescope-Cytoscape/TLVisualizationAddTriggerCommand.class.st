@@ -2,38 +2,40 @@
 I am a command that ask the client to add a trigger on the referenced node
 "
 Class {
-	#name : #TLVisualizationAddTriggerCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationAddTriggerCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'mouseOverInteraction',
 		'style',
 		'virtualNodeReference',
 		'virtualTrigger'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationAddTriggerCommand class >> command [
 	^ #addTrigger
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationAddTriggerCommand >> isAddingCommand [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> mouseOverInteraction [
 	^ mouseOverInteraction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> mouseOverInteraction: anObject [
 	mouseOverInteraction := anObject
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationAddTriggerCommand >> neoJsonOn: writer [
 	| data |
 	data := {(#id -> self triggerId)} asDictionary.
@@ -52,37 +54,37 @@ TLVisualizationAddTriggerCommand >> neoJsonOn: writer [
 			jsonMapWriter writeKey: #style value: self style ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> style [
 	^ style
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> style: anObject [
 	style := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> triggerId [
 	^ self virtualTrigger nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> virtualNodeReference [
 	^ virtualNodeReference
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> virtualNodeReference: anObject [
 	virtualNodeReference := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> virtualTrigger [
 	^ virtualTrigger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddTriggerCommand >> virtualTrigger: anObject [
 	virtualTrigger := anObject
 ]

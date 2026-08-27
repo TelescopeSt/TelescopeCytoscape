@@ -2,12 +2,14 @@
 I am the abstract superclass for all commands sent by the client
 "
 Class {
-	#name : #TLVisualizationClientsCommand,
-	#superclass : #TLVisualizationCommand,
-	#category : #'Telescope-Cytoscape-Commands'
+	#name : 'TLVisualizationClientsCommand',
+	#superclass : 'TLVisualizationCommand',
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLVisualizationClientsCommand class >> createFrom: aJsonDictionary [
 	^ ({('generate' -> TLVisualizationGenerationCommand).
 	('interaction' -> TLInteractionCommand).
@@ -18,14 +20,14 @@ TLVisualizationClientsCommand class >> createFrom: aJsonDictionary [
 	('externalTrigger' -> TLExternalTriggerCommand)} asDictionary at: (aJsonDictionary at: #command)) newWithParameters: aJsonDictionary
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLVisualizationClientsCommand class >> newWithParameters: aParametersDictionary [
 	^ self new
 		visuId: (aParametersDictionary at: #id);
 		yourself
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 TLVisualizationClientsCommand >> executeOnVisu: aTLVisualization [
 	self subclassResponsibility 
 ]

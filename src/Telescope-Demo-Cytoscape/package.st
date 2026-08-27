@@ -1,1 +1,1 @@
-Package { #name : #'Telescope-Demo-Cytoscape' }
+Package { #name : 'Telescope-Demo-Cytoscape' }

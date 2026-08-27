@@ -2,41 +2,43 @@
 I am a trait to factorise code for elements
 "
 Trait {
-	#name : #TVirtualElement,
-	#category : 'Telescope-Cytoscape-Virtual'
+	#name : 'TVirtualElement',
+	#category : 'Telescope-Cytoscape-Virtual',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Virtual'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 TVirtualElement >> hasParent [
 	^ self parent notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TVirtualElement >> hasParentNode [
 	^ self parentNode notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TVirtualElement >> parent [
 	^ self explicitRequirement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TVirtualElement >> parentNode [
 	^ self parent ifNotNil: [ self parent isNode ifTrue: [ self parent ] ifFalse: [self parent parentNode]]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 TVirtualElement >> translateBy: aVector [
 	self position: self position + aVector
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 TVirtualElement >> translateTo: aPosition [
 	self position: aPosition
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TVirtualElement >> upperLeftAbsolutePosition [
 	^ self absolutePosition - (self dimension / 2)
 ]

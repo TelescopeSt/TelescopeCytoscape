@@ -24,43 +24,45 @@ Examples
 
 "
 Class {
-	#name : #TLCytoscapeAbstractExportStrategy,
-	#superclass : #Object,
-	#category : 'Telescope-Cytoscape-Export'
+	#name : 'TLCytoscapeAbstractExportStrategy',
+	#superclass : 'Object',
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLCytoscapeAbstractExportStrategy class >> isAbstract [
 	^ self = TLCytoscapeAbstractExportStrategy
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeAbstractExportStrategy >> exportJsFunctionOn: aStream [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeAbstractExportStrategy >> extension [
 	"Return a string corresponding to the extension of the file to export."
 	
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeAbstractExportStrategy >> fileName [
 	"Name of the file to export"
 	
 	^ DateAndTime now printString , self extension
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeAbstractExportStrategy >> iconName [
 	"Name of the image to display next to the Telescope visualization as a button form the CYSFileLibrary"
 	
 	^ self subclassResponsibility
 ]
 
-{ #category : #javascript }
+{ #category : 'javascript' }
 TLCytoscapeAbstractExportStrategy >> jsExportForVisu: aVisuId [
 	^ String
 		streamContents: [ :stream | 
@@ -76,14 +78,14 @@ TLCytoscapeAbstractExportStrategy >> jsExportForVisu: aVisuId [
 			stream nextPutAll: ');' ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeAbstractExportStrategy >> renderDownloadButtonForVisu: aVisuId on: html [
 	html image
 		url: (CYSFileLibrary urlOf: self iconName);
 		onClick: (JSStream on: (self jsExportForVisu: aVisuId))
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeAbstractExportStrategy >> telescopeExportFunction [
 	^ self subclassResponsibility
 ]

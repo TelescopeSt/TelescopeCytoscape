@@ -2,31 +2,33 @@
 I represent a virtual connection used to compute layout
 "
 Class {
-	#name : #TLVirtualConnection,
-	#superclass : #Object,
+	#name : 'TLVirtualConnection',
+	#superclass : 'Object',
 	#instVars : [
 		'from',
 		'to'
 	],
-	#category : 'Telescope-Cytoscape-Virtual'
+	#category : 'Telescope-Cytoscape-Virtual',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Virtual'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualConnection >> from [
 	^ from
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualConnection >> from: anObject [
 	from := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualConnection >> to [
 	^ to
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualConnection >> to: anObject [
 	to := anObject
 ]

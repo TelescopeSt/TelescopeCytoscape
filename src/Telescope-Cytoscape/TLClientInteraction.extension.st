@@ -1,6 +1,6 @@
-Extension { #name : #TLClientInteraction }
+Extension { #name : 'TLClientInteraction' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLClientInteraction >> forCytoscapeForDrawable: aTLCompositeNode [
 	| data |
 	data := Dictionary new.
@@ -10,7 +10,7 @@ TLClientInteraction >> forCytoscapeForDrawable: aTLCompositeNode [
 	^ data
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLClientInteraction >> functionName [
 	^ fctName ifNil: [ fctName := 'fct' , self class nextId asString ]
 ]

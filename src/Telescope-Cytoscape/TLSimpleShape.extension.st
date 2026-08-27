@@ -1,6 +1,6 @@
-Extension { #name : #TLSimpleShape }
+Extension { #name : 'TLSimpleShape' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSimpleShape class >> availableForCytoscapeConnection [
 	^ [ 
 	self forCytoscapeConnection.
@@ -9,17 +9,17 @@ TLSimpleShape class >> availableForCytoscapeConnection [
 		do: [ false ]
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSimpleShape class >> cytoscapeAttribute [
 	^ #shape
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSimpleShape class >> cytoscapePolygonPoints [
 	^ self cytoscapePolygonPointsFrom: self polygonPoints
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSimpleShape class >> cytoscapePolygonPointsFrom: aCollectionOfPoints [
 	"This method takes the polygon points representation of the shape and return a string describing the shape as Cytoscape can interpret it."
 
@@ -37,14 +37,14 @@ TLSimpleShape class >> cytoscapePolygonPointsFrom: aCollectionOfPoints [
 				separatedBy: [ aStream nextPutAll: ', ' ] ]
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSimpleShape class >> forCytoscapeNode [
 	^ self cytoscapeAttribute = #shape
 		ifTrue: [ super forCytoscapeNode ]
 		ifFalse: [ self cytoscapePolygonPoints ]
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSimpleShape class >> iconName [
 	| shapeName |
 	shapeName := self name allButFirst: 2.

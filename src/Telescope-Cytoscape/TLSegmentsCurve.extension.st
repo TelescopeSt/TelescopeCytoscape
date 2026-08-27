@@ -1,6 +1,6 @@
-Extension { #name : #TLSegmentsCurve }
+Extension { #name : 'TLSegmentsCurve' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLSegmentsCurve class >> forCytoscape [
 	^ #segments
 ]

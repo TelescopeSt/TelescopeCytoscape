@@ -1,6 +1,6 @@
-Extension { #name : #TLHeightLegendEntry }
+Extension { #name : 'TLHeightLegendEntry' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLHeightLegendEntry >> iconName [
 	^ #telescopeHeightPng
 ]

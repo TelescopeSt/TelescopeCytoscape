@@ -2,8 +2,8 @@
 I am a virtual group used to compute positions of my elements on the server side when the display is done elsewhere. The goal is to apply layouts on me to then send the right positions to the client.
 "
 Class {
-	#name : #TLVirtualGroup,
-	#superclass : #OrderedCollection,
+	#name : 'TLVirtualGroup',
+	#superclass : 'OrderedCollection',
 	#traits : 'TVirtualElement',
 	#classTraits : 'TVirtualElement classTrait',
 	#instVars : [
@@ -11,17 +11,19 @@ Class {
 		'position',
 		'encompassingRectangle'
 	],
-	#category : 'Telescope-Cytoscape-Virtual'
+	#category : 'Telescope-Cytoscape-Virtual',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Virtual'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLVirtualGroup class >> new: aSize [
 	^ (super new: aSize)
 		initialize;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> absolutePosition [
 	"A group can have a group or a node as parent. It's probably an error than we just add the absolute position."
 
@@ -31,12 +33,12 @@ TLVirtualGroup >> absolutePosition [
 		ifFalse: [ self position ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLVirtualGroup >> addChildren: aTLVirtual [
 	self addLast: aTLVirtual
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLVirtualGroup >> addFirst: aTLVirtual [
 	(self includes: aTLVirtual)
 		ifFalse: [ 
@@ -46,7 +48,7 @@ TLVirtualGroup >> addFirst: aTLVirtual [
 		ifFalse: [ aTLVirtual parent: self ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLVirtualGroup >> addLast: aTLVirtual [
 	(self includes: aTLVirtual)
 		ifFalse: [ 
@@ -57,34 +59,34 @@ TLVirtualGroup >> addLast: aTLVirtual [
 	^ aTLVirtual
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> children [
 	Halt now.
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> children: aChildren [
 	"If it is a node there is a problem. We should come here from #addAll of another group"
 	self assert: aChildren isGroup
 ]
 
-{ #category : #optimization }
+{ #category : 'optimization' }
 TLVirtualGroup >> clearEncompassingRectangle [
 	encompassingRectangle := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> composite: aVirtualNode [
 	parent := aVirtualNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> dimension [
 	^ self extent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> encompassingRectangle [
 	^ encompassingRectangle
 		ifNil: [ 
@@ -93,118 +95,118 @@ TLVirtualGroup >> encompassingRectangle [
 				ifNotEmpty: [ Rectangle merging: (self collect: #encompassingRectangle as: OrderedCollection) ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> extent [
 	^ self encompassingRectangle extent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> height [
 	^ self encompassingRectangle height
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVirtualGroup >> initialize [
 	"We do not do the super since a collection do not initialize by default."
 
 	self position: 0 @ 0
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVirtualGroup >> isGroup [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVirtualGroup >> isNode [
 	^ false
 ]
 
-{ #category : #dimension }
+{ #category : 'dimension' }
 TLVirtualGroup >> occupyMaxSpace [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> parent: anObject [
 	anObject children: self.
 	parent := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> position [
 	^ position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> position: anObject [
 	position := anObject
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeAll [
 	self clearEncompassingRectangle.
 	super removeAll
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeAllSuchThat: aBlock [ 
 	self clearEncompassingRectangle.
 	super removeAllSuchThat: aBlock 
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeAt: index [
 	self clearEncompassingRectangle.
 	super removeAt: index
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeFirst [
 	self clearEncompassingRectangle.
 	super removeFirst
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeFirst: n [ 
 	self clearEncompassingRectangle.
 	super removeFirst: n 
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeLast [
 	self clearEncompassingRectangle.
 	super removeLast
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLVirtualGroup >> removeLast: n [ 
 	self clearEncompassingRectangle.
 	super removeLast: n 
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualGroup >> restoreElementsPosition [
 	"Used because Roassal only translate nodes and do not set their position"
 	self do: [ :anElement | anElement position: 0@0 ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 TLVirtualGroup >> species [
 	^ self class superclass
 ]
 
-{ #category : #optimization }
+{ #category : 'optimization' }
 TLVirtualGroup >> updateEncompassingByAdding: aTLVirtual [
 	encompassingRectangle ifNotNil: [ encompassingRectangle quickMerge: aTLVirtual encompassingRectangle ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualGroup >> width [
 	^ self encompassingRectangle width
 ]

@@ -2,26 +2,28 @@
 I am a command that ask the client to add a legend entry
 "
 Class {
-	#name : #TLVisualizationAddLegendEntryCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationAddLegendEntryCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'html',
 		'entryId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationAddLegendEntryCommand class >> command [
 	^ #addStaticLegendEntry
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLVisualizationAddLegendEntryCommand class >> for: aLegendEntry visuId: aVisuId [
 	^ TLVisualizationAddLegendEntryCommand visuId: aVisuId html: aLegendEntry cytoscapeHtmlRepresentation
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLVisualizationAddLegendEntryCommand class >> visuId: aVisuId html: aHtml [
 	^ self new
 		visuId: aVisuId;
@@ -29,22 +31,22 @@ TLVisualizationAddLegendEntryCommand class >> visuId: aVisuId html: aHtml [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddLegendEntryCommand >> entryId [
 	^ entryId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddLegendEntryCommand >> entryId: anObject [
 	entryId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddLegendEntryCommand >> html [
 	^ html
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddLegendEntryCommand >> html: anObject [
 	html := anObject
 ]

@@ -1,6 +1,6 @@
-Extension { #name : #TLObject }
+Extension { #name : 'TLObject' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLObject class >> forCytoscape [
 	^ self forCytoscapeNode
 ]

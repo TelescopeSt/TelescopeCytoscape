@@ -2,51 +2,53 @@
 I am a command that contains many adding commands to faster the execution on the client side
 "
 Class {
-	#name : #TLVisualizationMultiAddingCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationMultiAddingCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'addingCommands'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationMultiAddingCommand class >> command [
 	^ #add
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLVisualizationMultiAddingCommand >> addAddingCommand: aTLVisualizationAddNodeCommand [ 
 	self addingCommands addLast: aTLVisualizationAddNodeCommand .
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationMultiAddingCommand >> addingCommands [
 	^ addingCommands
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationMultiAddingCommand >> addingCommands: anObject [
 	addingCommands := anObject
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 TLVisualizationMultiAddingCommand >> ifNotEmpty: aBlockClosure [
 	self addingCommands ifNotEmpty: aBlockClosure
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVisualizationMultiAddingCommand >> initialize [
 	super initialize.
 	self addingCommands: OrderedCollection new.
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationMultiAddingCommand >> isMultiAdding [
 	^ true
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationMultiAddingCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 

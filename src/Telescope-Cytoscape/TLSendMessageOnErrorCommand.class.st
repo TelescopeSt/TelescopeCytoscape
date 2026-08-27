@@ -1,10 +1,12 @@
 Class {
-	#name : #TLSendMessageOnErrorCommand,
-	#superclass : #TLErrorCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#name : 'TLSendMessageOnErrorCommand',
+	#superclass : 'TLErrorCommand',
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSendMessageOnErrorCommand >> type [
 	^ 'messageOnError'
 ]

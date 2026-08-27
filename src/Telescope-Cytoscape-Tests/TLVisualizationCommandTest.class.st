@@ -1,10 +1,12 @@
 Class {
-	#name : #TLVisualizationCommandTest,
-	#superclass : #TestCase,
-	#category : #'Telescope-Cytoscape-Tests-Commands'
+	#name : 'TLVisualizationCommandTest',
+	#superclass : 'TestCase',
+	#category : 'Telescope-Cytoscape-Tests-Commands',
+	#package : 'Telescope-Cytoscape-Tests',
+	#tag : 'Commands'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVisualizationCommandTest >> testTLVisualizationAddEdgeCommand [
 	| command json |
 	command := TLVisualizationAddEdgeCommand new

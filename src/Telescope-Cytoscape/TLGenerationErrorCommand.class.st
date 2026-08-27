@@ -1,10 +1,12 @@
 Class {
-	#name : #TLGenerationErrorCommand,
-	#superclass : #TLErrorCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#name : 'TLGenerationErrorCommand',
+	#superclass : 'TLErrorCommand',
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLGenerationErrorCommand class >> new: id withMessage: anError on: aSocket [
 	self new
 		visuId: id;
@@ -12,7 +14,7 @@ TLGenerationErrorCommand class >> new: id withMessage: anError on: aSocket [
 		sendCommandOn: aSocket.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLGenerationErrorCommand >> type [
 	^ 'noVisu'
 ]

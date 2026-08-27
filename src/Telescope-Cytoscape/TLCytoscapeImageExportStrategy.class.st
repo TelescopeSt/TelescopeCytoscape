@@ -33,8 +33,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #TLCytoscapeImageExportStrategy,
-	#superclass : #TLCytoscapeAbstractExportStrategy,
+	#name : 'TLCytoscapeImageExportStrategy',
+	#superclass : 'TLCytoscapeAbstractExportStrategy',
 	#instVars : [
 		'fullExport',
 		'backgroundColor',
@@ -42,46 +42,48 @@ Class {
 		'maxWidth',
 		'maxHeight'
 	],
-	#category : 'Telescope-Cytoscape-Export'
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLCytoscapeImageExportStrategy class >> isAbstract [
 	^ self = TLCytoscapeImageExportStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeImageExportStrategy >> backgroundColor [	
 	"Optional option to define the background color of the export. By default: transparent."
 	
 	^ backgroundColor
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 TLCytoscapeImageExportStrategy >> backgroundColor: aColor [
 	"Optional option to define the background color of the export. By default: transparent."
 	
 	backgroundColor := aColor
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> exportJsFunctionName [
 	^ self subclassResponsibility
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> exportJsFunctionNameOn: aStream [
 	aStream nextPutAll: self exportJsFunctionName
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> exportJsFunctionOn: aStream [
 	self
 		exportJsFunctionNameOn: aStream;
 		exportJsFunctionParametersOn: aStream
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> exportJsFunctionParameters [
 	^ String
 		streamContents: [ :stream | 
@@ -90,14 +92,14 @@ TLCytoscapeImageExportStrategy >> exportJsFunctionParameters [
 			stream nextPutAll: '})' ]
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> exportJsFunctionParametersOn: aStream [
 	aStream nextPutAll: '({'.
 	self exportJsFunctionSpecificParametersOn: aStream.
 	aStream nextPutAll: '})'
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> exportJsFunctionSpecificParametersOn: stream [
 	stream
 		nextPutAll: 'full:';
@@ -125,63 +127,63 @@ TLCytoscapeImageExportStrategy >> exportJsFunctionSpecificParametersOn: stream [
 				nextPutAll: mw forCytoscape ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeImageExportStrategy >> fullExport [
 	"Optional option to define if the export should export the full visualization or only the current viewport. By default: true."
 	
 	^ fullExport ifNil: [ fullExport := true ]
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 TLCytoscapeImageExportStrategy >> fullExport: aBoolean [
 	"Optional option to define if the export should export the full visualization or only the current viewport. By default: true."
 	
 	fullExport := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeImageExportStrategy >> maxHeight [
 	"Optional option to define the maximum height of the export in pixels. By default: none."
 	
 	^ maxHeight
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 TLCytoscapeImageExportStrategy >> maxHeight: anInteger [
 	"Optional option to define the maximum height of the export in pixels. By default: none."
 	
 	maxHeight := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeImageExportStrategy >> maxWidth [
 	"Optional option to define the maximum width of the export in pixels. By default: none."
 	
 	^ maxWidth
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 TLCytoscapeImageExportStrategy >> maxWidth: anInteger [
 	"Optional option to define the maximum width of the export in pixels. By default: none."
 	
 	maxWidth := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeImageExportStrategy >> scale [
 	"Optional option to define the scale of the export. Should be a positive number. By default: 1."
 	
 	^ scale ifNil: [ scale := 1 ]
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 TLCytoscapeImageExportStrategy >> scale: anInteger [
 	"Optional option to define the scale of the export. Should be a positive number. By default: 1."
 	
 	scale := anInteger
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeImageExportStrategy >> telescopeExportFunction [
 	^ 'downloadImage'
 ]

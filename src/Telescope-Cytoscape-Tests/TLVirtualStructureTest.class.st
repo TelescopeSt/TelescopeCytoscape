@@ -1,10 +1,12 @@
 Class {
-	#name : #TLVirtualStructureTest,
-	#superclass : #TestCase,
-	#category : #'Telescope-Cytoscape-Tests-Virtual'
+	#name : 'TLVirtualStructureTest',
+	#superclass : 'TestCase',
+	#category : 'Telescope-Cytoscape-Tests-Virtual',
+	#package : 'Telescope-Cytoscape-Tests',
+	#tag : 'Virtual'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testLayoutApplication [
 	| nodes |
 	nodes := (1 to: 10)
@@ -20,7 +22,7 @@ TLVirtualStructureTest >> testLayoutApplication [
 	nodes do: [ :aNode | self assert: aNode position notNil ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testNodeInCompositeInCompositePosition [
 	"Cyril: I think this test is wrong but I am not sure so I tag this test as expected failure for the release and we can patch this later with Guillaume."
 
@@ -44,7 +46,7 @@ TLVirtualStructureTest >> testNodeInCompositeInCompositePosition [
 	self assert: grandParent dimension equals: 35 @ 54
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testNodeInCompositePosition [
 	"Cyril: I think this test is wrong but I am not sure so I tag this test as expected failure for the release and we can patch this later with Guillaume."
 
@@ -63,7 +65,7 @@ TLVirtualStructureTest >> testNodeInCompositePosition [
 	self assert: parent dimension equals: 16 @ 20
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testNodeWithDimension [
 	| node |
 	node := TLVirtualNode new dimension: 6 @ 10.
@@ -73,7 +75,7 @@ TLVirtualStructureTest >> testNodeWithDimension [
 	self assert: node encompassingRectangle equals: (39 @ 42 corner: 45 @ 52)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testNodesInGroupInGroup [
 	"Cyril: I think this test is wrong but I am not sure so I tag this test as expected failure for the release and we can patch this later with Guillaume."
 
@@ -92,7 +94,7 @@ TLVirtualStructureTest >> testNodesInGroupInGroup [
 	self assert: group extent equals: 30 @ 52
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testRemoveNodeFromAGroupThenAddToAnotherWithAdd [
 	|groupSource groupTarget node|
 	node:= TLVirtualNode new.
@@ -112,7 +114,7 @@ TLVirtualStructureTest >> testRemoveNodeFromAGroupThenAddToAnotherWithAdd [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testRemoveNodeFromAGroupThenAddToAnotherWithParentSelector [
 	|groupSource groupTarget node|
 	node:= TLVirtualNode new.
@@ -132,7 +134,7 @@ TLVirtualStructureTest >> testRemoveNodeFromAGroupThenAddToAnotherWithParentSele
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVirtualStructureTest >> testTwoNodesInCompositePosition [
 	| parent child1 child2 |
 	parent := TLVirtualNode new dimension: 50 @ 40.

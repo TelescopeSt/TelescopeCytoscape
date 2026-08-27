@@ -1,19 +1,21 @@
 Class {
-	#name : #TLNotifyCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLNotifyCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'message'
 	],
-	#category : #'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLNotifyCommand class >> command [
 
 	^ #notify
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNotifyCommand class >> message: aString [
 
 	^ self new
@@ -21,12 +23,12 @@ TLNotifyCommand class >> message: aString [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNotifyCommand >> message [
 	^ message
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNotifyCommand >> message: anObject [
 
 	message := anObject

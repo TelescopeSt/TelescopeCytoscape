@@ -8,26 +8,27 @@ I use a TLWebAppVisualization to know the visualization I have to render.
 I'm used to render a TLVisualization through the method openOnWeb.
 "
 Class {
-	#name : #TLWebAppVisualizationComponent,
-	#superclass : #WAComponent,
+	#name : 'TLWebAppVisualizationComponent',
+	#superclass : 'WAComponent',
 	#instVars : [
 		'webAppVisualization'
 	],
-	#category : 'Telescope-Cytoscape'
+	#category : 'Telescope-Cytoscape',
+	#package : 'Telescope-Cytoscape'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLWebAppVisualizationComponent class >> ensureIsRunning [
 	(WAAdmin isAnAppRegisteredAt: 'UserVisualisation')
 		ifFalse:[self initialize]
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 TLWebAppVisualizationComponent class >> initialize [
 	self initializeAt: 'UserVisualization'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLWebAppVisualizationComponent class >> initializeAt: aString [
 	| app |
 	app := WAAdmin register: self asApplicationAt: aString.
@@ -37,13 +38,13 @@ TLWebAppVisualizationComponent class >> initializeAt: aString [
 		addLibrary: CYSFileLibrary.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLWebAppVisualizationComponent >> initialize [
 	super initialize.
 	webAppVisualization := TLWebAppVisualization singleton.
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLWebAppVisualizationComponent >> renderContentOn: html [
 	| component |
 	component := TLCytoscapeComponent visualization: webAppVisualization visualization.
@@ -51,7 +52,7 @@ TLWebAppVisualizationComponent >> renderContentOn: html [
 	html render: (component style: 'height: 100%; width:100%;').
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 TLWebAppVisualizationComponent >> style [
 	^ 'body, html{
 	height: 100%;
@@ -59,7 +60,7 @@ TLWebAppVisualizationComponent >> style [
 }'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLWebAppVisualizationComponent >> updateRoot: anHtmlRoot [
 self flag:'Il faudrait voir comment on peut changer facilement le titre de l onglet qui sera ouvert'.
 	super updateRoot: anHtmlRoot.

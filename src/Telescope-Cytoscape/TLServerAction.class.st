@@ -1,13 +1,15 @@
 Class {
-	#name : #TLServerAction,
-	#superclass : #TLDrawableAction,
+	#name : 'TLServerAction',
+	#superclass : 'TLDrawableAction',
 	#instVars : [
 		'block'
 	],
-	#category : #'Telescope-Cytoscape-Actions'
+	#category : 'Telescope-Cytoscape-Actions',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Actions'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLServerAction >> actionOn: aTLDrawable [
 	| commandId generator visu |
 	commandId := UUIDGenerator next asString .
@@ -24,12 +26,12 @@ TLServerAction >> actionOn: aTLDrawable [
 		forVisu: visu.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLServerAction >> block [
 	^ block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLServerAction >> block: anObject [
 	block := anObject
 ]

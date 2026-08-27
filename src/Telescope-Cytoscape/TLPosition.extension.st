@@ -1,6 +1,6 @@
-Extension { #name : #TLPosition }
+Extension { #name : 'TLPosition' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLPosition >> forQTip [
 	^ self vertical, ' ', self horizontal
 ]

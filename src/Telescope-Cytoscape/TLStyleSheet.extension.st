@@ -1,6 +1,6 @@
-Extension { #name : #TLStyleSheet }
+Extension { #name : 'TLStyleSheet' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> adaptStyleForComposite: aDictionaryStyle [
 	aDictionaryStyle
 		removeKey: #height ifAbsent: [  ];
@@ -8,27 +8,27 @@ TLStyleSheet >> adaptStyleForComposite: aDictionaryStyle [
 	
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageOpacity [
 	^ self get: #backgroundImageOpacity
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageOpacity: aFloat [
 	self at: #backgroundImageOpacity put: aFloat
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageUrl [
 	^ self get: #backgroundImageUrl
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageUrl: anUrl [
 	self at: #backgroundImageUrl put: anUrl asUrl
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 	| styleDictionary |
 	styleDictionary := Dictionary new.
@@ -59,7 +59,7 @@ TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeGenericConnectionStyle [
 	| styleDictionary |
 	styleDictionary := Dictionary new.
@@ -88,7 +88,7 @@ TLStyleSheet >> cytoscapeGenericConnectionStyle [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeNodeStyleFor: aNode [
 	| nodeLabelPosition styleDictionary shape |
 	nodeLabelPosition := TLPosition for: (self obtainValue: #nodeLabelPosition forEntity: aNode entity inNode: aNode).
@@ -135,7 +135,7 @@ TLStyleSheet >> cytoscapeNodeStyleFor: aNode [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeTriggerStyleFor: aTrigger [
 	| nodeLabelPosition styleDictionary |
 	nodeLabelPosition := self obtainValue: #nodeLabelPosition forEntity: nil inNode: aTrigger.
@@ -158,7 +158,7 @@ TLStyleSheet >> cytoscapeTriggerStyleFor: aTrigger [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> fillStyleDictionary: aDictionary with: aCollectionOfProperties converter: aConverter [
 	aCollectionOfProperties
 		inject: aDictionary
@@ -172,7 +172,7 @@ TLStyleSheet >> fillStyleDictionary: aDictionary with: aCollectionOfProperties c
 			style ]
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> fillStyleDictionary: aDictionary with: aCollectionOfProperties for: aDrawable converter: aConverter [
 	aCollectionOfProperties
 		inject: aDictionary

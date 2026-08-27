@@ -2,47 +2,49 @@
 I am here to ensure event's name used by client side interactions. 
 "
 Class {
-	#name : #TLClientEvent,
-	#superclass : #Object,
-	#category : #'Telescope-Cytoscape-Connector'
+	#name : 'TLClientEvent',
+	#superclass : 'Object',
+	#category : 'Telescope-Cytoscape-Connector',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Connector'
 }
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseClick [
 	^ #mouseclick
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseDbClick [
 	^ #mousedbclick
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseDown [
 	^ #mousedown
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseEnter [
 	^ #mouseenter
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseLeave [
 	^ #mouseleave
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseOut [
 	^ #mouseout
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseOver [
 	^ #mouseover
 ]
 
-{ #category : #sugar }
+{ #category : 'sugar' }
 TLClientEvent class >> mouseUp [
 	^ #mouseup
 ]

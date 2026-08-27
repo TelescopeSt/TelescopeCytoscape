@@ -2,20 +2,22 @@
 I am the command to remove a node on the client
 "
 Class {
-	#name : #TLVisualizationRemoveElementCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationRemoveElementCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'nodeId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationRemoveElementCommand class >> command [
 	^ #remove
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationRemoveElementCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 
@@ -25,12 +27,12 @@ TLVisualizationRemoveElementCommand >> neoJsonOn: writer [
 			 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationRemoveElementCommand >> nodeId [
 	^ nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationRemoveElementCommand >> nodeId: anObject [
 	nodeId := anObject
 ]

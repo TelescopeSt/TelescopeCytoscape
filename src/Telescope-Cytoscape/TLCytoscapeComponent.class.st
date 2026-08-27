@@ -2,8 +2,8 @@
 I am a seaside component that is able to render a telescope visualisation (TLVisualization)
 "
 Class {
-	#name : #TLCytoscapeComponent,
-	#superclass : #WAComponent,
+	#name : 'TLCytoscapeComponent',
+	#superclass : 'WAComponent',
 	#instVars : [
 		'visualization',
 		'connector',
@@ -16,32 +16,33 @@ Class {
 	#classInstVars : [
 		'lastId'
 	],
-	#category : #'Telescope-Cytoscape'
+	#category : 'Telescope-Cytoscape',
+	#package : 'Telescope-Cytoscape'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeComponent class >> initialize [
 	lastId := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent class >> lastId [
 	^ lastId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent class >> nextId [
 	^ (lastId := self lastId + 1) asString
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLCytoscapeComponent class >> visualization: aTLVisualization [
 	^ self new
 		visualization: aTLVisualization;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLCytoscapeComponent class >> visualization: aTLVisualization id: anDivId [
 	^ self new
 		visualization: aTLVisualization;
@@ -49,22 +50,22 @@ TLCytoscapeComponent class >> visualization: aTLVisualization id: anDivId [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> connector [
 	^ connector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> connector: anObject [
 	connector := anObject
 ]
 
-{ #category : #exports }
+{ #category : 'exports' }
 TLCytoscapeComponent >> defaultJSONExport [
 	self exportStrategy: TLCytoscapeJSONExportStrategy new
 ]
 
-{ #category : #exports }
+{ #category : 'exports' }
 TLCytoscapeComponent >> defaultJpgExport [
 	self
 		exportStrategy:
@@ -74,7 +75,7 @@ TLCytoscapeComponent >> defaultJpgExport [
 				yourself)
 ]
 
-{ #category : #exports }
+{ #category : 'exports' }
 TLCytoscapeComponent >> defaultPngExport [
 	self
 		exportStrategy:
@@ -83,7 +84,7 @@ TLCytoscapeComponent >> defaultPngExport [
 				yourself)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> defaultWaitingHtml [
 	^ [ :html | 
 	html div
@@ -98,33 +99,33 @@ TLCytoscapeComponent >> defaultWaitingHtml [
 		yourself ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> exportStrategy [
 	^ exportStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> exportStrategy: anObject [
 	exportStrategy := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeComponent >> initialize [
 	super initialize.
 	self exportStrategy: TLCytoscapeNullExportStrategy new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> panzoom [
 	^ panzoom ifNil: [ false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> panzoom: anObject [
 	panzoom := anObject
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderContentOn: html [
 
 	| visuId div callback |
@@ -157,13 +158,13 @@ TLCytoscapeComponent >> renderContentOn: html [
 				(div storeCallback: callback) }
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderFetchingDivOn: html [
 
 	html text: 'Fetching'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderOptionalButtonsOn: html [
 	html div
 		class: 'fitButton';
@@ -171,57 +172,57 @@ TLCytoscapeComponent >> renderOptionalButtonsOn: html [
 			self exportStrategy renderDownloadButtonForVisu: self visuDivId on: html ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderResetButtonOn: html [
 	html anchor
 		onClick: 'telescope.visuWithId(' , self visuDivId asString , ').fit();';
 		with: 'Reset'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> style [
 	^ style
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> style: anObject [
 	style := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visuDivId [
 	visuDivId ifNil: [ visuDivId:= self class nextId ].
 	^ visuDivId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visuDivId: anObject [
 	visuDivId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visualization [
 	^ visualization
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visualization: anObject [
 	visualization := anObject.
 	connector := TLCytoscapeConnector new.
 	visualization generator: connector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> waitingMessage [
 	^ waitingMessage ifNil: [ self defaultWaitingHtml ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> waitingMessage: anObject [
 	waitingMessage := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> webSocketPort [
 	^ TLCytoscapeWebSocketDelegate clientPort
 ]

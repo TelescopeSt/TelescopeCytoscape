@@ -4,8 +4,8 @@ I am a virtual node used to compute positions on the server side when the displa
 position is the same as rectangle: the upper left corner
 "
 Class {
-	#name : #TLVirtualNode,
-	#superclass : #Object,
+	#name : 'TLVirtualNode',
+	#superclass : 'Object',
 	#traits : 'TVirtualElement',
 	#classTraits : 'TVirtualElement classTrait',
 	#instVars : [
@@ -20,10 +20,12 @@ Class {
 		'userFixedPosition',
 		'triggers'
 	],
-	#category : #'Telescope-Cytoscape-Virtual'
+	#category : 'Telescope-Cytoscape-Virtual',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Virtual'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> absolutePosition [
 	"A VirtualNode will always have a group as parent. We take the upper left position of the parent because the layouts will place nodes regarding on it."
 
@@ -32,59 +34,59 @@ TLVirtualNode >> absolutePosition [
 		ifFalse: [ self position ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> addChildren: aChildren [
 	self children addChildren: aChildren
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> addTrigger: aTLVirtualTrigger [
 	triggers add: aTLVirtualTrigger.
 	aTLVirtualTrigger virtualNodeReference: self.
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualNode >> calculateRelativePositionFromAbsolute: aPosition [
 	^ aPosition - (self hasParent ifTrue: [ parent upperLeftAbsolutePosition ] ifFalse: [ 0 @ 0 ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> children [
 	^ children
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> children: anObject [
 	children := anObject
 ]
 
-{ #category : #optimization }
+{ #category : 'optimization' }
 TLVirtualNode >> clearEncompassingRectangle [
 	encompassingRectangle := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> compositeMargin [
 	^ compositeMargin ifNil: [ 10@10 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> compositeMargin: anObject [
 	compositeMargin := anObject
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualNode >> cytoscapePosition [
 	"Cytoscape require the center of the node and Telescope works with center too"
 	^ self absolutePosition
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualNode >> defineFixedPositionFromAbsolute: aPosition [
 	self defineFixedRelativePosition: (self calculateRelativePositionFromAbsolute: aPosition)
 ]
 
-{ #category : #position }
+{ #category : 'position' }
 TLVirtualNode >> defineFixedRelativePosition: aPosition [
 	self userFixedPosition: false.
 	aPosition
@@ -93,50 +95,50 @@ TLVirtualNode >> defineFixedRelativePosition: aPosition [
 			self userFixedPosition: true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> dimension [
 	^ self hasChildren
 		ifTrue: [ self children encompassingRectangle extent + (2 * self compositeMargin) ]
 		ifFalse: [ dimension ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> dimension: anObject [
 	dimension := anObject.
 	self clearEncompassingRectangle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> encompassingRectangle [
 	^ encompassingRectangle ifNil: [ encompassingRectangle := Rectangle center: self position extent: self dimension ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> extent [
 	^ self dimension
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> hasChildren [
 	^ self children notEmpty 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> height [
 	^ self dimension y
 ]
 
-{ #category : #dimension }
+{ #category : 'dimension' }
 TLVirtualNode >> height: anInteger [
 	self dimension: self dimension x @ anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> id [
 	^ self nodeId
 ]
 
-{ #category : #adjacent }
+{ #category : 'adjacent' }
 TLVirtualNode >> incomingAdjacentNodes [
 	^ self realNode incomingAdjacentNodes
 		collect: [ :node | 
@@ -145,7 +147,7 @@ TLVirtualNode >> incomingAdjacentNodes [
 				do: [ node generate ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> initialize [
 	super initialize.
 	self children: (TLVirtualGroup new composite: self).
@@ -153,27 +155,27 @@ TLVirtualNode >> initialize [
 	triggers:= OrderedCollection new 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVirtualNode >> isNode [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> nodeId [
 	^ nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> nodeId: anObject [
 	nodeId := anObject
 ]
 
-{ #category : #dimension }
+{ #category : 'dimension' }
 TLVirtualNode >> occupyMaxSpace [
 	^ self realNode effectiveStyleSheet takeAllSpace
 ]
 
-{ #category : #adjacent }
+{ #category : 'adjacent' }
 TLVirtualNode >> outgoingAdjacentNodes [
 	^ self realNode outgoingAdjacentNodes
 		collect: [ :node | 
@@ -182,31 +184,31 @@ TLVirtualNode >> outgoingAdjacentNodes [
 				do: [ node generate ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> parent: aParent [
 	parent := aParent.
 	aParent addChildren: self.
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> position [
 	^ position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> position: anObject [
 	self userFixedPosition
 		ifFalse: [ position := anObject ].
 	self clearEncompassingRectangle
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 TLVirtualNode >> printOn: aStream [
 	super printOn: aStream.
 	aStream
@@ -215,17 +217,17 @@ TLVirtualNode >> printOn: aStream [
 		<< $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> realNode [
 	^ realNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> realNode: anObject [
 	realNode := anObject
 ]
 
-{ #category : #dimension }
+{ #category : 'dimension' }
 TLVirtualNode >> restoreOriginalDimension [
 	| styleSheet |
 	styleSheet := self realNode effectiveStyleSheet.
@@ -235,32 +237,32 @@ TLVirtualNode >> restoreOriginalDimension [
 				@ (styleSheet obtainValue: #height forEntity: self realNode entity inNode: self realNode)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> triggers [
 	^ triggers
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> userFixedPosition [
 	^ userFixedPosition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> userFixedPosition: anObject [
 	userFixedPosition := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> width [
 	^ self dimension x
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> x [
 	^ self position x
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVirtualNode >> y [
 	^ self position y
 ]

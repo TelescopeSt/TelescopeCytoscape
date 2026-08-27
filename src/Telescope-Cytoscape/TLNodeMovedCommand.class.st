@@ -2,16 +2,18 @@
 I am a command sent by the client when a node is moved by the user.
 "
 Class {
-	#name : #TLNodeMovedCommand,
-	#superclass : #TLVisualizationClientsCommand,
+	#name : 'TLNodeMovedCommand',
+	#superclass : 'TLVisualizationClientsCommand',
 	#instVars : [
 		'nodeId',
 		'nodePosition'
 	],
-	#category : #'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLNodeMovedCommand class >> newWithParameters: aParametersDictionary [
 	^ (super newWithParameters: aParametersDictionary)
 		nodeId: (aParametersDictionary at: #nodeId);
@@ -19,27 +21,27 @@ TLNodeMovedCommand class >> newWithParameters: aParametersDictionary [
 		yourself
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 TLNodeMovedCommand >> executeOnVisu: aVisualization [
 	aVisualization generator executeMoveInteraction: self nodePosition onDrawableId: self nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNodeMovedCommand >> nodeId [
 	^ nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNodeMovedCommand >> nodeId: anObject [
 	nodeId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNodeMovedCommand >> nodePosition [
 	^ nodePosition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLNodeMovedCommand >> nodePosition: anObject [
 	nodePosition := anObject
 ]

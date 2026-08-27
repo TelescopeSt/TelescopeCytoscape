@@ -2,22 +2,23 @@
 I am the seaside component used for demos
 "
 Class {
-	#name : #TLCytoscapeTelescopeDemoComponent,
-	#superclass : #WAComponent,
+	#name : 'TLCytoscapeTelescopeDemoComponent',
+	#superclass : 'WAComponent',
 	#instVars : [
 		'filters',
 		'method',
 		'debugVisu'
 	],
-	#category : #'Telescope-Demo-Cytoscape'
+	#category : 'Telescope-Demo-Cytoscape',
+	#package : 'Telescope-Demo-Cytoscape'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeTelescopeDemoComponent class >> demoName [
 	^ 'TelescopeDemo'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeTelescopeDemoComponent class >> initialize [
 	| app |
 	app := WAAdmin register: self asApplicationAt: self demoName.
@@ -27,17 +28,17 @@ TLCytoscapeTelescopeDemoComponent class >> initialize [
 		addLibrary: CYSDemoFileLibrary
 ]
 
-{ #category : #versions }
+{ #category : 'versions' }
 TLCytoscapeTelescopeDemoComponent class >> version [
 	^ 'v2.2.1'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> allFilters [
 	^ TLAbstractDemoFilter allSubclasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> codeOf: aMethod [
 	"I take a method selector I contains and return his source code without the declaration."
 
@@ -48,7 +49,7 @@ TLCytoscapeTelescopeDemoComponent >> codeOf: aMethod [
 				separatedBy: [ stream nextPutAll: GRPlatform current newline ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> defaultDemo [
 	| visu |
 	visu := TLVisualization new.
@@ -62,7 +63,7 @@ TLCytoscapeTelescopeDemoComponent >> defaultDemo [
 	^visu
 ]
 
-{ #category : #visu }
+{ #category : 'visu' }
 TLCytoscapeTelescopeDemoComponent >> drillDownAction: html onVisu: visuId [
 	| interaction |
 	interaction := TLExpandCollapseCompositeNodeAction new
@@ -81,7 +82,7 @@ TLCytoscapeTelescopeDemoComponent >> drillDownAction: html onVisu: visuId [
 	^ interaction
 ]
 
-{ #category : #visu }
+{ #category : 'visu' }
 TLCytoscapeTelescopeDemoComponent >> externalTriggerExemple: html onVisu: visuId [
 	| interaction |
 	interaction := ((TLStyleCustomizationAction
@@ -93,7 +94,7 @@ TLCytoscapeTelescopeDemoComponent >> externalTriggerExemple: html onVisu: visuId
 	^ interaction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> filteredMethods [
 	^ (self filters
 		inject: Set new
@@ -102,22 +103,22 @@ TLCytoscapeTelescopeDemoComponent >> filteredMethods [
 			res ]) sorted: [ :a :b | a selector < b selector ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> filters [
 	^ filters ifNil: [ filters := TLAbstractDemoFilter allSubclasses asOrderedCollection ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> method [
 	^method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> method: symbol [
 	method := symbol
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderChipLabelled: label selected: aBoolean doing: aBlock on: html [
 	html span
 		class: #chip;
@@ -135,7 +136,7 @@ TLCytoscapeTelescopeDemoComponent >> renderChipLabelled: label selected: aBoolea
 		with: [ html span: label ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderCodePanelOn: html [
 	html preformatted
 		id: #code;
@@ -145,7 +146,7 @@ TLCytoscapeTelescopeDemoComponent >> renderCodePanelOn: html [
 				with: (self codeOf: (self method ifNotNil: [ :m | TLDemos class >> m asSymbol ] ifNil: [ self class >> #defaultDemo ])) ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderContentOn: html [
 	(html tag: #main)
 		with: [ html div
@@ -157,12 +158,12 @@ TLCytoscapeTelescopeDemoComponent >> renderContentOn: html [
 	html document addLoadScript: (JSStream on: 'hljs.initHighlighting();initResizer();initTabs();')
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderDebugPanelOn: html [
 	html render: (TLCytoscapeComponent visualization: debugVisu)
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderDemoPanelOn: html [
 	| visu visuId |
 	visuId := TLCytoscapeComponent nextId.
@@ -182,7 +183,7 @@ TLCytoscapeTelescopeDemoComponent >> renderDemoPanelOn: html [
 				yourself)
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderFiltersOn: html [
 	self
 		renderChipLabelled: 'All'
@@ -203,7 +204,7 @@ TLCytoscapeTelescopeDemoComponent >> renderFiltersOn: html [
 				on: html ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderListContentOn: html [
 	html
 		unorderedList: [ self filteredMethods
@@ -219,7 +220,7 @@ TLCytoscapeTelescopeDemoComponent >> renderListContentOn: html [
 						with: (each selector allButFirst: 7) ] ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderMainContentOn: html [
 	html div
 		id: 'telescope-selection';
@@ -232,7 +233,7 @@ TLCytoscapeTelescopeDemoComponent >> renderMainContentOn: html [
 		with: [ self renderPanelsOn: html ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeTelescopeDemoComponent >> renderPanelsOn: html [
 	| panels |
 	panels := OrderedDictionary with: 'demo' -> #renderDemoPanelOn: with: 'code' -> #renderCodePanelOn: with: 'debug' -> #renderDebugPanelOn:.
@@ -254,14 +255,14 @@ TLCytoscapeTelescopeDemoComponent >> renderPanelsOn: html [
 				with: [ self perform: meth with: html ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeTelescopeDemoComponent >> toggleFilter: aFilter [
 	(self filters includes: aFilter)
 		ifTrue: [ self filters remove: aFilter ]
 		ifFalse: [ self filters add: aFilter ]
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 TLCytoscapeTelescopeDemoComponent >> updateRoot: anHtmlRoot [
 	super updateRoot: anHtmlRoot.
 	anHtmlRoot beHtml5.

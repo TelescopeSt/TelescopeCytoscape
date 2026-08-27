@@ -32,20 +32,22 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #TLCytoscapeJpgExportStrategy,
-	#superclass : #TLCytoscapeImageExportStrategy,
+	#name : 'TLCytoscapeJpgExportStrategy',
+	#superclass : 'TLCytoscapeImageExportStrategy',
 	#instVars : [
 		'quality'
 	],
-	#category : 'Telescope-Cytoscape-Export'
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeJpgExportStrategy >> exportJsFunctionName [
 	^ 'jpg'
 ]
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapeJpgExportStrategy >> exportJsFunctionSpecificParametersOn: stream [
 	super exportJsFunctionSpecificParametersOn: stream.
 	self quality
@@ -55,24 +57,24 @@ TLCytoscapeJpgExportStrategy >> exportJsFunctionSpecificParametersOn: stream [
 				nextPutAll: q forCytoscape ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeJpgExportStrategy >> extension [
 	^ '.jpg'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeJpgExportStrategy >> iconName [
 	^ 'downloadJpgPng'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeJpgExportStrategy >> quality [
 	"Optional option to specify the quality of the image from 0 (low quality, low filesize) to 1 (high quality, high filesize). By default: the browser's default quality value is used."
 	
 	^ quality
 ]
 
-{ #category : #options }
+{ #category : 'options' }
 TLCytoscapeJpgExportStrategy >> quality: anInteger [
 	"Optional option to specify the quality of the image from 0 (low quality, low filesize) to 1 (high quality, high filesize). By default: the browser's default quality value is used."
 	

@@ -2,8 +2,8 @@
 I am the delegate that will registers visualizations and then manage requests
 "
 Class {
-	#name : #TLCytoscapeWebSocketDelegate,
-	#superclass : #ZnWebSocketDelegate,
+	#name : 'TLCytoscapeWebSocketDelegate',
+	#superclass : 'ZnWebSocketDelegate',
 	#instVars : [
 		'visualizationByIdDictionary',
 		'websocketByVisu'
@@ -14,72 +14,73 @@ Class {
 		'serverPort',
 		'clientPort'
 	],
-	#category : #'Telescope-Cytoscape'
+	#category : 'Telescope-Cytoscape',
+	#package : 'Telescope-Cytoscape'
 }
 
-{ #category : #'accessing-convenience' }
+{ #category : 'accessing-convenience' }
 TLCytoscapeWebSocketDelegate class >> beDeployment [
 	<script>
 	self development: false
 ]
 
-{ #category : #'accessing-convenience' }
+{ #category : 'accessing-convenience' }
 TLCytoscapeWebSocketDelegate class >> beDevelopment [
 	<script>
 	self development: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> clientPort [
 	^ clientPort
 		ifNil: [ self ensureServerIsRunning.
 			clientPort := self server port ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> clientPort: anObject [
 	clientPort := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> defaultPort [
 	self deprecated: 'Use #serverPort'.
 	^ self serverPort
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> defaultPort: anObject [
 	self deprecated: 'Use #serverPort:'.
 	^ self serverPort: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> delegate [
 	self deprecated: 'Use singleton instead' transformWith: '`@receiver delegate' -> '`@receiver singleton'.
 	^ self singleton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> development [
 	^ development ifNil: [ development := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> development: aBolean [
 	development:= aBolean
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 TLCytoscapeWebSocketDelegate class >> ensureCytoscapeIsRunning [
 	self singleton ifNil: [ self run ]
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 TLCytoscapeWebSocketDelegate class >> ensureServerIsRunning [
 	(self server ifNil: [ (ZnServer on: self serverPort) register; yourself  ]) start
 ]
 
-{ #category : #'world menu' }
+{ #category : 'world menu' }
 TLCytoscapeWebSocketDelegate class >> menuCommandOn: aBuilder [
 	"Add a custom menu item to the world menu"
 
@@ -104,7 +105,7 @@ TLCytoscapeWebSocketDelegate class >> menuCommandOn: aBuilder [
 		action: [ self openWebDemo ]
 ]
 
-{ #category : #'accessing-convenience' }
+{ #category : 'accessing-convenience' }
 TLCytoscapeWebSocketDelegate class >> openWebDemo [
 	| port url |
 	WAServerManager default adaptors
@@ -119,13 +120,13 @@ TLCytoscapeWebSocketDelegate class >> openWebDemo [
 		ifAbsent: [ self class environment at: #OSProcess ifPresent: [ :class | class command: 'open ' , url ] ifAbsent: [ self inform: 'Open ' , url , ' or install WebBrowser/OSProcess.' ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> port [
 	self deprecated: 'Use #clientPort or #serverPort instead'.
 	^ self clientPort
 ]
 
-{ #category : #registration }
+{ #category : 'registration' }
 TLCytoscapeWebSocketDelegate class >> registerVisualization: aTLVisualization underId: aDivId withCallBack: aCallBack callbackUrl: callbackUrl [
 	self ensureCytoscapeIsRunning.
 	self singleton
@@ -135,14 +136,14 @@ TLCytoscapeWebSocketDelegate class >> registerVisualization: aTLVisualization un
 		callbackUrl: callbackUrl
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 TLCytoscapeWebSocketDelegate class >> restart [
 	<script>
 	self stop.
 	self run
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 TLCytoscapeWebSocketDelegate class >> run [
 	<script>
 	singleton
@@ -154,51 +155,51 @@ TLCytoscapeWebSocketDelegate class >> run [
 					(ZnWebSocketDelegate map: 'ws-TLCytoscape' to: singleton handler) ]
 ]
 
-{ #category : #acccessing }
+{ #category : 'acccessing' }
 TLCytoscapeWebSocketDelegate class >> server [
 	^ ZnServer managedServers detect: [ :server | server port = self serverPort ] ifNone: [ nil ] 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> serverPort [
 	^ serverPort ifNil: [ serverPort := 1701 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> serverPort: anObject [
 	serverPort := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> singleton [
 	^ singleton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> singleton: anObject [
 	singleton := anObject
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 TLCytoscapeWebSocketDelegate class >> stop [
 	<script>
 	self server ifNotNil: [:server | server stop; unregister].
 	singleton := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate class >> visualizationWithId: aDivId [
 	^ self singleton visualizationWithId: aDivId
 ]
 
-{ #category : #registration }
+{ #category : 'registration' }
 TLCytoscapeWebSocketDelegate >> associateSocket: aWebSocket toVisuId: aVisuId [
 	[ self websocketByVisu at: (self visualizationWithId: aVisuId) put: aWebSocket ]
 		on: KeyNotFound
 		do: [ TLGenerationErrorCommand new: aVisuId withMessage: self messageOnError on: aWebSocket ]
 ]
 
-{ #category : #registration }
+{ #category : 'registration' }
 TLCytoscapeWebSocketDelegate >> freeResourcesFor: webSocket [
 	self websocketByVisu
 		keysAndValuesRemove: [ :aVisu :aWebSocket | 
@@ -209,7 +210,7 @@ TLCytoscapeWebSocketDelegate >> freeResourcesFor: webSocket [
 				ifFalse: [ false ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeWebSocketDelegate >> initialize [
 	super initialize.
 	self visualizationByIdDictionary: Dictionary new.
@@ -224,12 +225,12 @@ TLCytoscapeWebSocketDelegate >> initialize [
 				do: [ self class restart ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> messageOnError [
 	^ 'An error has occured. Please Reload the page. If the problem persists, contact support.'
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 TLCytoscapeWebSocketDelegate >> onMessageReceived: message webSocket: aWebSocket [
 	"On message received, we transform the Json string to dictionary; then create clients commands and execute those"
 
@@ -237,21 +238,39 @@ TLCytoscapeWebSocketDelegate >> onMessageReceived: message webSocket: aWebSocket
 	(NeoJSONReader fromString: message)
 		do: [ :aCommandDictionary | 
 			"register the visu"
-			[ 
-			[ 
-			self associateSocket: aWebSocket toVisuId: (aCommandDictionary at: #id).	"then execute command"
+			| visu |
+			visu := self visualizationByIdDictionary
+				at: (aCommandDictionary at: #id).
+			[ [ self
+				associateSocket: aWebSocket
+				toVisuId: (aCommandDictionary at: #id).	"then execute command"
 			(TLVisualizationClientsCommand createFrom: aCommandDictionary)
-				executeOnVisu: (self visualizationByIdDictionary at: (aCommandDictionary at: #id)) ]
+				executeOnVisu: visu ]
 				on: TLNothingToDoException
-				do: [ :e | TLSendMessageOnErrorCommand new: (aCommandDictionary at: #id) withError: e on: aWebSocket ] ]
+				do: [ :e | 
+					TLSendMessageOnErrorCommand
+						new: (aCommandDictionary at: #id)
+						withError: e
+						on: aWebSocket ] ]
 				on: Error
 				do: [ :e | 
 					self class development
-						ifFalse: [ TLErrorCommand new: (aCommandDictionary at: #id) withError: e on: aWebSocket ]
-						ifTrue: [ e pass ] ] ]
+						ifFalse: [ TLErrorCommand
+								new: (aCommandDictionary at: #id)
+								withError: e
+								on: aWebSocket ]
+						ifTrue: [ e pass ] ].
+			TLCytoscapeWebSocketDelegate singleton
+				sendCommands:
+					(Array
+						with:
+							((TLEndCommand commanduid: (aCommandDictionary at: #commanduid))
+								visuId: (aCommandDictionary at: #id);
+								yourself))
+				forVisu: visu ]
 ]
 
-{ #category : #registration }
+{ #category : 'registration' }
 TLCytoscapeWebSocketDelegate >> registerVisualization: aTLVisualization underId: aDivId withCallBack: aCallBack callbackUrl: callbackUrl [
 	aTLVisualization generator visuId: aDivId.
 	aTLVisualization generator visuCallBack: aCallBack.
@@ -259,7 +278,7 @@ TLCytoscapeWebSocketDelegate >> registerVisualization: aTLVisualization underId:
 	self visualizationByIdDictionary at: aDivId put: aTLVisualization
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 TLCytoscapeWebSocketDelegate >> sendCommands: aCollectionOfCommands forVisu: aTLVisualization [
 	[ 
 	aCollectionOfCommands
@@ -271,7 +290,7 @@ TLCytoscapeWebSocketDelegate >> sendCommands: aCollectionOfCommands forVisu: aTL
 			 ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 TLCytoscapeWebSocketDelegate >> sendNothingToDoForVisu: aTLVisualization [
 	(self webSocketForVisu: aTLVisualization)
 		sendMessage:
@@ -283,32 +302,32 @@ TLCytoscapeWebSocketDelegate >> sendNothingToDoForVisu: aTLVisualization [
 						on: (self webSocketForVisu: aTLVisualization)))
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> visualizationByIdDictionary [
 	^ visualizationByIdDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> visualizationByIdDictionary: anObject [
 	visualizationByIdDictionary := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> visualizationWithId: aDivId [
 	^ visualizationByIdDictionary at: aDivId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> webSocketForVisu: aTLVisualization [
 	^ self websocketByVisu at: aTLVisualization
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> websocketByVisu [
 	^ websocketByVisu
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeWebSocketDelegate >> websocketByVisu: anObject [
 	websocketByVisu := anObject
 ]

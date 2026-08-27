@@ -5,12 +5,14 @@ Description
 Defines the default behaviour when there is no export function selected for a visualization.
 "
 Class {
-	#name : #TLCytoscapeNullExportStrategy,
-	#superclass : #Object,
-	#category : 'Telescope-Cytoscape-Export'
+	#name : 'TLCytoscapeNullExportStrategy',
+	#superclass : 'Object',
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeNullExportStrategy >> renderDownloadButtonForVisu: aVisuId on: html [
 	"Nothing to do in the null strategy"
 ]

@@ -2,64 +2,77 @@
 I am a superclass for all commands that concerns drawable to factorize style customization and interactions
 "
 Class {
-	#name : #TLVisualizationDrawableCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationDrawableCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'mouseOverInteraction',
 		'dropInteraction',
 		'popUp',
 		'menu',
-		'style'
+		'style',
+		'clientSideInteractions'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+TLVisualizationDrawableCommand >> clientSideInteractions [
+	^ clientSideInteractions
+]
+
+{ #category : 'accessing' }
+TLVisualizationDrawableCommand >> clientSideInteractions: aCollection [
+	clientSideInteractions := aCollection
+]
+
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> dropInteraction [
 	^ dropInteraction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> dropInteraction: anObject [
 	dropInteraction := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> menu [
 	^ menu
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> menu: anObject [
 	menu := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> mouseOverInteraction [
 	^ mouseOverInteraction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> mouseOverInteraction: anObject [
 	mouseOverInteraction := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> popUp [
 	^ popUp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> popUp: anObject [
 	popUp := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> style [
 	^ style
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationDrawableCommand >> style: anObject [
 	style := anObject
 ]

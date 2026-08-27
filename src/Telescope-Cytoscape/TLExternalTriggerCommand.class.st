@@ -1,31 +1,32 @@
 Class {
-	#name : #TLExternalTriggerCommand,
-	#superclass : #TLVisualizationClientsCommand,
+	#name : 'TLExternalTriggerCommand',
+	#superclass : 'TLVisualizationClientsCommand',
 	#instVars : [
 		'triggerId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLExternalTriggerCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
+	^ (super newWithParameters: aParametersDictionary)
 		triggerId: (aParametersDictionary at: #triggerId);
 		yourself
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 TLExternalTriggerCommand >> executeOnVisu: aTLVisualization [
-	aTLVisualization generator executeExternalTrigger: self triggerId .
+	aTLVisualization generator executeExternalTrigger: self triggerId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLExternalTriggerCommand >> triggerId [
 	^ triggerId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLExternalTriggerCommand >> triggerId: anID [
 	triggerId := anID
 ]

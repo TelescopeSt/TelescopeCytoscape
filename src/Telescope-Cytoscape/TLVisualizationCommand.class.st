@@ -2,20 +2,22 @@
 I am the abstract superclass for all visualization commands
 "
 Class {
-	#name : #TLVisualizationCommand,
-	#superclass : #Object,
+	#name : 'TLVisualizationCommand',
+	#superclass : 'Object',
 	#instVars : [
 		'visuId'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationCommand class >> command [
 	self subclassResponsibility .
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 
@@ -24,12 +26,12 @@ TLVisualizationCommand >> neoJsonOn: writer [
 				do: [ :anAttribute | jsonMapWriter writeKey: anAttribute value: (self perform: anAttribute) ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCommand >> visuId [
 	^ visuId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCommand >> visuId: anObject [
 	visuId := anObject
 ]

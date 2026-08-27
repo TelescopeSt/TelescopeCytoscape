@@ -2,30 +2,32 @@
 I am an action that execute the provided block as a seaside callback
 "
 Class {
-	#name : #TLSeasideCallBackAction,
-	#superclass : #TLDrawableAction,
+	#name : 'TLSeasideCallBackAction',
+	#superclass : 'TLDrawableAction',
 	#instVars : [
 		'block',
 		'openInNewTab'
 	],
-	#category : 'Telescope-Cytoscape-Actions'
+	#category : 'Telescope-Cytoscape-Actions',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Actions'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLSeasideCallBackAction class >> block: aBlockClosure [
 	^ self new
 		block: aBlockClosure;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLSeasideCallBackAction class >> block: aBlockClosure condition: aBlock2 [
 	^ (self block: aBlockClosure)
 		condition: aBlock2;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLSeasideCallBackAction class >> inNewTabWithBlock: aBlockClosure [
 	^ self new
 		block: aBlockClosure;
@@ -33,33 +35,33 @@ TLSeasideCallBackAction class >> inNewTabWithBlock: aBlockClosure [
 		yourself
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 TLSeasideCallBackAction >> actionOn: aTLDrawable [
 	aTLDrawable generator executeCallBack: self block onDrawable: aTLDrawable newTab: self openInNewTab
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideCallBackAction >> block [
 	^ block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideCallBackAction >> block: anObject [
 	block := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLSeasideCallBackAction >> initialize [
 	super initialize.
 	self openInNewTab: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideCallBackAction >> openInNewTab [
 	^ openInNewTab
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLSeasideCallBackAction >> openInNewTab: anObject [
 	openInNewTab := anObject
 ]

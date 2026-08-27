@@ -2,36 +2,49 @@
 I am a command that ask the client to execute the provided callback with a ajax call to the serveur.
 "
 Class {
-	#name : #TLVisualizationAJAXCallBackExecutionCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationAJAXCallBackExecutionCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'callbackUrl',
-		'cssQuery'
+		'cssQuery',
+		'onComplete'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationAJAXCallBackExecutionCommand class >> command [
 	^ #ajax
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAJAXCallBackExecutionCommand >> callbackUrl [
 	^ callbackUrl
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAJAXCallBackExecutionCommand >> callbackUrl: anObject [
 	callbackUrl := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAJAXCallBackExecutionCommand >> cssQuery [
 	^ cssQuery
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAJAXCallBackExecutionCommand >> cssQuery: anObject [
 	cssQuery := anObject
+]
+
+{ #category : 'accessing' }
+TLVisualizationAJAXCallBackExecutionCommand >> onComplete [
+	^ onComplete
+]
+
+{ #category : 'accessing' }
+TLVisualizationAJAXCallBackExecutionCommand >> onComplete: anObject [
+	onComplete := anObject
 ]

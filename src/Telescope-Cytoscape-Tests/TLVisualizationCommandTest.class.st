@@ -1,10 +1,12 @@
 Class {
-	#name : #TLVisualizationCommandTest,
-	#superclass : #TestCase,
-	#category : #'Telescope-Cytoscape-Tests-Commands'
+	#name : 'TLVisualizationCommandTest',
+	#superclass : 'TestCase',
+	#category : 'Telescope-Cytoscape-Tests-Commands',
+	#package : 'Telescope-Cytoscape-Tests',
+	#tag : 'Commands'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 TLVisualizationCommandTest >> testTLVisualizationAddEdgeCommand [
 	| command json |
 	command := TLVisualizationAddEdgeCommand new
@@ -12,6 +14,7 @@ TLVisualizationCommandTest >> testTLVisualizationAddEdgeCommand [
 		fromNodeId: 'sourceNode';
 		toNodeId: 'targetNode';
 		mouseOverInteraction: true;
+		menu: {  };
 		yourself.
 	json := NeoJSONWriter toString: command.
 	#('"mouseOverInteraction":true' '"data":{' '"target":"targetNode"' '"id":"5"' '"source":"sourceNode"' '"group":"edges"') do: [ :jsonPart | self assert: (json includesSubstring: jsonPart) ]

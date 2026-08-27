@@ -6,8 +6,8 @@ You can configuration the layout applications with two parameters:
 - animationDuration: The duration for the animation of the layout application
 "
 Class {
-	#name : #TLVisualizationPositionNodesCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationPositionNodesCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'nodes',
 		'triggers'
@@ -16,41 +16,43 @@ Class {
 		'AnimateLayoutApplicationDuringGeneration',
 		'AnimationDuration'
 	],
-	#category : #'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand class >> animateLayoutApplicationDuringGeneration [
 	^ AnimateLayoutApplicationDuringGeneration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand class >> animateLayoutApplicationDuringGeneration: anObject [
 	AnimateLayoutApplicationDuringGeneration := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand class >> animationDuration [
 	^ AnimationDuration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand class >> animationDuration: anObject [
 	AnimationDuration := anObject
 ]
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationPositionNodesCommand class >> command [
 	^ #positioning
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVisualizationPositionNodesCommand class >> initialize [
 	self animateLayoutApplicationDuringGeneration: false.
 	self animationDuration: 1000
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLVisualizationPositionNodesCommand >> addAllNodes: aCollectionOfTLVirtualElements [
 	aCollectionOfTLVirtualElements
 		do: [ :anElement | 
@@ -61,7 +63,7 @@ TLVisualizationPositionNodesCommand >> addAllNodes: aCollectionOfTLVirtualElemen
 					self addAllTriggers: anElement triggers ] ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLVisualizationPositionNodesCommand >> addAllTriggers: aCollectionOfTLVirtualTriggers [
 	aCollectionOfTLVirtualTriggers
 		do: [ :aTrigger | 
@@ -69,7 +71,7 @@ TLVisualizationPositionNodesCommand >> addAllTriggers: aCollectionOfTLVirtualTri
 				ifTrue: [ self triggers add: aTrigger ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> allElementsPositions [
 	"ensure that positions of nodes are refresh before the position of triggers"
 
@@ -90,28 +92,28 @@ TLVisualizationPositionNodesCommand >> allElementsPositions [
 	^ positions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> animateLayoutApplicationDuringGeneration [
 	^ self class animateLayoutApplicationDuringGeneration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> animationDuration [
 	^ self class animationDuration
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 TLVisualizationPositionNodesCommand >> ifNotEmpty: aBlockClosure [
 	self nodes ifNotEmpty: aBlockClosure
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVisualizationPositionNodesCommand >> initialize [
 	super initialize.
 	self nodes: Set new.
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationPositionNodesCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 
@@ -126,35 +128,35 @@ TLVisualizationPositionNodesCommand >> neoJsonOn: writer [
 					(#positions -> self allElementsPositions asDictionary)} asDictionary ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> nodes [
 	^ nodes 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> nodes: anObject [
 	nodes := anObject.
 	triggers := Set new
 ]
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 TLVisualizationPositionNodesCommand >> shouldAnimateLayoutApplication [
 	self nodes ifEmpty: [ ^ false ].
 
 	^ self visualization hasBeenGenerated or: [ self animateLayoutApplicationDuringGeneration ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> triggers [
 	^ triggers 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> triggers: anObject [
 	triggers := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationPositionNodesCommand >> visualization [
 	^ self nodes anyOne realNode visualization
 ]

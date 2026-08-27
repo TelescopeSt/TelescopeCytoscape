@@ -1,15 +1,17 @@
 Class {
-	#name : #TLAcknowledgeReceiptCommand,
-	#superclass : #TLVisualizationServerCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#name : 'TLAcknowledgeReceiptCommand',
+	#superclass : 'TLVisualizationServerCommand',
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLAcknowledgeReceiptCommand class >> command [
 	^ #acknoledgeReceipt
 ]
 
-{ #category : #action }
+{ #category : 'action' }
 TLAcknowledgeReceiptCommand >> sendCommandOn: aWebSocket [
    aWebSocket
 				sendMessage:

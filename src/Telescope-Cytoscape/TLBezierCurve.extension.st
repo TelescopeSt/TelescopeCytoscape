@@ -1,6 +1,6 @@
-Extension { #name : #TLBezierCurve }
+Extension { #name : 'TLBezierCurve' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLBezierCurve class >> forCytoscape [
 	^ #bezier
 ]

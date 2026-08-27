@@ -1,6 +1,6 @@
-Extension { #name : #TLStyleSheet }
+Extension { #name : 'TLStyleSheet' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> adaptStyleForComposite: aDictionaryStyle [
 	aDictionaryStyle
 		removeKey: #height ifAbsent: [  ];
@@ -8,27 +8,27 @@ TLStyleSheet >> adaptStyleForComposite: aDictionaryStyle [
 	
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageOpacity [
 	^ self get: #backgroundImageOpacity
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageOpacity: aFloat [
 	self at: #backgroundImageOpacity put: aFloat
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageUrl [
 	^ self get: #backgroundImageUrl
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> backgroundImageUrl: anUrl [
 	self at: #backgroundImageUrl put: anUrl asUrl
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 	| styleDictionary |
 	styleDictionary := Dictionary new.
@@ -49,7 +49,7 @@ TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 	(#head -> #'target-arrow-').
 	(#middle -> #'mid-target-arrow-')}
 		do: [ :substyleAndCytoStyle | 
-			(self copyWithout: #(#shape)) + (self > substyleAndCytoStyle key)
+			(self copySafeWithout: #(#shape)) + (self > substyleAndCytoStyle key)
 				fillStyleDictionary: styleDictionary
 				with:
 					{((substyleAndCytoStyle value , #color) -> #color).
@@ -59,7 +59,36 @@ TLStyleSheet >> cytoscapeConnectionStyleFor: aConnection [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
+TLStyleSheet >> cytoscapeGenericConnectionStyle [
+	| styleDictionary |
+	styleDictionary := Dictionary new.
+	self
+		fillStyleDictionary: styleDictionary
+		with:
+			{(#width -> #width).
+			(#'line-color' -> #color).
+			(#'line-style' -> #connectionStyle).
+			(#label -> #connectionLabel).
+			(#'curve-style' -> #curveStyle).
+			(#'line-style' -> #connectionLineStyle).
+			(#'font-size' -> #connectionLabelSize)}
+		converter: #forCytoscapeConnection.
+	{(#base -> #'source-arrow-').
+	(#middleReversed -> #'mid-source-arrow-').
+	(#head -> #'target-arrow-').
+	(#middle -> #'mid-target-arrow-')}
+		do: [ :substyleAndCytoStyle | 
+			(self copySafeWithout: #(#shape)) + (self > substyleAndCytoStyle key)
+				fillStyleDictionary: styleDictionary
+				with:
+					{((substyleAndCytoStyle value , #color) -> #color).
+					((substyleAndCytoStyle value , #shape) -> #shape)}
+				converter: #forCytoscapeConnection ].
+	^ styleDictionary
+]
+
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeNodeStyleFor: aNode [
 	| nodeLabelPosition styleDictionary shape |
 	nodeLabelPosition := TLPosition for: (self obtainValue: #nodeLabelPosition forEntity: aNode entity inNode: aNode).
@@ -106,7 +135,7 @@ TLStyleSheet >> cytoscapeNodeStyleFor: aNode [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> cytoscapeTriggerStyleFor: aTrigger [
 	| nodeLabelPosition styleDictionary |
 	nodeLabelPosition := self obtainValue: #nodeLabelPosition forEntity: nil inNode: aTrigger.
@@ -129,7 +158,21 @@ TLStyleSheet >> cytoscapeTriggerStyleFor: aTrigger [
 	^ styleDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
+TLStyleSheet >> fillStyleDictionary: aDictionary with: aCollectionOfProperties converter: aConverter [
+	aCollectionOfProperties
+		inject: aDictionary
+		into: [ :style :aPropertyAndValuable | 
+			[ 
+			style
+				at: aPropertyAndValuable key
+				put: (( aPropertyAndValuable value cull: self ) perform: aConverter) ]
+				on: TLStyleSheetMissingProperty
+				do: [  ].
+			style ]
+]
+
+{ #category : '*Telescope-Cytoscape' }
 TLStyleSheet >> fillStyleDictionary: aDictionary with: aCollectionOfProperties for: aDrawable converter: aConverter [
 	aCollectionOfProperties
 		inject: aDictionary

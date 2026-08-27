@@ -6,35 +6,37 @@ I am a queue that manage the commands scheduling logic. I will group all the add
 3) positioning commands
 "
 Class {
-	#name : #TLCommandsQueue,
-	#superclass : #TLObject,
+	#name : 'TLCommandsQueue',
+	#superclass : 'TLObject',
 	#instVars : [
 		'removingCustomizingCommands',
 		'addingCommand',
 		'positionNodesCommand',
 		'visuId'
 	],
-	#category : 'Telescope-Cytoscape-Connector'
+	#category : 'Telescope-Cytoscape-Connector',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Connector'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLCommandsQueue >> addCommand: aTLVisualizationServerCommand [
 	aTLVisualizationServerCommand isAddingCommand
 		ifFalse: [ self removingCustomizingCommands addLast: aTLVisualizationServerCommand ]
 		ifTrue: [ self addingCommand addAddingCommand: aTLVisualizationServerCommand ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> addingCommand [
 	^ addingCommand
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> addingCommand: anObject [
 	addingCommand := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCommandsQueue >> clear [
 	self removingCustomizingCommands: OrderedCollection new.
 	self addingCommand: TLVisualizationMultiAddingCommand new.
@@ -42,30 +44,30 @@ TLCommandsQueue >> clear [
 	self visuId ifNotNil: [ self visuId: self visuId ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCommandsQueue >> initialize [
 	super initialize.
 	self clear
 ]
 
-{ #category : #'node-positioning' }
+{ #category : 'node-positioning' }
 TLCommandsQueue >> managePositioningOf: group [
 	group ifEmpty: [ ^ self ].
 	
 	self positionNodesCommand addAllNodes: group
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> positionNodesCommand [
 	^ positionNodesCommand
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> positionNodesCommand: anObject [
 	positionNodesCommand := anObject
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 TLCommandsQueue >> removeAllCommands [
 	| commands |
 	self addingCommand ifNotEmpty: [ self removingCustomizingCommands addLast: self addingCommand ].
@@ -75,22 +77,22 @@ TLCommandsQueue >> removeAllCommands [
 	^ commands
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> removingCustomizingCommands [
 	^ removingCustomizingCommands
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> removingCustomizingCommands: anObject [
 	removingCustomizingCommands := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> visuId [
 	^ visuId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCommandsQueue >> visuId: aVisuId [
 	visuId := aVisuId.
 	self addingCommand visuId: aVisuId.

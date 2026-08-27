@@ -2,45 +2,46 @@
 I am the command sent by the client after an interaction occurs (click, mouseOver...)
 "
 Class {
-	#name : #TLInteractionCommand,
-	#superclass : #TLVisualizationClientsCommand,
+	#name : 'TLInteractionCommand',
+	#superclass : 'TLVisualizationClientsCommand',
 	#instVars : [
 		'drawableId',
 		'kind'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLInteractionCommand class >> newWithParameters: aParametersDictionary [
-	^ self new
-		visuId: (aParametersDictionary at: #id);
+	^ (super newWithParameters: aParametersDictionary)
 		drawableId: (aParametersDictionary at: #drawableId);
 		kind: (aParametersDictionary at: #kind);
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLInteractionCommand >> drawableId [
 	^ drawableId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLInteractionCommand >> drawableId: anObject [
 	drawableId := anObject
 ]
 
-{ #category : #execution }
+{ #category : 'execution' }
 TLInteractionCommand >> executeOnVisu: aTLVisualization [
 	aTLVisualization generator executeInteraction: self kind onDrawableId: self drawableId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLInteractionCommand >> kind [
 	^ kind
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLInteractionCommand >> kind: anObject [
 	kind := anObject
 ]

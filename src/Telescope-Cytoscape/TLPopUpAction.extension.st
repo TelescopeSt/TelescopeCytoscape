@@ -1,6 +1,6 @@
-Extension { #name : #TLPopUpAction }
+Extension { #name : 'TLPopUpAction' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLPopUpAction >> forCytoscapeFromNode: aTLNode [
 	| pos |
 	pos := self obtainsPositionFrom: aTLNode.
@@ -18,7 +18,7 @@ TLPopUpAction >> forCytoscapeFromNode: aTLNode [
 					('height' -> 8)} asDictionary)} asDictionary)} asDictionary
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLPopUpAction >> obtainTextFromNode: aTLNode [
 	| text |
 	text := self textBlock cull: aTLNode entity cull: aTLNode.

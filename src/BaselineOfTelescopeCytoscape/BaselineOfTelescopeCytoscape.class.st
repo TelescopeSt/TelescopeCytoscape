@@ -2,12 +2,13 @@
 I am a baseline of thy Cytoscape connector for Telescope. Read more at: https://github.com/TelescopeSt/Telescope-Cytoscape
 "
 Class {
-	#name : #BaselineOfTelescopeCytoscape,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfTelescopeCytoscape
+	#name : 'BaselineOfTelescopeCytoscape',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfTelescopeCytoscape',
+	#package : 'BaselineOfTelescopeCytoscape'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfTelescopeCytoscape >> baseline: spec [
 	<baseline>
 	spec
@@ -19,11 +20,12 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				seaside3: spec;
 				webSocket: spec;
 				telescope: spec;
+				gitBridge: spec;
 				pragmaCompatibility: spec.
 
 			"Packages"
 			spec
-				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3') ];
+				package: 'Telescope-Cytoscape-Libraries' with: [ spec requires: #('Seaside3' 'GitBridge') ];
 				package: 'Telescope-Cytoscape' with: [ spec requires: #('Telescope' 'ZincHTTPComponents' 'Telescope-Cytoscape-Libraries' 'NeoJSON') ];
 				package: 'Telescope-Demo-Cytoscape' with: [ spec requires: #('Telescope-Cytoscape' 'PragmaCompatibility') ];
 				package: 'Telescope-Cytoscape-Tests' with: [ spec requires: #('Telescope-Cytoscape') ].
@@ -37,12 +39,19 @@ BaselineOfTelescopeCytoscape >> baseline: spec [
 				group: 'tests' with: #('Telescope-Cytoscape-Tests') ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
+BaselineOfTelescopeCytoscape >> gitBridge: spec [
+	spec
+    	baseline: 'GitBridge'
+    	with: [ spec repository: 'github://jecisc/GitBridge:v1.x.x/src' ]
+]
+
+{ #category : 'dependencies' }
 BaselineOfTelescopeCytoscape >> neoJSON: spec [
 	spec baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON/repository' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'dependencies' }
 BaselineOfTelescopeCytoscape >> pragmaCompatibility: spec [
 	spec
 		baseline: 'PragmaCompatibility'
@@ -51,30 +60,30 @@ BaselineOfTelescopeCytoscape >> pragmaCompatibility: spec [
 				repository: 'github://jecisc/PragmaCompatibility:v1.x.x/src' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BaselineOfTelescopeCytoscape >> projectClass [
 	^ [ self class environment at: #MetacelloCypressBaselineProject ]
 		on: NotFound
 		do: [ super projectClass ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfTelescopeCytoscape >> seaside3: spec [
 	spec
 		baseline: 'Seaside3'
 		with: [ spec repository: 'github://SeasideSt/Seaside/repository' ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfTelescopeCytoscape >> telescope: spec [
 	spec baseline: 'Telescope' with: [ spec repository: 'github://TelescopeSt/Telescope:v2.x.x/src' ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfTelescopeCytoscape >> webSocket: spec [
 	spec
 		baseline: 'ZincHTTPComponents'
 		with: [ spec
 				loads: #('WebSocket');
-				repository: 'github://svenvc/zinc:v3.0.1/repository' ]
+				repository: 'github://svenvc/zinc:master/repository' ]
 ]

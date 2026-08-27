@@ -1,6 +1,6 @@
-Extension { #name : #TLGradientLegendEntry }
+Extension { #name : 'TLGradientLegendEntry' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLGradientLegendEntry >> cytoscapeHtmlRepresentation [
 	| gradientCommand |
 	gradientCommand := 'linear-gradient(to right,'

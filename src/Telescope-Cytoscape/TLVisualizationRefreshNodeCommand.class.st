@@ -2,25 +2,25 @@
 I am the command for redraw a node 
 "
 Class {
-	#name : #TLVisualizationRefreshNodeCommand,
-	#superclass : #TLVisualizationDrawableCommand,
+	#name : 'TLVisualizationRefreshNodeCommand',
+	#superclass : 'TLVisualizationDrawableCommand',
 	#instVars : [
 		'virtualNode'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationRefreshNodeCommand class >> command [
 	^ #refreshNode
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVisualizationRefreshNodeCommand >> customizeFromInteractions: aCollectionOfInteractions forNode: aTLNode [
 	self
-		mouseOverInteraction:
-			(aCollectionOfInteractions
-				anySatisfy: [ :interaction | interaction action isPopUp not and: [ interaction shouldOccursOn: 'mouseOver' with: aTLNode ] ]).
+		mouseOverInteraction: (aCollectionOfInteractions anySatisfy: [ :interaction | interaction action isPopUp not and: [ interaction shouldOccursOn: 'mouseOver' with: aTLNode ] ]).
 	self dropInteraction: (aCollectionOfInteractions anySatisfy: #isDrop).
 	self
 		popUp:
@@ -35,21 +35,15 @@ TLVisualizationRefreshNodeCommand >> customizeFromInteractions: aCollectionOfInt
 		menu:
 			(aCollectionOfInteractions
 				select: [ :interaction | interaction shouldOccursOn: #menu with: aTLNode ]
-				thenCollect: [ :anInteraction | 
-					| dic |
-					dic := Dictionary new.
-					dic at: 'title' put: anInteraction title.
-					anInteraction isMultiChoiceMenu
-						ifTrue: [ dic at: #subMenu put: ((anInteraction choicesListForDrawable: aTLNode) collect: anInteraction displayBlock) ].
-					dic ])
+				thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aTLNode ])
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationRefreshNodeCommand >> isAddingCommand [
 	^ false
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationRefreshNodeCommand >> neoJsonOn: writer [
 	| data |
 	data := {(#id -> self nodeId)} asDictionary.
@@ -75,17 +69,17 @@ TLVisualizationRefreshNodeCommand >> neoJsonOn: writer [
 			self menu ifNotEmpty: [ jsonMapWriter writeKey: #menu value: self menu ] ]
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationRefreshNodeCommand >> nodeId [
 	^ self virtualNode nodeId
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationRefreshNodeCommand >> virtualNode [
 	^ virtualNode
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationRefreshNodeCommand >> virtualNode: anObject [
 	virtualNode := anObject
 ]

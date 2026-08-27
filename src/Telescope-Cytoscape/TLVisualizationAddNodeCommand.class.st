@@ -2,30 +2,38 @@
 I am the command for a new node creation
 "
 Class {
-	#name : #TLVisualizationAddNodeCommand,
-	#superclass : #TLVisualizationDrawableCommand,
+	#name : 'TLVisualizationAddNodeCommand',
+	#superclass : 'TLVisualizationDrawableCommand',
 	#instVars : [
 		'virtualNode'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationAddNodeCommand class >> command [
 	^ #add
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLVisualizationAddNodeCommand >> customizeFromInteractions: aCollectionOfInteractions forNode: aTLNode [
 	self
 		mouseOverInteraction:
 			(aCollectionOfInteractions
-				anySatisfy: [ :interaction | interaction action isPopUp not and: [ interaction shouldOccursOn: 'mouseOver' with: aTLNode ] ]).
+				anySatisfy: [ :interaction | 
+					interaction isClientSide not
+						and: [ interaction action isPopUp not
+								and: [ interaction shouldOccursOn: 'mouseOver' with: aTLNode ] ] ]).
 	self dropInteraction: (aCollectionOfInteractions anySatisfy: #isDrop).
 	self
 		popUp:
 			(aCollectionOfInteractions
-				detect: [ :interaction | interaction action isPopUp and: [interaction condition value: aTLNode] ]
+				detect: [ :interaction | 
+					interaction isClientSide not
+						and: [ interaction action isPopUp
+								and: [ interaction condition value: aTLNode ] ] ]
 				ifFound: [ :interaction | 
 					[ interaction forCytoscapeFromNode: aTLNode ]
 						on: TLNilOrEmptyTextException
@@ -35,21 +43,21 @@ TLVisualizationAddNodeCommand >> customizeFromInteractions: aCollectionOfInterac
 		menu:
 			(aCollectionOfInteractions
 				select: [ :interaction | interaction shouldOccursOn: #menu with: aTLNode ]
-				thenCollect: [ :anInteraction | 
-					| dic |
-					dic := Dictionary new.
-					dic at: 'title' put: anInteraction title.
-					anInteraction isMultiChoiceMenu
-						ifTrue: [ dic at: #subMenu put: ((anInteraction choicesListForDrawable: aTLNode) collect: anInteraction displayBlock) ].
-					dic ])
+				thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aTLNode ]).
+	self
+		clientSideInteractions:
+			(aCollectionOfInteractions
+				select:
+					[ :interaction | interaction shouldOccursOn: #client with: aTLNode ]
+				thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aTLNode ])
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationAddNodeCommand >> isAddingCommand [
 	^ true
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationAddNodeCommand >> neoJsonOn: writer [
 	| data |
 	data := {(#id -> self nodeId)} asDictionary.
@@ -66,6 +74,7 @@ TLVisualizationAddNodeCommand >> neoJsonOn: writer [
 						value:
 							{(#x -> self virtualNode cytoscapePosition x).
 							(#y -> self virtualNode cytoscapePosition y)} asDictionary ].
+			jsonMapWriter writeKey: #mouseClientInteractions value: self clientSideInteractions.
 			jsonMapWriter writeKey: #mouseOverInteraction value: self mouseOverInteraction.
 			jsonMapWriter writeKey: #dropInteraction value: self dropInteraction.
 			self popUp ifNotNil: [ jsonMapWriter writeKey: #popUp value: self popUp ].
@@ -73,17 +82,17 @@ TLVisualizationAddNodeCommand >> neoJsonOn: writer [
 			self menu ifNotEmpty: [ jsonMapWriter writeKey: #menu value: self menu ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddNodeCommand >> nodeId [
 	^ self virtualNode nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddNodeCommand >> virtualNode [
 	^ virtualNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddNodeCommand >> virtualNode: anObject [
 	virtualNode := anObject
 ]

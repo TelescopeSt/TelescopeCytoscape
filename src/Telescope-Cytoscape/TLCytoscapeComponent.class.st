@@ -2,45 +2,47 @@
 I am a seaside component that is able to render a telescope visualisation (TLVisualization)
 "
 Class {
-	#name : #TLCytoscapeComponent,
-	#superclass : #WAComponent,
+	#name : 'TLCytoscapeComponent',
+	#superclass : 'WAComponent',
 	#instVars : [
 		'visualization',
 		'connector',
 		'visuDivId',
 		'waitingMessage',
 		'style',
-		'exportStrategy'
+		'exportStrategy',
+		'panzoom'
 	],
 	#classInstVars : [
 		'lastId'
 	],
-	#category : #'Telescope-Cytoscape'
+	#category : 'Telescope-Cytoscape',
+	#package : 'Telescope-Cytoscape'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeComponent class >> initialize [
 	lastId := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent class >> lastId [
 	^ lastId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent class >> nextId [
 	^ (lastId := self lastId + 1) asString
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLCytoscapeComponent class >> visualization: aTLVisualization [
 	^ self new
 		visualization: aTLVisualization;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLCytoscapeComponent class >> visualization: aTLVisualization id: anDivId [
 	^ self new
 		visualization: aTLVisualization;
@@ -48,22 +50,22 @@ TLCytoscapeComponent class >> visualization: aTLVisualization id: anDivId [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> connector [
 	^ connector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> connector: anObject [
 	connector := anObject
 ]
 
-{ #category : #exports }
+{ #category : 'exports' }
 TLCytoscapeComponent >> defaultJSONExport [
 	self exportStrategy: TLCytoscapeJSONExportStrategy new
 ]
 
-{ #category : #exports }
+{ #category : 'exports' }
 TLCytoscapeComponent >> defaultJpgExport [
 	self
 		exportStrategy:
@@ -73,7 +75,7 @@ TLCytoscapeComponent >> defaultJpgExport [
 				yourself)
 ]
 
-{ #category : #exports }
+{ #category : 'exports' }
 TLCytoscapeComponent >> defaultPngExport [
 	self
 		exportStrategy:
@@ -82,7 +84,7 @@ TLCytoscapeComponent >> defaultPngExport [
 				yourself)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> defaultWaitingHtml [
 	^ [ :html | 
 	html div
@@ -97,49 +99,72 @@ TLCytoscapeComponent >> defaultWaitingHtml [
 		yourself ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> exportStrategy [
 	^ exportStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> exportStrategy: anObject [
 	exportStrategy := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeComponent >> initialize [
 	super initialize.
 	self exportStrategy: TLCytoscapeNullExportStrategy new
 ]
 
-{ #category : #rendering }
+{ #category : 'accessing' }
+TLCytoscapeComponent >> panzoom [
+	^ panzoom ifNil: [ false ]
+]
+
+{ #category : 'accessing' }
+TLCytoscapeComponent >> panzoom: anObject [
+	panzoom := anObject
+]
+
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderContentOn: html [
+
 	| visuId div callback |
 	visuId := self visuDivId.
 	div := html div
-		id: visuId;
-		style: self style;
-		attributeAt: #isTelescopeVisu put: 'true';
-		attributeAt: #'data-port' put: self webSocketPort;
-		class: 'telescopeVisu';
-		with: [ html div
-				class: 'visualization';
-				style: 'height: 100%; width: 100%;'.
-			self waitingMessage value: html.
-			self renderOptionalButtonsOn: html ];
-		yourself.
+		       id: visuId;
+		       style: self style;
+		       attributeAt: #isTelescopeVisu put: 'true';
+		       attributeAt: #'data-port' put: self webSocketPort;
+		       attributeAt: #'data-panzoom' put: self panzoom asString;
+		       class: 'telescopeVisu';
+		       with: [ 
+			       html div
+				       class: 'visualization';
+				       style: 'height: 100%; width: 100%;';
+				       with: [ 
+					       html div
+						       id: #fetching;
+						       with: [ self renderFetchingDivOn: html ] ].
+			       self waitingMessage value: html.
+			       self renderOptionalButtonsOn: html ];
+		       yourself.
 	callback := WAValueCallback new.
 	TLCytoscapeWebSocketDelegate
 		registerVisualization: self visualization
 		underId: visuId
 		withCallBack: callback
-		callbackUrl:
-			{html actionUrl asString.
-			(div storeCallback: callback)}
+		callbackUrl: { 
+				html actionUrl asString.
+				(div storeCallback: callback) }
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
+TLCytoscapeComponent >> renderFetchingDivOn: html [
+
+	html text: 'Fetching'
+]
+
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderOptionalButtonsOn: html [
 	html div
 		class: 'fitButton';
@@ -147,57 +172,57 @@ TLCytoscapeComponent >> renderOptionalButtonsOn: html [
 			self exportStrategy renderDownloadButtonForVisu: self visuDivId on: html ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeComponent >> renderResetButtonOn: html [
 	html anchor
 		onClick: 'telescope.visuWithId(' , self visuDivId asString , ').fit();';
 		with: 'Reset'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> style [
 	^ style
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> style: anObject [
 	style := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visuDivId [
 	visuDivId ifNil: [ visuDivId:= self class nextId ].
 	^ visuDivId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visuDivId: anObject [
 	visuDivId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visualization [
 	^ visualization
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> visualization: anObject [
 	visualization := anObject.
 	connector := TLCytoscapeConnector new.
 	visualization generator: connector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> waitingMessage [
 	^ waitingMessage ifNil: [ self defaultWaitingHtml ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> waitingMessage: anObject [
 	waitingMessage := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeComponent >> webSocketPort [
 	^ TLCytoscapeWebSocketDelegate clientPort
 ]

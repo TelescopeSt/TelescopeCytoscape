@@ -1,15 +1,17 @@
 Class {
-	#name : #TLVisualizationGeneratedCommand,
-	#superclass : #TLVisualizationServerCommand,
-	#category : 'Telescope-Cytoscape-Commands'
+	#name : 'TLVisualizationGeneratedCommand',
+	#superclass : 'TLVisualizationServerCommand',
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationGeneratedCommand class >> command [
 	^ #generated
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationGeneratedCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 

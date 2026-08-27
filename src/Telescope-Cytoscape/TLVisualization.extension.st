@@ -1,12 +1,12 @@
-Extension { #name : #TLVisualization }
+Extension { #name : 'TLVisualization' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLVisualization >> ensureWebAppVisualizationComponentIsRunning [
 
 	TLWebAppVisualizationComponent ensureIsRunning.
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLVisualization >> openOnWeb [
 	| webAppVisualization port url |
 	self ensureWebAppVisualizationComponentIsRunning.

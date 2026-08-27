@@ -2,59 +2,82 @@
 I am the command for a new edge creation
 "
 Class {
-	#name : #TLVisualizationAddEdgeCommand,
-	#superclass : #TLVisualizationServerCommand,
+	#name : 'TLVisualizationAddEdgeCommand',
+	#superclass : 'TLVisualizationServerCommand',
 	#instVars : [
 		'edgeId',
 		'fromNodeId',
 		'toNodeId',
 		'style',
-		'mouseOverInteraction'
+		'mouseOverInteraction',
+		'menu'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationAddEdgeCommand class >> command [
 	^ #add
 ]
 
-{ #category : #accessing }
+{ #category : 'initialization' }
+TLVisualizationAddEdgeCommand >> customizeFromInteractions: aCollectionOfInteractions forEdge: aTLEdge [
+	self mouseOverInteraction: (aCollectionOfInteractions anySatisfy: [ :interaction | interaction shouldOccursOn: 'mouseOver' with: aTLEdge ]).
+	self
+		menu:
+			(aCollectionOfInteractions
+				select: [ :interaction | interaction shouldOccursOn: #menu with: aTLEdge ]
+				thenCollect: [ :anInteraction | anInteraction forCytoscapeForDrawable: aTLEdge ])
+]
+
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> edgeId [
 	^ edgeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> edgeId: anObject [
 	edgeId := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> fromNodeId [
 	^ fromNodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> fromNodeId: anObject [
 	fromNodeId := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 TLVisualizationAddEdgeCommand >> isAddingCommand [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
+TLVisualizationAddEdgeCommand >> menu [
+	^ menu
+]
+
+{ #category : 'accessing' }
+TLVisualizationAddEdgeCommand >> menu: anObject [
+	menu := anObject
+]
+
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> mouseOverInteraction [
 	^ mouseOverInteraction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> mouseOverInteraction: anObject [
 	mouseOverInteraction := anObject
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationAddEdgeCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 
@@ -66,25 +89,26 @@ TLVisualizationAddEdgeCommand >> neoJsonOn: writer [
 					(#source -> self fromNodeId).
 					(#target -> self toNodeId)} asDictionary.
 			jsonMapWriter writeKey: #mouseOverInteraction value: self mouseOverInteraction.
-			jsonMapWriter writeKey: #style value: self style ]
+			jsonMapWriter writeKey: #style value: self style.
+			self menu ifNotEmpty: [ :m | jsonMapWriter writeKey: #menu value: m ] ] 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> style [
 	^ style
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> style: anObject [
 	style := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> toNodeId [
 	^ toNodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationAddEdgeCommand >> toNodeId: anObject [
 	toNodeId := anObject
 ]

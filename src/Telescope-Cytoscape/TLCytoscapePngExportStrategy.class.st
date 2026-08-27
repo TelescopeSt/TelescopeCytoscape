@@ -23,22 +23,24 @@ Examples
 
 "
 Class {
-	#name : #TLCytoscapePngExportStrategy,
-	#superclass : #TLCytoscapeImageExportStrategy,
-	#category : 'Telescope-Cytoscape-Export'
+	#name : 'TLCytoscapePngExportStrategy',
+	#superclass : 'TLCytoscapeImageExportStrategy',
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #export }
+{ #category : 'export' }
 TLCytoscapePngExportStrategy >> exportJsFunctionName [
 	^ 'png'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapePngExportStrategy >> extension [
 	^ '.png'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapePngExportStrategy >> iconName [
 	^ 'downloadPngPng'
 ]

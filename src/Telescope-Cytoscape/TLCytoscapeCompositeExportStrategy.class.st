@@ -25,43 +25,45 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #TLCytoscapeCompositeExportStrategy,
-	#superclass : #TLCytoscapeAbstractExportStrategy,
+	#name : 'TLCytoscapeCompositeExportStrategy',
+	#superclass : 'TLCytoscapeAbstractExportStrategy',
 	#instVars : [
 		'strategies'
 	],
-	#category : 'Telescope-Cytoscape-Export'
+	#category : 'Telescope-Cytoscape-Export',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Export'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 TLCytoscapeCompositeExportStrategy class >> withAll: aCollectionOfStrategies [
 	^ self new
 		addStrategies: aCollectionOfStrategies;
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLCytoscapeCompositeExportStrategy >> addStrategies: aCollection [
 	aCollection do: [ :each | self addStrategy: each ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 TLCytoscapeCompositeExportStrategy >> addStrategy: aTLCytoscapeExportStrategy [
 	self strategies add: aTLCytoscapeExportStrategy
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 TLCytoscapeCompositeExportStrategy >> initialize [
 	super initialize.
 	strategies := OrderedCollection new
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 TLCytoscapeCompositeExportStrategy >> renderDownloadButtonForVisu: aVisuId on: html [
 	self strategies do: [ :each | each renderDownloadButtonForVisu: aVisuId on: html ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLCytoscapeCompositeExportStrategy >> strategies [
 	^ strategies
 ]

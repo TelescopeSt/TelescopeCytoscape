@@ -2,20 +2,22 @@
 I am the command for a node style customization
 "
 Class {
-	#name : #TLVisualizationCustomizeElementCommand,
-	#superclass : #TLVisualizationDrawableCommand,
+	#name : 'TLVisualizationCustomizeElementCommand',
+	#superclass : 'TLVisualizationDrawableCommand',
 	#instVars : [
 		'virtualNode'
 	],
-	#category : 'Telescope-Cytoscape-Commands'
+	#category : 'Telescope-Cytoscape-Commands',
+	#package : 'Telescope-Cytoscape',
+	#tag : 'Commands'
 }
 
-{ #category : #command }
+{ #category : 'command' }
 TLVisualizationCustomizeElementCommand class >> command [
 	^ #customize
 ]
 
-{ #category : #json }
+{ #category : 'json' }
 TLVisualizationCustomizeElementCommand >> neoJsonOn: writer [
 	writer
 		writeMapStreamingDo: [ :jsonMapWriter | 
@@ -24,20 +26,21 @@ TLVisualizationCustomizeElementCommand >> neoJsonOn: writer [
 			jsonMapWriter writeKey: #elementId value: self nodeId.
 			jsonMapWriter writeKey: #mouseOverInteraction value: self mouseOverInteraction.
 			jsonMapWriter writeKey: #dropInteraction value: self dropInteraction.
-			jsonMapWriter writeKey: #style value: self style ]
+			jsonMapWriter writeKey: #style value: self style.
+			self menu ifNotNil: [ jsonMapWriter writeKey: #menu value: self menu ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCustomizeElementCommand >> nodeId [
 	^ self virtualNode nodeId
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCustomizeElementCommand >> virtualNode [
 	^ virtualNode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 TLVisualizationCustomizeElementCommand >> virtualNode: anObject [
 	virtualNode := anObject
 ]

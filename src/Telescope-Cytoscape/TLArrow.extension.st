@@ -1,11 +1,11 @@
-Extension { #name : #TLArrow }
+Extension { #name : 'TLArrow' }
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLArrow class >> forCytoscapeConnection [
 	^ 'triangle-backcurve'
 ]
 
-{ #category : #'*Telescope-Cytoscape' }
+{ #category : '*Telescope-Cytoscape' }
 TLArrow class >> forCytoscapeNode [
 	^ TLCytoscapeNotSupportedFunctionalityException signal: 'Arrow is only usable for connections'
 ]

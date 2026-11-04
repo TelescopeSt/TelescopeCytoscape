@@ -1,7 +1,7 @@
 # Used to save an artifact of the releases. Used to deploy a demo on Cyril's server
 name: Release
 
-on: [release]
+on: [release, workflow_dispatch]
 
 jobs:
   build:
